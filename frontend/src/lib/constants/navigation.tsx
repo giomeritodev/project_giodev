@@ -1,4 +1,4 @@
-import { HiOutlineAnnotation, HiOutlineCog, HiOutlineCube, HiOutlineDocumentText, HiOutlineLogout, HiOutlineQuestionMarkCircle, HiOutlineShoppingCart, HiOutlineViewGrid } from "react-icons/hi";
+import { HiOutlineAnnotation, HiOutlineCog, HiOutlineCube, HiOutlineQuestionMarkCircle, HiOutlineShoppingCart, HiOutlineUsers, HiOutlineViewGrid } from "react-icons/hi";
 
 
 export const DASHBOARD_SIDEBAR_LINKS = [
@@ -11,20 +11,20 @@ export const DASHBOARD_SIDEBAR_LINKS = [
     {
         key: 'product',
         label: 'Produtos',
-        path: '/products',
+        path: '/produtos',
         icon: <HiOutlineCube />
     },
     {
         key: 'orders',
         label: 'Pedido',
-        path: '/orders',
+        path: '/pedidos',
         icon: <HiOutlineShoppingCart />
     },
     {
-        key: 'customers',
-        label: 'Customers',
-        path: '/customers',
-        icon: <HiOutlineDocumentText />
+        key: 'partners',
+        label: 'Parceiros',
+        path: '/partner',
+        icon: <HiOutlineUsers />
     },    
     {
         key: 'messages',
