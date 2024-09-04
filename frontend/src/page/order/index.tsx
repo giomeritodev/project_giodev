@@ -113,7 +113,7 @@ export function Order(){
                                         <TableCellTd>{order.statusPayment}</TableCellTd>
                                         <TableCellTd>{order.typeSale}</TableCellTd>
                                         <TableCellTd>
-                                            <IconButton transparent                                                                                                                                                         ={true}>
+                                            <IconButton transparent={true}>
                                                 <MoreHorizontal className="size-4"/>
                                             </IconButton>
                                         </TableCellTd>
