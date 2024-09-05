@@ -1,0 +1,172 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id Int @id @default(autoincrement())
+  name String
+
+  @@map("categories")
+
+  products Product[]
+}
+
+model Unit {
+  id Int @id @default(autoincrement())
+  name String
+  sigla String
+
+  @@map("units")
+
+  products Product[]
+}
+
+model Product {
+  id Int @id @default(autoincrement())
+  barCode String? @unique
+  reference String?
+  name String
+  price Int
+  amount Int @default(0)
+  unitId Int  
+  unit Unit @relation(fields: [unitId], references: [id])
+  categoryId Int
+  category Category @relation(fields: [categoryId], references: [id])
+ 
+  @@map("products")
+
+  itensEntry ItemEntry[]
+  itensSale ItemSale[]
+}
+
+model Partner {
+  id Int @id @default(autoincrement())
+  name String
+  cpfOrCnpj String
+  type Int
+  fone String
+  
+  @@map("partners")
+  
+  entries Entry[]
+  sales Sale[]
+}
+
+model Entry {
+  id Int @id @default(autoincrement())
+  dateEntry String
+  numberDocument Int
+
+  partnerId Int  
+  partner Partner @relation(fields: [partnerId], references: [id])
+
+  status Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) 
+  @@map("entries")
+
+  itensEntry ItemEntry[]
+  payments Payment[]
+}
+
+model ItemEntry {
+  id Int @id @default(autoincrement())
+
+  entryId Int
+  entry Entry @relation(fields: [entryId], references: [id])
+  productId Int
+  product Product @relation(fields: [productId], references: [id])
+
+  amount Int
+  shoppingValue Int
+  
+  @@map("itens_entry")
+}
+
+model Payment {
+  id Int @id @default(autoincrement())
+  datePayment String 
+
+  entryId Int
+  entry Entry @relation(fields: [entryId], references: [id])
+  formOfPaymentId Int
+  formOfPayment FormOfPayment @relation(fields: [formOfPaymentId], references: [id])
+
+  valuePayment Int
+
+}
+
+model FormOfPayment {
+  id Int @id @default(autoincrement())
+  name String
+  
+  @@map("forms_of_payment")
+
+  payments Payment[]
+  paymentSale PaymentSale[]
+}
+
+model Sale {
+  id Int @id @default(autoincrement())
+  dateSale String
+
+  partnerId Int  
+  partner Partner @relation(fields: [partnerId], references: [id])
+
+  typeSale String //Orçamento - Pedido
+  status String //Aberto - Fechado
+  typePayment Int @default(1) //1 - À Vista / 2 - A Prazo / 3 - Duplicata
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) 
+
+  statusPayment Int @default(1)//1 - À Vencer / 2 - Inadiplente / 3 - Quitado
+
+  @@map("sales")
+  itensSale ItemSale[]
+  paymentSale PaymentSale[]
+}
+
+model ItemSale {
+  id Int @id @default(autoincrement())
+
+  saleId Int
+  sale Sale @relation(fields: [saleId], references: [id])
+  productId Int
+  product Product @relation(fields: [productId], references: [id])
+
+  amount Int  
+  discount Int
+  
+  
+  @@map("itens_sale")
+}
+
+model PaymentSale {
+  id Int @id @default(autoincrement())
+  dateSale String
+  
+
+  saleId Int
+  sale Sale @relation(fields: [saleId], references: [id]) 
+
+  formOfPaymentId Int
+  formOfPayment FormOfPayment @relation(fields: [formOfPaymentId], references: [id])
+
+  valuePayment Int
+  portion Int @default(1)
+  dueDate String
+  statusPayment Int @default(1)//1 - À Vencer / 2 - Inadiplente / 3 - Quitado
+  datePayment String?
+
+  @@map("payment_sale")
+}
