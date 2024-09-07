@@ -5,21 +5,21 @@ export declare class ProductService {
     constructor(prisma: PrismaService);
     findAllProducts(page: number, search?: string): Promise<{
         product: {
-            category: {
-                id: number;
-                name: string;
-            };
+            id: number;
+            barCode: string;
+            reference: string;
+            name: string;
+            price: number;
+            amount: number;
             unit: {
                 id: number;
                 name: string;
                 sigla: string;
             };
-            id: number;
-            name: string;
-            barCode: string;
-            reference: string;
-            price: number;
-            amount: number;
+            category: {
+                id: number;
+                name: string;
+            };
         }[];
         total: number;
         totalPages: number;

@@ -13,12 +13,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { ProductType } from "./interface/Product";
 import { Menu, MenuButton, MenuItem, MenuItems, Transition } from "@headlessui/react";
 import { UseProduct } from "./hooks/useProduct";
+import { Button } from "../../components/button/button";
+
 
 
 export function Product(){
     const navigate = useNavigate();
-    const [products, setProducts] = useState<ProductType[]>([]);
-   
+    const [products, setProducts] = useState<ProductType[]>([]);   
+          
     const {
         goToLastPage,
         goToPreviousPage,
@@ -45,7 +47,7 @@ export function Product(){
 
     useEffect(() => {      
         getData()
-    }, [page, search])
+    }, [page, search, products])
     
 
     return (
@@ -60,13 +62,14 @@ export function Product(){
                         placeholder="Buscar produto" 
                     />
                 </HeaderTable>
-                <div className="border bg-white/10 rounded-lg p-2 hover:bg-zinc-900 font-semibold">
-                    <button className="flex items-center px-2">
-                        <Plus className="size-5" />
-                        <Link to={"/produtos/novo"}>
-                            <span>Novo cadastro</span>
-                        </Link>
-                    </button>
+                <div>
+                    <Link to={"/produtos/novo"}>
+                        <Button>
+                                Novo Cadastro
+                                <Plus size={20} />
+                        </Button>
+                    </Link>  
+                      
                 </div>                
             </div>
             <div className="flex flex-row gap-2">
@@ -91,13 +94,17 @@ export function Product(){
                                 products.map((product) => (
                                     <TableRow key={product.id}>
                                         <TableCellTd>
-                                            <input type="checkbox" className={classNames("", "")}/>
+                                            <input value={product.id} type="checkbox" className={classNames("", "")}/>
                                         </TableCellTd>
                                         <TableCellTd>{product.id}</TableCellTd>
                                         <TableCellTd>{product.name}</TableCellTd>
-                                        <TableCellTd>R$ {product.price}</TableCellTd>
+                                        <TableCellTd>{product.price.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})}</TableCellTd>
                                         <TableCellTd>{product.amount}</TableCellTd>
-                                        <TableCellTd>R$ {product.amount * product.amount}</TableCellTd>
+                                        <TableCellTd>
+                                            {
+                                               (product.price * product.amount).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})
+                                            }
+                                        </TableCellTd>
                                         <TableCellTd key={product.id}>
                                                 <Menu as="div" className="relative inline-block text-left">
                                                     <div>
@@ -121,22 +128,13 @@ export function Product(){
                                                                 {({ active }) => (
                                                                     <div
                                                                         className={classNames(active && "bg-zinc-700", "focus:bg-zinc-200 cursor-pointer rounded-sm px-4 py-2 block")}
-                                                                        onClick={() => navigate(`/product/${product.id}`)}
+                                                                        onClick={() => navigate(`/produtos/${product.id}`)}
                                                                     >
                                                                         Listar
                                                                     </div>                                            
                                                                 )}
                                                             </MenuItem>
-                                                            <MenuItem>
-                                                                {({ active }) => (
-                                                                    <div
-                                                                        className={classNames(active && "bg-zinc-700", "focus:bg-zinc-200 cursor-pointer rounded-sm px-4 py-2 block")}
-                                                                        onClick={() => navigate("/profile")}
-                                                                    >
-                                                                        Editar
-                                                                    </div>                                            
-                                                                )}
-                                                            </MenuItem>
+                                                            
                                                             <MenuItem>
                                                                 {({ active }) => (
                                                                     <div

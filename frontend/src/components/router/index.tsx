@@ -5,6 +5,7 @@ import { Layout } from "../shared/layout";
 import { Login } from "../../page/login";
 import { Order } from "../../page/order";
 import { ProductNew } from "../../page/product/new_product";
+import { ListProduct } from "../../page/product/list_product";
 
 export function Router(){
     return (
@@ -15,6 +16,7 @@ export function Router(){
                     <Route index element={<Home />}/>
                     <Route path="/produtos" element={<Product />}/>
                     <Route path="/produtos/novo" element={<ProductNew />}/>
+                    <Route path="/produtos/:id" element={<ListProduct />} />
                     <Route path="/pedidos" element={<Order />}/>
                 </Route>
             </Routes>

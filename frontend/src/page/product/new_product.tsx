@@ -4,8 +4,6 @@ import { UseProduct } from "./hooks/useProduct";
 import { UseCategory } from "../category/hooks/useCategory";
 import { UseUnit } from "../unit/hooks/useUnit";
 
-
-
 export function ProductNew(){
     const {
         barCode,
@@ -93,7 +91,6 @@ export function ProductNew(){
                                 </label>
                                 <input
                                     className="bg-zinc-900 appearance-none block w-full border border-gray-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none text-gray-50" 
-                                    type="number" 
                                     placeholder="Informe o valor"
                                     value={price}
                                     onChange={(e) => setPrice(Number(e.target.value))}

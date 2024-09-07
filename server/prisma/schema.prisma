@@ -34,7 +34,7 @@ model Product {
   barCode String? @unique
   reference String?
   name String
-  price Int
+  price Float
   amount Int @default(0)
   unitId Int  
   unit Unit @relation(fields: [unitId], references: [id])

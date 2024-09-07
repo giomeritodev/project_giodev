@@ -2,6 +2,7 @@ import { FormEvent, useState } from "react";
 import { api } from "../../../lib/api";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { ProductType } from "../interface/Product";
 
 
 
@@ -16,8 +17,9 @@ export function UseProduct(){
     const [amount, setAmount] = useState(0);
     const [unitId, setUnitId] = useState(0);
     const [categoryId, setCategoryId] = useState(0);
+    const [product, setProduct] = useState<ProductType>()
 
-    //const [products, setProducts] = useState<ProductType[]>([])
+
 
     async function createProduct(event: FormEvent){
         event.preventDefault();
@@ -46,6 +48,16 @@ export function UseProduct(){
         }
     }
 
+    async function findByProduct(id: number){
+        try {
+            await api.get(`/product/${id}`).then(response => {
+                setProduct(response.data);
+            })
+        } catch (error) {
+            toast.error("Produto não existe.");
+        }
+    }
+
     function cancel(event: FormEvent){
         event.preventDefault()
 
@@ -60,6 +72,7 @@ export function UseProduct(){
         navigate("/produtos");
 
     }
+    
  
     return {
         barCode,
@@ -79,5 +92,7 @@ export function UseProduct(){
         cancel,
         createProduct,
         deleteProduct,
+        findByProduct,
+        product,
     }
 }
