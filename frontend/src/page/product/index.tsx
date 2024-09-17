@@ -4,7 +4,7 @@ import { TableHeaderTh } from "../../components/table/table-header";
 import { Table } from "../../components/table/table";
 import { TableRow } from "../../components/table/table-row";
 import { TableCellTd } from "../../components/table/table-cell-td";
-import { IconButton } from "../../components/button/IconButton";
+import { IconButton } from "../../components/ui/button/IconButton";
 import classNames from "classnames";
 import { useEffect, useState } from "react";
 import { api } from "../../lib/api";
@@ -13,7 +13,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { ProductType } from "./interface/Product";
 import { Menu, MenuButton, MenuItem, MenuItems, Transition } from "@headlessui/react";
 import { UseProduct } from "./hooks/useProduct";
-import { Button } from "../../components/button/button";
+import { Button } from "../../components/ui/button/button";
 
 
 
@@ -189,7 +189,7 @@ export function Product(){
                         products.map((product) => (
                             product.amount < 2 ? (
                                 <div className="py-2">
-                                    <p className="font-semibold">{product.name}</p>
+                                    <p className="font-semibold">{product.id} - {product.name}</p>
                                     <span className="text-sm text-red-500">
                                         <b>{product.amount}</b> em estoque
                                     </span>

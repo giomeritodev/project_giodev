@@ -5,21 +5,21 @@ export declare class ProductController {
     constructor(productService: ProductService);
     findAllProducts(request: any): Promise<{
         product: {
-            id: number;
-            barCode: string;
-            reference: string;
-            name: string;
-            price: number;
-            amount: number;
+            category: {
+                id: number;
+                name: string;
+            };
             unit: {
                 id: number;
                 name: string;
                 sigla: string;
             };
-            category: {
-                id: number;
-                name: string;
-            };
+            id: number;
+            name: string;
+            barCode: string;
+            reference: string;
+            price: number;
+            amount: number;
         }[];
         total: number;
         totalPages: number;

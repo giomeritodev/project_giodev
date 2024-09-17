@@ -5,7 +5,7 @@ import { TableHeaderTh } from "../../components/table/table-header";
 import classNames from "classnames";
 import { TableRow } from "../../components/table/table-row";
 import { TableCellTd } from "../../components/table/table-cell-td";
-import { IconButton } from "../../components/button/IconButton";
+import { IconButton } from "../../components/ui/button/IconButton";
 import { useEffect, useState } from "react";
 import { api } from "../../lib/api";
 import { Pagination } from "../../components/pagination";
