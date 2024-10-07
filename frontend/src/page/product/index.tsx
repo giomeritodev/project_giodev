@@ -19,7 +19,8 @@ import { Button } from "../../components/ui/button/button";
 
 export function Product(){
     const navigate = useNavigate();
-    const [products, setProducts] = useState<ProductType[]>([]);   
+    const [products, setProducts] = useState<ProductType[]>([]);
+     
           
     const {
         goToLastPage,
@@ -35,18 +36,27 @@ export function Product(){
         setTotalPage,
     } = Pagination();
 
-    const {deleteProduct} = UseProduct();
+    const {deleteProduct, sum, findAllProducts} = UseProduct();
 
-    async function getData(){
+    async function getData(){        
         await api.get(`/product?page=${page}&search=${search}`).then(response => {
             setProducts(response.data.product)
             setTotal(response.data.total)
             setTotalPage(response.data.totalPages)
         })
-    }    
-
-    useEffect(() => {      
-        getData()
+    }
+    async function getDataReference(){        
+        await api.get(`/product/ref?page=${page}&search=${search}`).then(response => {
+            setProducts(response.data.product)
+            setTotal(response.data.total)
+            setTotalPage(response.data.totalPages)
+        })
+    }
+    
+    
+    useEffect(() => {
+        getData()     
+        findAllProducts()   
     }, [page, search, products])
     
 
@@ -62,6 +72,13 @@ export function Product(){
                         placeholder="Buscar produto" 
                     />
                 </HeaderTable>
+                <div className="text-green-800 font-bold text-xl">
+                    <span className="text-zinc-400">Valor total dos produtos: </span> 
+                    <span className="text-green-700">
+                        {sum.toLocaleString("pt-BR", {style: 'currency', currency: "BRL"})}
+                    </span> 
+                    
+                </div>
                 <div>
                     <Link to={"/produtos/novo"}>
                         <Button>
@@ -78,11 +95,10 @@ export function Product(){
                     <Table className="w-full">
                         <thead>
                             <tr className="border-b border-white/10">
-                                <TableHeaderTh>
-                                    <input type="checkbox" className={classNames("", "")}/>
-                                </TableHeaderTh>
+                               
                                 <TableHeaderTh>Código</TableHeaderTh>
                                 <TableHeaderTh>Descrição do Item</TableHeaderTh>
+                                <TableHeaderTh>Referência</TableHeaderTh>
                                 <TableHeaderTh>Valor Unitário</TableHeaderTh>
                                 <TableHeaderTh>Estoque</TableHeaderTh>
                                 <TableHeaderTh>Valor Total</TableHeaderTh>
@@ -93,15 +109,14 @@ export function Product(){
                             {
                                 products.map((product) => (
                                     <TableRow key={product.id}>
-                                        <TableCellTd>
-                                            <input value={product.id} type="checkbox" className={classNames("", "")}/>
-                                        </TableCellTd>
+                                        
                                         <TableCellTd>{product.id}</TableCellTd>
                                         <TableCellTd>{product.name}</TableCellTd>
+                                        <TableCellTd>{product.reference}</TableCellTd>
                                         <TableCellTd>{product.price.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})}</TableCellTd>
                                         <TableCellTd>{product.amount}</TableCellTd>
                                         <TableCellTd>
-                                            {
+                                            {                                               
                                                (product.price * product.amount).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})
                                             }
                                         </TableCellTd>
@@ -150,9 +165,9 @@ export function Product(){
                                                     </Transition>
                                                 </Menu>
 
-                                        </TableCellTd>
-                                        
+                                        </TableCellTd>                                        
                                     </TableRow>
+                                    
                                 ))
                             }                            
                         </tbody>
@@ -179,6 +194,12 @@ export function Product(){
                                     </div>
                                 </TableCellTd>
                             </tr>
+                            <tr>
+                                <TableCellTd colSpan={4}>
+                                    
+                                </TableCellTd>
+                            </tr>
+                                                        
                         </tfoot>
                     </Table>
                 </div>

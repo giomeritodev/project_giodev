@@ -19,11 +19,11 @@ export const DASHBOARD_SIDEBAR_LINKS = [
         label: 'Pedido',
         path: '/pedidos',
         icon: <HiOutlineShoppingCart />
-    },
+    },    
     {
         key: 'partners',
         label: 'Parceiros',
-        path: '/partner',
+        path: '/parceiros',
         icon: <HiOutlineUsers />
     },    
     {

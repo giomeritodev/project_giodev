@@ -8,8 +8,35 @@ export class ProductService {
     constructor(
         private readonly prisma: PrismaService,
     ){}
-
-    
+        
+    async findAll(){  
+        return await this.prisma.product.findMany({ 
+            orderBy: {
+                id: "desc"
+            },        
+            select: {
+                id: true,
+                barCode: true,
+                amount: true,
+                category: {
+                    select: {
+                        id: true,
+                        name: true,
+                    }
+                },
+                unit: {
+                    select: {
+                        id: true,
+                        name: true,
+                        sigla: true,
+                    }
+                },
+                name: true,
+                price: true,
+                reference: true,                                                   
+            },
+        })
+    }
     
     async findAllProducts(page: number, search?: string){      
         const take: number = 5;
@@ -20,6 +47,58 @@ export class ProductService {
             this.prisma.product.findMany({
                where: {
                     name: {
+                        contains: search
+                    }
+               },
+                orderBy: {
+                    id: "desc"
+                },        
+                select: {
+                    id: true,
+                    barCode: true,
+                    amount: true,
+                    category: {
+                        select: {
+                            id: true,
+                            name: true,
+                        }
+                    },
+                    unit: {
+                        select: {
+                            id: true,
+                            name: true,
+                            sigla: true,
+                        }
+                    },
+                    name: true,
+                    price: true,
+                    reference: true,                                                   
+                },
+                take,
+                skip,
+            }),
+            this.prisma.product.count(),
+                        
+        ])
+        const totalPages = Math.ceil(total / take)
+        
+        return {
+            product,
+            total,
+            totalPages
+        }
+
+    }
+
+    async findAllProductsByReference(page: number, search?: string){      
+        const take: number = 5;
+        const skip = (page - 1) * take;
+
+        const[product, total] = await this.prisma.$transaction([
+
+            this.prisma.product.findMany({
+               where: {
+                    reference: {
                         contains: search
                     }
                },

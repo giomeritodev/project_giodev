@@ -16,6 +16,25 @@ export class ProductController {
             console.log("Houve um erro na busca")
         }
     }
+    
+    @Get("/all")
+    async findAll(){
+        try {
+            return await this.productService.findAll();            
+        } catch (error) {
+            console.log("Houve um erro na busca")
+        }
+    }
+
+    @Get("/ref")
+    async findAllProductsByReference(@Request() request){
+        const {page, search} = request.query;  
+        try {
+            return await this.productService.findAllProductsByReference(page, search);            
+        } catch (error) {
+            console.log("Houve um erro na busca")
+        }
+    }
 
     /*
 

@@ -1,5 +1,5 @@
 type UnitType = {
-    id: number;
+    id?: number;
     name: string;
     sigla: string;
 }

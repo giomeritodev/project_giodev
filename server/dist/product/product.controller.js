@@ -28,6 +28,23 @@ let ProductController = class ProductController {
             console.log("Houve um erro na busca");
         }
     }
+    async findAll() {
+        try {
+            return await this.productService.findAll();
+        }
+        catch (error) {
+            console.log("Houve um erro na busca");
+        }
+    }
+    async findAllProductsByReference(request) {
+        const { page, search } = request.query;
+        try {
+            return await this.productService.findAllProductsByReference(page, search);
+        }
+        catch (error) {
+            console.log("Houve um erro na busca");
+        }
+    }
     async findByProduct(id) {
         return await this.productService.findByProduct(Number(id));
     }
@@ -52,6 +69,19 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], ProductController.prototype, "findAllProducts", null);
+__decorate([
+    (0, common_1.Get)("/all"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], ProductController.prototype, "findAll", null);
+__decorate([
+    (0, common_1.Get)("/ref"),
+    __param(0, (0, common_1.Request)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], ProductController.prototype, "findAllProductsByReference", null);
 __decorate([
     (0, common_1.Get)("/:id"),
     __param(0, (0, common_1.Param)("id")),

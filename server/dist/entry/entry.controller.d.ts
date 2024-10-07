@@ -13,7 +13,7 @@ export declare class EntryController {
             id: number;
             name: string;
             cpfOrCnpj: string;
-            type: number;
+            typePartnerId: number;
             fone: string;
         };
         id: number;

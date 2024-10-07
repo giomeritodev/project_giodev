@@ -1,17 +1,53 @@
 import { useEffect, useState } from "react";
 import { api } from "../../../lib/api";
+import {useForm} from 'react-hook-form';
+import { z } from 'zod'
+import { zodResolver  } from '@hookform/resolvers/zod';
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
-export interface UnitType {
-    id: number,
-    name: string,
-    sigla: string,
-}
+
+const createUnitFormSchema = z.object({
+    id: z.number().optional(),
+    name: z.string()
+    .nonempty("A descrição da unidade de medida é obrigatório!")
+    .transform(name => {
+        return name.trim().split(' ').map(word => {
+            return word[0].toLocaleUpperCase().concat(word.substring(1))
+        }).join(' ')
+    }),
+    sigla: z.string().max(2, "A sigla deve ter no máximo 2 caracteres").min(2, "A sigla deve ter no minimo 2 caractes"),
+    
+})
+
+type CreateUnitFormData = z.infer<typeof createUnitFormSchema>
 
 export function UseUnit(){
-
-    const [name, setName] = useState("");
-    const [sigla, setSigla] = useState("");
-    const [unities, setUnities] = useState<UnitType[]>([]);
+    const navigate = useNavigate()
+    const [unities, setUnities] = useState<CreateUnitFormData[]>([]);
+       
+    const { 
+        register, 
+        handleSubmit, 
+        formState: {errors},        
+    } = useForm<CreateUnitFormData>({
+        resolver: zodResolver(createUnitFormSchema)
+    });
+    
+    
+    async function createUnit({name, sigla}: CreateUnitFormData){
+        // console.log(data)
+        // setOutput(JSON.stringify(data, null, 2))
+        try {
+            await api.post("/unit", {name, sigla}).then(res => {
+                setUnities(res.data);
+                toast.success("Unidade cadastrada!") 
+                navigate("/unidades")                                                               
+            })
+        } catch (error) {
+            toast.error("Não foi possivel adicionar!")
+        }
+    }    
 
     async function findAllUnit(){
         try {
@@ -28,10 +64,10 @@ export function UseUnit(){
     }, [])
 
     return {
-        name,
-        sigla,
-        setName,
-        setSigla,
         unities,
+        createUnit,
+        register,
+        handleSubmit,
+        errors
     }
 }

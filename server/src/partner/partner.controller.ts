@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Request } from '@nestjs/common';
 import { PartnerService } from './partner.service';
 import { PartnerType } from './PartnerType';
 
@@ -8,15 +8,25 @@ export class PartnerController {
         private partnerService: PartnerService
     ){}
 
+    @Get()
+    async findAll(@Request() request){
+        const {page, search} = request.query;  
+        try {
+            return await this.partnerService.findAll(page, search);          
+        } catch (error) {
+            console.log("Houve um erro na busca")
+        }
+    }
+
     @Get("/:id")
     async findByPartner(@Param("id") id: number): Promise<PartnerType>{
         return await this.partnerService.findByPartner(Number(id));
     }
 
-    @Get()
-    async findAllPartners(): Promise<PartnerType[]>{
-        return await this.partnerService.findAllPartiners();
-    }
+    // @Get()
+    // async findAllPartners(): Promise<PartnerType[]>{
+    //     return await this.partnerService.findAllPartners();
+    // }
 
     @Post()
     async createPartner(@Body() partner: PartnerType){

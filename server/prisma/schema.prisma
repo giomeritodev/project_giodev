@@ -51,13 +51,24 @@ model Partner {
   id Int @id @default(autoincrement())
   name String
   cpfOrCnpj String
-  type Int
+  typePartnerId Int
   fone String
   
+  typePartner TypePartner @relation(fields: [typePartnerId], references: [id])
+
   @@map("partners")
   
   entries Entry[]
   sales Sale[]
+}
+
+model TypePartner {
+  id Int @id @default(autoincrement())
+  name String  
+
+  partners Partner[]
+
+  @@map("type_partners")
 }
 
 model Entry {

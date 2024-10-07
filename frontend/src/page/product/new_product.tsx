@@ -1,4 +1,4 @@
-import { HiOutlineX, HiSave } from "react-icons/hi";
+import { HiOutlinePlus, HiOutlineX, HiSave } from "react-icons/hi";
 import { Button } from "../../components/ui/button/button";
 import { UseProduct } from "./hooks/useProduct";
 import { UseCategory } from "../category/hooks/useCategory";
@@ -6,7 +6,8 @@ import { UseUnit } from "../unit/hooks/useUnit";
 import { InputVisao } from "../../components/ui/input";
 import { SelectVisao } from "../../components/ui/select";
 import { LabelVisao } from "../../components/ui/label";
-import CurrencyInput from "react-currency-input-field";
+import InputMoney from "../../components/ui/inputMoney/inputMoney";
+import { Link } from "react-router-dom";
 
 
 export function ProductNew(){
@@ -85,15 +86,11 @@ export function ProductNew(){
                                 <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
 
                                     <LabelVisao>Valor de venda</LabelVisao>
-                                    <InputVisao                                                                   
+                                    <InputMoney
+                                        addonBefore="R$"
                                         value={price}                                    
                                         onChange={(e) => setPrice(Number(e.target.value || 0))}
-                                    />
-                                    {/* <InputVisao                                         
-                                        placeholder="Informe o valor"
-                                        value={price}                                    
-                                        onChange={(e) => setPrice(Number(e.target.value))}
-                                    /> */}
+                                    />                                   
 
                                 </div>
 
@@ -109,7 +106,7 @@ export function ProductNew(){
 
                                 </div>
 
-                                <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
+                                <div className="flex items-center justify-between w-full md:w-1/1 px-3 md:mb-0 gap-2">
                                     <LabelVisao>Unidade de Medida</LabelVisao>
                                     <SelectVisao                                         
                                         value={unitId}
@@ -124,6 +121,11 @@ export function ProductNew(){
                                             })
                                         }
                                     </SelectVisao>
+                                    <Link to={"/unidades/novo"}>
+                                        <Button className="flex-1 px-3">
+                                            <HiOutlinePlus />
+                                        </Button>
+                                    </Link>
                                 </div>
 
                                 <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">

@@ -25,40 +25,72 @@ let PartnerService = class PartnerService {
                 id: true,
                 name: true,
                 cpfOrCnpj: true,
-                type: true,
+                typePartnerId: true,
                 fone: true
             }
         });
     }
-    async findAllPartiners() {
+    async findAllPartners() {
         return await this.prisma.partner.findMany({
             select: {
                 id: true,
                 name: true,
                 cpfOrCnpj: true,
-                type: true,
+                typePartnerId: true,
                 fone: true
             }
         });
     }
-    async createPartner({ name, cpfOrCnpj, type, fone }) {
+    async findAll(page, search) {
+        const take = 5;
+        const skip = (page - 1) * take;
+        const [partner, total] = await this.prisma.$transaction([
+            this.prisma.partner.findMany({
+                where: {
+                    name: {
+                        contains: search
+                    }
+                },
+                orderBy: {
+                    id: "desc"
+                },
+                select: {
+                    id: true,
+                    name: true,
+                    cpfOrCnpj: true,
+                    entries: true,
+                    sales: true,
+                },
+                take,
+                skip,
+            }),
+            this.prisma.partner.count(),
+        ]);
+        const totalPages = Math.ceil(total / take);
+        return {
+            partner,
+            total,
+            totalPages
+        };
+    }
+    async createPartner({ name, cpfOrCnpj, typePartnerId, fone }) {
         return await this.prisma.partner.create({
             data: {
                 name,
                 cpfOrCnpj,
-                type,
+                typePartnerId,
                 fone
             },
             select: {
                 id: true,
                 name: true,
                 cpfOrCnpj: true,
-                type: true,
+                typePartnerId: true,
                 fone: true
             }
         });
     }
-    async editPartner(id, { name, cpfOrCnpj, type, fone }) {
+    async editPartner(id, { name, cpfOrCnpj, typePartnerId, fone }) {
         const part = this.findByPartner(id);
         if (!part) {
             console.log("Parceiro não existe");
@@ -71,7 +103,7 @@ let PartnerService = class PartnerService {
             data: {
                 name,
                 cpfOrCnpj,
-                type,
+                typePartnerId,
                 fone
             }
         });

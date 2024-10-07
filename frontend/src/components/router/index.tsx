@@ -6,6 +6,11 @@ import { Login } from "../../page/login";
 import { Order } from "../../page/order";
 import { ProductNew } from "../../page/product/new_product";
 import { ListProduct } from "../../page/product/list_product";
+import { Partner } from "../../page/partner";
+import { Unit } from "../../page/unit";
+import { NewUnit } from "../../page/unit/new_unit";
+import { Category } from "../../page/category";
+import { NewCategory } from "../../page/category/new_category";
 
 export function Router(){
     return (
@@ -17,7 +22,12 @@ export function Router(){
                     <Route path="/produtos" element={<Product />}/>
                     <Route path="/produtos/novo" element={<ProductNew />}/>
                     <Route path="/produtos/:id" element={<ListProduct />} />
+                    <Route path="/parceiros" element={<Partner />} />
                     <Route path="/pedidos" element={<Order />}/>
+                    <Route path="/unidades" element={<Unit />}/>
+                    <Route path="/unidades/novo" element={<NewUnit />}/>
+                    <Route path="/categorias" element={<Category />}/>
+                    <Route path="/categorias/novo" element={<NewCategory />}/>
                 </Route>
             </Routes>
         </BrowserRouter>

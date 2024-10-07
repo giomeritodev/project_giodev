@@ -24,6 +24,44 @@ export declare class ProductController {
         total: number;
         totalPages: number;
     }>;
+    findAll(): Promise<{
+        category: {
+            id: number;
+            name: string;
+        };
+        unit: {
+            id: number;
+            name: string;
+            sigla: string;
+        };
+        id: number;
+        name: string;
+        barCode: string;
+        reference: string;
+        price: number;
+        amount: number;
+    }[]>;
+    findAllProductsByReference(request: any): Promise<{
+        product: {
+            category: {
+                id: number;
+                name: string;
+            };
+            unit: {
+                id: number;
+                name: string;
+                sigla: string;
+            };
+            id: number;
+            name: string;
+            barCode: string;
+            reference: string;
+            price: number;
+            amount: number;
+        }[];
+        total: number;
+        totalPages: number;
+    }>;
     findByProduct(id: number): Promise<ProductType>;
     createProduct(product: ProductType): Promise<ProductType>;
     editProduct(id: number, productEdit: ProductType): Promise<ProductType>;

@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { api } from "../../../lib/api";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -14,12 +14,26 @@ export function UseProduct(){
     const [reference, setReference] = useState("");
     const [name, setName] = useState("");
     const [price, setPrice] = useState(0);
-    const [amount, setAmount] = useState(0);
+    const [amount, setAmount] = useState(0)
     const [unitId, setUnitId] = useState(0);
     const [categoryId, setCategoryId] = useState(0);
-    const [product, setProduct] = useState<ProductType>()
+    const [product, setProduct] = useState<ProductType | undefined>();
+    const [products, setProducts] = useState<ProductType[]>([]);
 
+    async function findAllProducts(){
+        try {
+            await api.get(`/product/all`).then(response => {
+                setProducts(response.data);
+            })
+        } catch (error) {
+            toast.error("Erro ao consultar produtos!");
+        }
+    }
 
+    var sum = products.reduce(calculate, 0);
+    function calculate(total: number, item: ProductType){
+        return total + (item.amount * item.price);
+    }
 
     async function createProduct(event: FormEvent){
         event.preventDefault();
@@ -35,6 +49,8 @@ export function UseProduct(){
             console.log("Houve um erro ao salvar o item")
         }   
     }
+
+    
 
     async function deleteProduct(id: number){
         
@@ -94,5 +110,7 @@ export function UseProduct(){
         deleteProduct,
         findByProduct,
         product,
+        sum,
+        findAllProducts
     }
 }

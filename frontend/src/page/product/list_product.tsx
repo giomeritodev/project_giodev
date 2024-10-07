@@ -5,7 +5,10 @@ import { Button } from "../../components/ui/button/button";
 import { HiOutlinePencil, HiOutlineReply, HiOutlineSave } from "react-icons/hi";
 import { api } from "../../lib/api";
 import { toast } from "react-toastify";
-import CurrencyInput from "react-currency-input-field";
+import { InputVisao } from "../../components/ui/input";
+import { SelectVisao } from "../../components/ui/select";
+import { UseCategory } from "../category/hooks/useCategory";
+import { UseUnit } from "../unit/hooks/useUnit";
 
 
 export function ListProduct(){
@@ -13,11 +16,23 @@ export function ListProduct(){
     const query = useParams();
 
     const {
-        product, 
+        product,
         findByProduct 
     } = UseProduct();
+    const {
+        categories
+    } = UseCategory();
+    const {
+        unities
+    } = UseUnit();
     const [name, setName] = useState(product?.name)
     const [amount, setAmount] = useState(product?.amount)
+    const [price, setPrice] = useState(product?.price)
+    const [categoryId, setCategoryId] = useState(product?.categoryId)
+    const [unitId, setUnitId] = useState(product?.unitId)
+    const [barCode, setBarCode] = useState(product?.barCode)
+    const [reference, setReference] = useState(product?.reference)
+
 
     const total = Number(product?.price) * Number(product?.amount)
 
@@ -27,10 +42,12 @@ export function ListProduct(){
         setStatus(true)        
     }
 
+
+
     async function editSave(e: FormEvent){
         e.preventDefault()   
         try {
-            await api.put(`/product/edit/${product?.id}`, {name, amount}).then(() => {
+            await api.put(`/product/edit/${product?.id}`, {name, amount, price, categoryId, unitId, barCode, reference}).then(() => {
                 toast.success("Dados alterados com sucesso!");
                 setStatus(false)
                 
@@ -50,106 +67,137 @@ export function ListProduct(){
             <div className="border border-white/10 px-5 py-5 rounded-lg flex-1">
 
                 <form id="formEdit">
-
-                    <h1>Codigo {product?.id}</h1>
+                    {
+                        product ? (
+                            <div>
+                            <h1>Codigo {product?.id}</h1>
+                                                
+                                <div className="flex flex-wrap -mx-3 mb-6 p-10">
+                                    <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                                        <label>Descrição do Item</label>
+                                        <InputVisao
+                                            defaultValue={product.name}
+                                            value={name}                             
+                                            onChange={(e) => setName(e.target.value)} 
+                                        />
+                                    </div>
+                                    <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                                        <label>Código de Barras</label>
+                                        <InputVisao   
+                                            defaultValue={product.barCode}                          
+                                            value={barCode}      
+                                            onChange={(e) => setBarCode(e.target.value)}                         
+                                        />
+                                    </div>
+                                    <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                                        <label>Referência</label>
+                                        <InputVisao
+                                            defaultValue={product.reference}                              
+                                            value={reference} 
+                                            onChange={(e) => setReference(e.target.value)}                               
+                                        />
+                                    </div>
+                                    <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                                        <label>Valor de venda</label>
                                     
-                    <div className="flex flex-wrap -mx-3 mb-6 p-10">
-                        <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                            <label>Descrição do Item</label>
-                            <input          
-                                className="bg-zinc-900 appearance-none block w-full border border-gray-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none text-gray-50"
-                                defaultValue={product?.name}
-                                value={name}                             
-                                onChange={(e) => setName(e.target.value)} 
-                            />
-                        </div>
-                        <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                            <label>Código de Barras</label>
-                            <input 
-                                type="text" 
-                                value={product?.barCode} 
-                                className="bg-zinc-900 appearance-none block w-full border border-gray-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none text-gray-50"
-                            />
-                        </div>
-                        <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                            <label>Referência</label>
-                            <input 
-                                type="text" 
-                                value={product?.reference} 
-                                className="bg-zinc-900 appearance-none block w-full border border-gray-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none text-gray-50"
-                            />
-                        </div>
-                        <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                            <label>Valor de venda</label>
-                            <CurrencyInput 
+                                        <InputVisao    
+                                            type="number"                      
+                                            defaultValue={(product.price)}
+                                            value={price}                                 
+                                            onChange={(e) => setPrice(Number(e.target.value))}
+                                        />
+                                    </div>
+                                    <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                                        <label>Quantidade em estoque</label>
+                                        <InputVisao
+                                            defaultValue={product.amount}
+                                            value={amount} 
+                                            onChange={(e) => setAmount(Number(e.target.value))}
+                                        />
+                                    </div>
+                                    <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                                        <label>Unidade de Medida</label>
+                                        <SelectVisao                                        
+                                            value={unitId || product?.unitId}
+                                            onChange={(e) => setUnitId(Number(e.target.value))}
+                                        >
+                                            <option value={product?.id}>{product?.unit?.name} - {product?.unit?.sigla}</option>
+                                            {
+                                                unities.map((unit) => {
+                                                    return (
+                                                        <option key={unit.id} value={unit.id}>{unit.name}  -  {unit.sigla}</option>
+                                                    )
+                                                })
+                                            }
+                                        </SelectVisao>
+                                    </div>
+                                    <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                                        <label>Categoria</label>
+                                        <SelectVisao
+                                            defaultValue={product?.categoryId}                                         
+                                            value={categoryId}
+                                            onChange={(e) => setCategoryId(Number(e.target.value))}
+                                        >
+                                            <option value={product?.id}>{product?.category?.name}</option>
+                                            {
+                                                categories.map(cat => {
+                                                    return (
+                                                        <option key={cat.id} value={cat.id}>{cat.name}</option>
+                                                    )
+                                                })
+                                            }
+                                        </SelectVisao>                            
+                                    </div>
+                                </div>
                                 
-                            />
-                            <input 
-                                type="text" 
-                                value={product?.price.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})} 
-                                className="bg-zinc-900 appearance-none block w-full border border-gray-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none text-gray-50"
-                            />
-                        </div>
-                        <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                            <label>Quantidade em estoque</label>
-                            <input 
-                                className="bg-zinc-900 appearance-none block w-full border border-gray-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none text-gray-50"
-                                type="text" 
-                                defaultValue={product?.amount}
-                                value={amount} 
-                                onChange={(e) => setAmount(Number(e.target.value))}
-                            />
-                        </div>
-                        <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                            <label>Unidade de Medida</label>
-                            <input
-                                type="text" 
-                                value={product?.unit?.sigla} 
-                                className="bg-zinc-900 appearance-none block w-full border border-gray-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none text-gray-50"
-                            />
-                        </div>
-                        <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                            <label>Categoria</label>
-                            <input 
-                                type="text" 
-                                value={product?.category?.name} 
-                                className="bg-zinc-900 appearance-none block w-full border border-gray-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none text-gray-50"
-                            />
-                        </div>
-                    </div>
-                    
-                    <h2>Valor total em estoque: {total.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})}</h2>
+                                <h2>Valor total em estoque: {total.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})}</h2>
 
-                    <div className="flex items-center gap-2 mt-8">
-                        <Link to={"/produtos"}>
-                            <Button variant="secondary">
-                                Voltar
-                                <HiOutlineReply />
-                            </Button>
-                        </Link>
-                        <Button onClick={(e) => saveEdit(e)} variant="secondary">
-                                Editar
-                                <HiOutlinePencil />
-                        </Button>
-                        {
-                            status === true ? (
-                                <div>
-                                    <Button onClick={(e) => editSave(e)} variant="primary">                 
-                                            Salvar
-                                            <HiOutlineSave />
+                                <div className="flex items-center gap-2 mt-8">
+                                    <Link to={"/produtos"}>
+                                        <Button variant="secondary">
+                                            Voltar
+                                            <HiOutlineReply />
+                                        </Button>
+                                    </Link>
+                                    <Button onClick={(e) => saveEdit(e)} variant="secondary">
+                                            Editar
+                                            <HiOutlinePencil />
                                     </Button>
+                                    {
+                                        status === true ? (
+                                            <div>
+                                                <Button onClick={(e) => editSave(e)} variant="primary">                 
+                                                        Salvar
+                                                        <HiOutlineSave />
+                                                </Button>
+                                            </div>
+                                        ) :
+                                        (
+                                            <div className="invisible">
+                                                <Button variant="primary">                 
+                                                        Salvar
+                                                        <HiOutlineSave />
+                                                </Button>
+                                            </div>
+                                        )
+                                    }
                                 </div>
-                            ) :
-                            (
-                                <div className="invisible">
-                                    <Button variant="primary">                 
-                                            Salvar
-                                            <HiOutlineSave />
-                                    </Button>
                                 </div>
-                            )
-                        }
-                    </div>
+                        ) : (
+                            <div>
+                                <h1>Produto com código " {query.id} " não encontrado! </h1>
+                                <div className="mt-10">
+                                    <Link to={"/produtos"}>
+                                        <Button variant="secondary">
+                                            Voltar
+                                            <HiOutlineReply />
+                                        </Button>
+                                    </Link>
+                                </div>
+                            </div>
+                        )
+                    } 
+                    
                 </form>
             </div>
         </div>

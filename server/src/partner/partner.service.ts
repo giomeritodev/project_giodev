@@ -16,43 +16,81 @@ export class PartnerService {
                 id: true,
                 name: true,
                 cpfOrCnpj: true,
-                type: true,
+                typePartnerId: true,
                 fone: true
             }
         })
     }
 
-    async findAllPartiners(): Promise<PartnerType[]>{
+    async findAllPartners(): Promise<PartnerType[]>{
         return await this.prisma.partner.findMany({
             select: {
                 id: true,
                 name: true,
                 cpfOrCnpj: true,
-                type: true,
+                typePartnerId: true,
                 fone: true
             }
         });
     }
 
-    async createPartner({name, cpfOrCnpj, type, fone}: PartnerType): Promise<PartnerType> {
+    async findAll(page: number, search?: string){      
+        const take: number = 5;
+        const skip = (page - 1) * take;
+
+        const[partner, total] = await this.prisma.$transaction([
+
+            this.prisma.partner.findMany({
+               where: {
+                    name: {
+                        contains: search
+                    }
+               },
+                orderBy: {
+                    id: "desc"
+                },        
+                select: {
+                    id: true,
+                    name: true,
+                    cpfOrCnpj: true,
+                    
+                    entries: true,
+                    sales: true,                                                                    
+                },
+                take,
+                skip,
+            }),
+            this.prisma.partner.count(),            
+        ])
+        const totalPages = Math.ceil(total / take)
+        
+        return {
+            partner,
+            total,
+            totalPages
+        }
+
+    }
+
+    async createPartner({name, cpfOrCnpj, typePartnerId, fone}: PartnerType): Promise<PartnerType> {
         return await this.prisma.partner.create({
             data: {
                 name,
                 cpfOrCnpj,
-                type,
+                typePartnerId,
                 fone
             },
             select: {
                 id: true,
                 name: true,
                 cpfOrCnpj: true,
-                type: true,
+                typePartnerId: true,
                 fone: true
             }
         })
     }
 
-    async editPartner(id: number, {name, cpfOrCnpj, type, fone}: PartnerType): Promise<PartnerType>{
+    async editPartner(id: number, {name, cpfOrCnpj, typePartnerId, fone}: PartnerType): Promise<PartnerType>{
         const part = this.findByPartner(id);
         if(!part){
             console.log("Parceiro não existe");
@@ -65,7 +103,7 @@ export class PartnerService {
             data: {
                 name,
                 cpfOrCnpj,
-                type,
+                typePartnerId,
                 fone
             }
         })

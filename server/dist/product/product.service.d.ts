@@ -3,7 +3,45 @@ import { ProductType } from './ProductType';
 export declare class ProductService {
     private readonly prisma;
     constructor(prisma: PrismaService);
+    findAll(): Promise<{
+        category: {
+            id: number;
+            name: string;
+        };
+        unit: {
+            id: number;
+            name: string;
+            sigla: string;
+        };
+        id: number;
+        name: string;
+        barCode: string;
+        reference: string;
+        price: number;
+        amount: number;
+    }[]>;
     findAllProducts(page: number, search?: string): Promise<{
+        product: {
+            category: {
+                id: number;
+                name: string;
+            };
+            unit: {
+                id: number;
+                name: string;
+                sigla: string;
+            };
+            id: number;
+            name: string;
+            barCode: string;
+            reference: string;
+            price: number;
+            amount: number;
+        }[];
+        total: number;
+        totalPages: number;
+    }>;
+    findAllProductsByReference(page: number, search?: string): Promise<{
         product: {
             category: {
                 id: number;

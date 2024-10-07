@@ -19,11 +19,17 @@ let PartnerController = class PartnerController {
     constructor(partnerService) {
         this.partnerService = partnerService;
     }
+    async findAll(request) {
+        const { page, search } = request.query;
+        try {
+            return await this.partnerService.findAll(page, search);
+        }
+        catch (error) {
+            console.log("Houve um erro na busca");
+        }
+    }
     async findByPartner(id) {
         return await this.partnerService.findByPartner(Number(id));
-    }
-    async findAllPartners() {
-        return await this.partnerService.findAllPartiners();
     }
     async createPartner(partner) {
         return await this.partnerService.createPartner(partner);
@@ -37,18 +43,19 @@ let PartnerController = class PartnerController {
 };
 exports.PartnerController = PartnerController;
 __decorate([
+    (0, common_1.Get)(),
+    __param(0, (0, common_1.Request)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], PartnerController.prototype, "findAll", null);
+__decorate([
     (0, common_1.Get)("/:id"),
     __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
 ], PartnerController.prototype, "findByPartner", null);
-__decorate([
-    (0, common_1.Get)(),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", Promise)
-], PartnerController.prototype, "findAllPartners", null);
 __decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
