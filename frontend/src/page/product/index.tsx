@@ -6,22 +6,19 @@ import { TableRow } from "../../components/table/table-row";
 import { TableCellTd } from "../../components/table/table-cell-td";
 import { IconButton } from "../../components/ui/button/IconButton";
 import classNames from "classnames";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { api } from "../../lib/api";
 import { Pagination } from "../../components/pagination";
 import { Link, useNavigate } from "react-router-dom";
-import { ProductType } from "./interface/Product";
 import { Menu, MenuButton, MenuItem, MenuItems, Transition } from "@headlessui/react";
 import { UseProduct } from "./hooks/useProduct";
 import { Button } from "../../components/ui/button/button";
 
 
-
 export function Product(){
     const navigate = useNavigate();
-    const [products, setProducts] = useState<ProductType[]>([]);
-     
-          
+    const {product, products, setProducts} = UseProduct()
+   
     const {
         goToLastPage,
         goToPreviousPage,
@@ -36,7 +33,7 @@ export function Product(){
         setTotalPage,
     } = Pagination();
 
-    const {deleteProduct, sum, findAllProducts} = UseProduct();
+    const {deleteProduct, sum, sumCostPrice} = UseProduct();
 
     async function getData(){        
         await api.get(`/product?page=${page}&search=${search}`).then(response => {
@@ -52,43 +49,50 @@ export function Product(){
             setTotalPage(response.data.totalPages)
         })
     }
-    
+       
     
     useEffect(() => {
         getData()     
-        findAllProducts()   
-    }, [page, search, products])
+    }, [page, search])
     
 
     return (
         <div className="flex flex-col gap-8">
-            <div className="flex items-center justify-between">
-                <HeaderTable title="Produtos">                
-                    <Search className="size-4 text-emerald-300"/>
-                    <input
-                        onChange={onSearchInputChange} 
-                        value={search}                        
-                        className="bg-transparent outline-none border-0 p-0 text-sm focus:ring-0" 
-                        placeholder="Buscar produto" 
-                    />
-                </HeaderTable>
-                <div className="text-green-800 font-bold text-xl">
-                    <span className="text-zinc-400">Valor total dos produtos: </span> 
-                    <span className="text-green-700">
-                        {sum.toLocaleString("pt-BR", {style: 'currency', currency: "BRL"})}
-                    </span> 
-                    
+            
+            <div className="flex flex-row gap-2">
+
+                <div className="border border-white/10 px-5 py-5 rounded-lg flex-1">
+                    <div className="flex items-center justify-between">
+                        <HeaderTable title="Produtos">                
+                            <Search className="size-4 text-emerald-300"/>
+                            <input
+                                onChange={onSearchInputChange} 
+                                value={search}                        
+                                className="bg-transparent outline-none border-0 p-0 text-sm focus:ring-0" 
+                                placeholder="Buscar produto" 
+                            />
+                        </HeaderTable>
+                        <div className="text-green-800 font-bold text-xl">
+                            <span className="text-zinc-400">Valor total dos produtos: </span> 
+                            <span className="text-green-700">                                
+                                <br/>
+                                {sum.toLocaleString("pt-BR", {style: 'currency', currency: "BRL"})}
+                            </span> 
+                            
+                        </div>
+                        <div>
+                            <Link to={"/produtos/novo"}>
+                                <Button>
+                                        Novo Cadastro
+                                        <Plus size={20} />
+                                </Button>
+                            </Link>  
+                            
+                        </div>                
+                    </div>
                 </div>
-                <div>
-                    <Link to={"/produtos/novo"}>
-                        <Button>
-                                Novo Cadastro
-                                <Plus size={20} />
-                        </Button>
-                    </Link>  
-                      
-                </div>                
             </div>
+
             <div className="flex flex-row gap-2">
 
                 <div className="border border-white/10 px-5 py-5 rounded-lg flex-1">
@@ -99,7 +103,9 @@ export function Product(){
                                 <TableHeaderTh>Código</TableHeaderTh>
                                 <TableHeaderTh>Descrição do Item</TableHeaderTh>
                                 <TableHeaderTh>Referência</TableHeaderTh>
-                                <TableHeaderTh>Valor Unitário</TableHeaderTh>
+                                <TableHeaderTh>Unidade</TableHeaderTh>
+                                <TableHeaderTh>Categoria</TableHeaderTh>
+                                <TableHeaderTh>Valor Venda</TableHeaderTh>
                                 <TableHeaderTh>Estoque</TableHeaderTh>
                                 <TableHeaderTh>Valor Total</TableHeaderTh>
                                 <TableHeaderTh>Ações</TableHeaderTh>
@@ -112,7 +118,9 @@ export function Product(){
                                         
                                         <TableCellTd>{product.id}</TableCellTd>
                                         <TableCellTd>{product.name}</TableCellTd>
-                                        <TableCellTd>{product.reference}</TableCellTd>
+                                        <TableCellTd>{product.reference}</TableCellTd>                                        
+                                        <TableCellTd>{product.unit?.sigla}</TableCellTd>                                        
+                                        <TableCellTd>{product.category?.name}</TableCellTd>                                        
                                         <TableCellTd>{product.price.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})}</TableCellTd>
                                         <TableCellTd>{product.amount}</TableCellTd>
                                         <TableCellTd>
@@ -150,25 +158,24 @@ export function Product(){
                                                                 )}
                                                             </MenuItem>
                                                             
-                                                            <MenuItem>
+                                                            {/* <MenuItem>
                                                                 {({ active }) => (
                                                                     <div
                                                                         className={classNames(active && "bg-zinc-700", "focus:bg-zinc-200 cursor-pointer rounded-sm px-4 py-2 block")}
-                                                                        onClick={() => deleteProduct(product.id)}
+                                                                        onClick={confirmAction}
                                                                     >
-                                                                        Deletar
+                                                                        Deletar                                                                                                                                               
                                                                     </div>                                            
                                                                 )}
-                                                            </MenuItem>
+                                                            </MenuItem> */}
                                                         </div>
                                                      </MenuItems>   
                                                     </Transition>
                                                 </Menu>
-
                                         </TableCellTd>                                        
                                     </TableRow>
                                     
-                                ))
+                                ))                                                                                            
                             }                            
                         </tbody>
                         <tfoot>
@@ -194,11 +201,6 @@ export function Product(){
                                     </div>
                                 </TableCellTd>
                             </tr>
-                            <tr>
-                                <TableCellTd colSpan={4}>
-                                    
-                                </TableCellTd>
-                            </tr>
                                                         
                         </tfoot>
                     </Table>
@@ -216,12 +218,13 @@ export function Product(){
                                     </span>
                                 </div>
                             ) : ("")
-                        ))
+                        ))                        
                     }                    
                     
-                </div>
+                </div>            
            
-            </div> 
+            </div>       
+                 
         </div>
     )
 }

@@ -1,6 +1,5 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Request } from '@nestjs/common';
 import { UnitService } from './unit.service';
-import { Unit } from '@prisma/client';
 import UnitType from './UnitType';
 
 @Controller('unit')
@@ -9,6 +8,12 @@ export class UnitController {
     constructor(private unitService: UnitService){}
 
     @Get()
+    async findAllUnityPagination(@Request() request){
+        const {page, search} = request.query;
+        return await this.unitService.findAllUnitsPagination(page, search);
+    }
+
+    @Get("/all")
     async findAllUnity(): Promise<UnitType[]>{
         return await this.unitService.findAllUnits();
     }

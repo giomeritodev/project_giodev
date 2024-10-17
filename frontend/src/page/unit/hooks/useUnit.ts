@@ -34,7 +34,6 @@ export function UseUnit(){
         resolver: zodResolver(createUnitFormSchema)
     });
     
-    
     async function createUnit({name, sigla}: CreateUnitFormData){
         // console.log(data)
         // setOutput(JSON.stringify(data, null, 2))
@@ -51,7 +50,7 @@ export function UseUnit(){
 
     async function findAllUnit(){
         try {
-            await api.get("/unit").then(response => {
+            await api.get("/unit/all").then(response => {
                 setUnities(response.data);
             })
         } catch (error) {
@@ -59,15 +58,18 @@ export function UseUnit(){
         }
     }
 
+   
+
     useEffect(() => {
-        findAllUnit();
+        findAllUnit();        
     }, [])
 
     return {
         unities,
+        setUnities,
         createUnit,
         register,
         handleSubmit,
-        errors
+        errors,        
     }
 }

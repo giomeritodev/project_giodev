@@ -32,6 +32,7 @@ export class ProductService {
                     }
                 },
                 name: true,
+                costPrice: true,
                 price: true,
                 reference: true,                                                   
             },
@@ -71,6 +72,7 @@ export class ProductService {
                         }
                     },
                     name: true,
+                    costPrice: true,
                     price: true,
                     reference: true,                                                   
                 },
@@ -123,6 +125,7 @@ export class ProductService {
                         }
                     },
                     name: true,
+                    costPrice: true,
                     price: true,
                     reference: true,                                
                 },
@@ -170,12 +173,13 @@ export class ProductService {
         return product;
     }
 
-    async createProduct({barCode, reference, name, price, unitId, categoryId}: ProductType): Promise<ProductType>{
+    async createProduct({barCode, reference, name, costPrice, price, unitId, categoryId}: ProductType): Promise<ProductType>{
         return await this.prisma.product.create({
             data: {
                 barCode,
                 reference,
                 name,
+                costPrice,
                 price,
                 amount: 0,
                 unitId,
@@ -184,13 +188,14 @@ export class ProductService {
         })
     }
 
-    async editProduct(id: number, {barCode, reference, name, price, amount, unitId, categoryId}: ProductType): Promise<ProductType>{
+    async editProduct(id: number, {barCode, reference, name, costPrice, price, amount, unitId, categoryId}: ProductType): Promise<ProductType>{
         return await this.prisma.product.update({
             where: {id},
             data: {
                 barCode,
                 reference,
                 name,
+                costPrice,
                 price,
                 amount, 
                 unitId,

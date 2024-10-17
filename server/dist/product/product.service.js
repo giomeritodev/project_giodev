@@ -39,6 +39,7 @@ let ProductService = class ProductService {
                     }
                 },
                 name: true,
+                costPrice: true,
                 price: true,
                 reference: true,
             },
@@ -75,6 +76,7 @@ let ProductService = class ProductService {
                         }
                     },
                     name: true,
+                    costPrice: true,
                     price: true,
                     reference: true,
                 },
@@ -121,6 +123,7 @@ let ProductService = class ProductService {
                         }
                     },
                     name: true,
+                    costPrice: true,
                     price: true,
                     reference: true,
                 },
@@ -162,12 +165,13 @@ let ProductService = class ProductService {
         }
         return product;
     }
-    async createProduct({ barCode, reference, name, price, unitId, categoryId }) {
+    async createProduct({ barCode, reference, name, costPrice, price, unitId, categoryId }) {
         return await this.prisma.product.create({
             data: {
                 barCode,
                 reference,
                 name,
+                costPrice,
                 price,
                 amount: 0,
                 unitId,
@@ -175,13 +179,14 @@ let ProductService = class ProductService {
             }
         });
     }
-    async editProduct(id, { barCode, reference, name, price, amount, unitId, categoryId }) {
+    async editProduct(id, { barCode, reference, name, costPrice, price, amount, unitId, categoryId }) {
         return await this.prisma.product.update({
             where: { id },
             data: {
                 barCode,
                 reference,
                 name,
+                costPrice,
                 price,
                 amount,
                 unitId,

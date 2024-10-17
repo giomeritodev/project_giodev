@@ -23,7 +23,7 @@ export function UseCategory() {
     const navigate = useNavigate()
 
     const [categories, setCategories] = useState<CreateCategoryFormData[]>([])
-
+    const [category, etCategory] = useState<CreateCategoryFormData>()
     const {
         register,
         handleSubmit,
@@ -57,7 +57,7 @@ export function UseCategory() {
 
     useEffect(() => {
         findAllCategory();
-    }, [categories])
+    }, [category])
 
 
     return {

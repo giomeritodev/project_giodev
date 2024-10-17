@@ -10,35 +10,74 @@ import { TableCellTd } from "../../components/table/table-cell-td";
 import { Menu, MenuButton, MenuItem, MenuItems, Transition } from "@headlessui/react";
 import { IconButton } from "../../components/ui/button/IconButton";
 import classNames from "classnames";
-import { MoreHorizontal, Plus, Search } from "lucide-react";
+import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, MoreHorizontal, Plus, Search } from "lucide-react";
+import { Pagination } from "../../components/pagination";
+import { useEffect } from "react";
+import { api } from "../../lib/api";
 
 
 export function Unit(){
     // const navigate = useNavigate();
-    const {unities} = UseUnit();
+    const {unities, setUnities} = UseUnit();
+
+
+    const {
+        goToLastPage,
+        goToPreviousPage,
+        goToNextPage,
+        goToFirstPage,
+        onSearchInputChange,
+        total,
+        totalPage,
+        setTotal,
+        setTotalPage,
+        page,
+        search,        
+    } = Pagination();
+
+    async function findAllUnitsPagination(){
+        try {
+            await api.get(`/unit?page=${page}&search=${search}`).then(response => {
+                setUnities(response.data.unities);
+                setTotal(response.data.total);
+                setTotalPage(response.data.totalPages)
+            })
+        } catch (error) {
+            
+        }
+    }
+
+    useEffect(() => {
+        findAllUnitsPagination()
+    }, [page, search, unities])
 
     return(
         <div className="flex flex-col gap-8">
 
-            <div className="flex items-center justify-between">
-                <HeaderTable title="Produtos">                
-                    <Search className="size-4 text-emerald-300"/>
-                    <input
-                                            
-                        className="bg-transparent outline-none border-0 p-0 text-sm focus:ring-0" 
-                        placeholder="Buscar produto" 
-                    />
-                </HeaderTable>
-                
-                <div>
-                    <Link to={"/unidades/novo"}>
-                        <Button>
-                                Novo Cadastro
-                                <Plus size={20} />
-                        </Button>
-                    </Link>  
-                    
-                </div>                
+            <div className="flex flex-row gap-2">
+                <div className="border border-white/10 px-5 py-5 rounded-lg flex-1">
+                    <div className="flex items-center justify-between">
+                        <HeaderTable title="Unidade de medida">                
+                            <Search className="size-4 text-emerald-300"/>
+                            <input
+                                onChange={onSearchInputChange} 
+                                value={search}                     
+                                className="bg-transparent outline-none border-0 p-0 text-sm focus:ring-0" 
+                                placeholder="Buscar unidade" 
+                            />
+                        </HeaderTable>
+                        
+                        <div>
+                            <Link to={"/unidades/novo"}>
+                                <Button>
+                                        Novo Cadastro
+                                        <Plus size={20} />
+                                </Button>
+                            </Link>  
+                            
+                        </div>                
+                    </div>
+                </div>
             </div>
 
             <div className="flex flex-row gap-2">
@@ -109,7 +148,7 @@ export function Unit(){
                                     ))
                                 }
                             </tbody>
-                            {/* <tfoot>
+                            <tfoot>
                                 <tr>
                                     <TableCellTd colSpan={3}>Mostrando {unities.length} de {total} itens</TableCellTd>
                                     <TableCellTd className="text-right" colSpan={3}>
@@ -138,7 +177,7 @@ export function Unit(){
                                     </TableCellTd>
                                 </tr>
                                                         
-                            </tfoot> */}
+                            </tfoot>
                     </Table>
                 </div>
             </div>

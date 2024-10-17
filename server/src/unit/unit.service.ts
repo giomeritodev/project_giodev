@@ -12,6 +12,39 @@ export class UnitService {
         return await this.prisma.unit.findMany();
     }
 
+    async findAllUnitsPagination(page: number, search?: string){
+        const take: number = 5
+        const skip = (page - 1) * take
+        const [unities, total] = await this.prisma.$transaction([
+            this.prisma.unit.findMany({
+                where: {
+                    name: {
+                        contains: search
+                    }
+                },
+                orderBy: {
+                    id: 'desc'
+                },
+                select: {
+                    id: true,
+                    name: true,
+                    sigla: true,
+                    products: true,
+                },
+                take,
+                skip,
+            }),
+            this.prisma.unit.count()
+        ])
+        const totalPages = Math.ceil(total / take)
+
+        return {
+            unities,
+            total,
+            totalPages
+        }
+    }
+
     async findByUnit(id: number): Promise<UnitType>{
         return await this.prisma.unit.findUnique({
             where: {id: Number(id)},

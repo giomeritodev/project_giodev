@@ -19,6 +19,10 @@ let UnitController = class UnitController {
     constructor(unitService) {
         this.unitService = unitService;
     }
+    async findAllUnityPagination(request) {
+        const { page, search } = request.query;
+        return await this.unitService.findAllUnitsPagination(page, search);
+    }
     async findAllUnity() {
         return await this.unitService.findAllUnits();
     }
@@ -38,6 +42,13 @@ let UnitController = class UnitController {
 exports.UnitController = UnitController;
 __decorate([
     (0, common_1.Get)(),
+    __param(0, (0, common_1.Request)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], UnitController.prototype, "findAllUnityPagination", null);
+__decorate([
+    (0, common_1.Get)("/all"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)

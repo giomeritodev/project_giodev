@@ -1,22 +1,26 @@
-import { Link, useParams } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import { UseProduct } from "./hooks/useProduct";
 import { FormEvent, useEffect, useState } from "react";
 import { Button } from "../../components/ui/button/button";
-import { HiOutlinePencil, HiOutlineReply, HiOutlineSave } from "react-icons/hi";
+import { HiOutlineExclamation, HiOutlinePencil, HiOutlineReply, HiOutlineSave, HiOutlineTrash } from "react-icons/hi";
 import { api } from "../../lib/api";
 import { toast } from "react-toastify";
 import { InputVisao } from "../../components/ui/input";
 import { SelectVisao } from "../../components/ui/select";
 import { UseCategory } from "../category/hooks/useCategory";
 import { UseUnit } from "../unit/hooks/useUnit";
+import { ModalConfim } from "../../components/ui/modalConfirm";
 
 
 export function ListProduct(){
+    const navigate = useNavigate()
     const [status, setStatus] = useState(false);
     const query = useParams();
+    const [isDialogOpen, setIsDialogOpen] = useState(false)
 
     const {
         product,
+        deleteProduct,
         findByProduct 
     } = UseProduct();
     const {
@@ -27,6 +31,7 @@ export function ListProduct(){
     } = UseUnit();
     const [name, setName] = useState(product?.name)
     const [amount, setAmount] = useState(product?.amount)
+    const [costPrice, setCostPrice] = useState(product?.costPrice)
     const [price, setPrice] = useState(product?.price)
     const [categoryId, setCategoryId] = useState(product?.categoryId)
     const [unitId, setUnitId] = useState(product?.unitId)
@@ -35,6 +40,7 @@ export function ListProduct(){
 
 
     const total = Number(product?.price) * Number(product?.amount)
+    const totalCostPrice = Number(product?.amount) * Number(product?.costPrice)
 
 
     function saveEdit(e: FormEvent){
@@ -50,13 +56,25 @@ export function ListProduct(){
             await api.put(`/product/edit/${product?.id}`, {name, amount, price, categoryId, unitId, barCode, reference}).then(() => {
                 toast.success("Dados alterados com sucesso!");
                 setStatus(false)
-                
+                navigate("/produtos");
             })
         } catch (error) {
             
         }    
         
     }
+
+    function confirmDialog(e: FormEvent){
+        e.preventDefault()
+        setIsDialogOpen(true);
+    }
+
+    function handleDelete(){
+        deleteProduct(product?.id);
+        setIsDialogOpen(false)        
+        navigate("/produtos")    
+    }
+   
 
     useEffect(() => {
         findByProduct(Number(query.id))
@@ -70,6 +88,16 @@ export function ListProduct(){
                     {
                         product ? (
                             <div>
+                                <ModalConfim 
+                                    isOpen={isDialogOpen} 
+                                    icon={<HiOutlineExclamation size={45} color="red"/>}
+                                    message={
+                                        `Deseja realmente deletar esse cadastro?`
+                                    }
+                                    onClose={() => setIsDialogOpen(false)}
+                                    onConfirm={handleDelete} 
+                                />    
+
                             <h1>Codigo {product?.id}</h1>
                                                 
                                 <div className="flex flex-wrap -mx-3 mb-6 p-10">
@@ -95,6 +123,16 @@ export function ListProduct(){
                                             defaultValue={product.reference}                              
                                             value={reference} 
                                             onChange={(e) => setReference(e.target.value)}                               
+                                        />
+                                    </div>
+                                    <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                                        <label>Valor de custo</label>
+                                    
+                                        <InputVisao    
+                                            type="number"                      
+                                            defaultValue={(product.costPrice)}
+                                            value={costPrice}                                 
+                                            onChange={(e) => setCostPrice(Number(e.target.value))}
                                         />
                                     </div>
                                     <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
@@ -150,7 +188,12 @@ export function ListProduct(){
                                     </div>
                                 </div>
                                 
-                                <h2>Valor total em estoque: {total.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})}</h2>
+                                
+                                
+                                <h1 className="text-green-600">Valor total em estoque: {total.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})}</h1>
+                                <h4 className="text-red-600">Valor total de custo: {totalCostPrice.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})}</h4>
+                                <h4 className="text-blue-600">Resultado previsto: {(total - totalCostPrice).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})}</h4>
+            
 
                                 <div className="flex items-center gap-2 mt-8">
                                     <Link to={"/produtos"}>
@@ -159,6 +202,10 @@ export function ListProduct(){
                                             <HiOutlineReply />
                                         </Button>
                                     </Link>
+                                    <Button variant="tertiary" onClick={confirmDialog}>
+                                            Deletar
+                                            <HiOutlineTrash color="red" />
+                                    </Button>
                                     <Button onClick={(e) => saveEdit(e)} variant="secondary">
                                             Editar
                                             <HiOutlinePencil />
@@ -168,7 +215,7 @@ export function ListProduct(){
                                             <div>
                                                 <Button onClick={(e) => editSave(e)} variant="primary">                 
                                                         Salvar
-                                                        <HiOutlineSave />
+                                                        <HiOutlineSave />                                                        
                                                 </Button>
                                             </div>
                                         ) :

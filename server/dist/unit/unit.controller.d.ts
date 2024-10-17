@@ -3,6 +3,26 @@ import UnitType from './UnitType';
 export declare class UnitController {
     private unitService;
     constructor(unitService: UnitService);
+    findAllUnityPagination(request: any): Promise<{
+        unities: {
+            id: number;
+            name: string;
+            products: {
+                id: number;
+                barCode: string;
+                reference: string;
+                name: string;
+                costPrice: number;
+                price: number;
+                amount: number;
+                unitId: number;
+                categoryId: number;
+            }[];
+            sigla: string;
+        }[];
+        total: number;
+        totalPages: number;
+    }>;
     findAllUnity(): Promise<UnitType[]>;
     findByUnit(id: number): Promise<UnitType>;
     createUnit(unitData: UnitType): Promise<UnitType>;

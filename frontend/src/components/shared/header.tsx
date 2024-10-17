@@ -1,4 +1,4 @@
-import { HiOutlineBell, HiOutlineChatAlt, HiOutlineSearch } from "react-icons/hi";
+import { HiOutlineBell, HiOutlineChatAlt } from "react-icons/hi";
 import { Menu, MenuButton, MenuItem, MenuItems, Popover, PopoverButton, PopoverPanel, Transition } from '@headlessui/react'
 import classNames from "classnames";
 import { useNavigate } from "react-router-dom";
@@ -6,17 +6,19 @@ import { useNavigate } from "react-router-dom";
 
 export function Header(){
     const navigate = useNavigate();
+    
 
     return (
-        <div className="flex justify-between items-center h-16 px-4 w-full bg-zinc-700">
-            <div className="flex items-center h-10 px-4 gap-2 bg-zinc-900 rounded-3xl">
+        <div className="flex justify-between items-center h-16 px-4 w-full bg-zinc-800">
+            {/* <div className="flex items-center h-10 px-4 gap-2 bg-zinc-800 rounded-3xl">
                 <div>
                     <HiOutlineSearch />
                 </div>
                 <div>
                     <input className="p-1 bg-transparent active:outline-none text-sm focus:outline-none" type="text" placeholder="Pesquisar"/>
                 </div>
-            </div>
+            </div> */}
+            <div></div>
             <div className="flex items-center gap-3">
                 <div>
                     <Popover className="relative">

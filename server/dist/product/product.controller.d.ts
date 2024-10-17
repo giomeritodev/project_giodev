@@ -18,6 +18,7 @@ export declare class ProductController {
             name: string;
             barCode: string;
             reference: string;
+            costPrice: number;
             price: number;
             amount: number;
         }[];
@@ -38,6 +39,7 @@ export declare class ProductController {
         name: string;
         barCode: string;
         reference: string;
+        costPrice: number;
         price: number;
         amount: number;
     }[]>;
@@ -56,6 +58,7 @@ export declare class ProductController {
             name: string;
             barCode: string;
             reference: string;
+            costPrice: number;
             price: number;
             amount: number;
         }[];

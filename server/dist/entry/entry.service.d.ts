@@ -22,6 +22,7 @@ export declare class EntryService {
                 barCode: string;
                 reference: string;
                 name: string;
+                costPrice: number;
                 price: number;
                 amount: number;
                 unitId: number;

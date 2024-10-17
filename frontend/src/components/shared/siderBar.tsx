@@ -10,7 +10,7 @@ export function SideBar(){
     const {pathname} = useLocation();
 
     return (
-        <div className="flex flex-col w-60 p-3 bg-zinc-900">
+        <div className="flex flex-col w-60 p-3 bg-zinc-800">
             <div className="flex items-center gap-2 px-1 py-2">
                 <FcBullish className="size-5" />
                 <span className="text-lg">Visão Sistema</span>
@@ -26,7 +26,7 @@ export function SideBar(){
                 ))}
             </div>
 
-            <div className="flex flex-col gap-0.5 pt-2 border-t bg-zinc-900">
+            <div className="flex flex-col gap-0.5 pt-2 border-t bg-zinc-800">
                 {
                     DASHBOARD_SIDEBAR_BOTTOM_LINKS.map((item) => (
                         <Link 

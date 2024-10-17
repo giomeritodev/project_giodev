@@ -39,7 +39,7 @@ export function NewUnit(){
                             <label>Unidade de medida</label>
                             <input 
                                 type="text"                            
-                                className="bg-zinc-900 appearance-none block w-full border border-gray-500 py-3 px-4 leading-tight focus:outline-none text-gray-50 rounded-xl" 
+                                className="bg-zinc-800 appearance-none block w-full border border-gray-500 py-3 px-4 leading-tight focus:outline-none text-gray-50 rounded-xl" 
                                 {...register("name")}
                                 // onChange={(e) => setName(e.target.value)}
                             />
@@ -49,7 +49,7 @@ export function NewUnit(){
                             <label>Sigla</label>
                             <input
                                 type="text"
-                                className="bg-zinc-900 appearance-none block w-full border border-gray-500 py-3 px-4 leading-tight focus:outline-none text-gray-50 rounded-xl" 
+                                className="bg-zinc-800 appearance-none block w-full border border-gray-500 py-3 px-4 leading-tight focus:outline-none text-gray-50 rounded-xl" 
                                 {...register("sigla")}
                                 // onChange={(e) => setSigla(e.target.value)}
                             />

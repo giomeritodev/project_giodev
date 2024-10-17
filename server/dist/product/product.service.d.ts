@@ -17,6 +17,7 @@ export declare class ProductService {
         name: string;
         barCode: string;
         reference: string;
+        costPrice: number;
         price: number;
         amount: number;
     }[]>;
@@ -35,6 +36,7 @@ export declare class ProductService {
             name: string;
             barCode: string;
             reference: string;
+            costPrice: number;
             price: number;
             amount: number;
         }[];
@@ -56,6 +58,7 @@ export declare class ProductService {
             name: string;
             barCode: string;
             reference: string;
+            costPrice: number;
             price: number;
             amount: number;
         }[];
@@ -64,8 +67,8 @@ export declare class ProductService {
     }>;
     findAllProductsName(name: string): Promise<ProductType[]>;
     findByProduct(id: number): Promise<ProductType>;
-    createProduct({ barCode, reference, name, price, unitId, categoryId }: ProductType): Promise<ProductType>;
-    editProduct(id: number, { barCode, reference, name, price, amount, unitId, categoryId }: ProductType): Promise<ProductType>;
+    createProduct({ barCode, reference, name, costPrice, price, unitId, categoryId }: ProductType): Promise<ProductType>;
+    editProduct(id: number, { barCode, reference, name, costPrice, price, amount, unitId, categoryId }: ProductType): Promise<ProductType>;
     entryProduct(id: number, { amount }: ProductType): Promise<ProductType>;
     deleteProduct(id: number): Promise<ProductType>;
 }

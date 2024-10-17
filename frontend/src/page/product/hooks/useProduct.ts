@@ -3,23 +3,28 @@ import { api } from "../../../lib/api";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { ProductType } from "../interface/Product";
-
+import { useForm } from "react-hook-form";
 
 
 export function UseProduct(){
 
     const navigate = useNavigate();
-
-    const [barCode, setBarCode] = useState("");
-    const [reference, setReference] = useState("");
-    const [name, setName] = useState("");
-    const [price, setPrice] = useState(0);
-    const [amount, setAmount] = useState(0)
-    const [unitId, setUnitId] = useState(0);
-    const [categoryId, setCategoryId] = useState(0);
-    const [product, setProduct] = useState<ProductType | undefined>();
+    const [confirm, setConfirm] = useState(false)
+    const [barCode, setBarCode] = useState("")
+    const [reference, setReference] = useState("")
+    const [name, setName] = useState("")
+    const [costPrice, setCostPrice] = useState(0)
+    const [price, setPrice] = useState(0)
+    const [amount, setAmount] = useState<number>()
+    const [unitId, setUnitId] = useState<number>()
+    const [categoryId, setCategoryId] = useState<number>()
+    const [product, setProduct] = useState<ProductType>();
     const [products, setProducts] = useState<ProductType[]>([]);
 
+    const {
+        control
+    } = useForm()
+    
     async function findAllProducts(){
         try {
             await api.get(`/product/all`).then(response => {
@@ -34,34 +39,44 @@ export function UseProduct(){
     function calculate(total: number, item: ProductType){
         return total + (item.amount * item.price);
     }
+    
+    var sumCostPrice = products.reduce(calculateCostPrice, 0);
+    function calculateCostPrice(total: number, item: ProductType){
+        return total + (item.amount * item.costPrice);
+    }
 
     async function createProduct(event: FormEvent){
-        event.preventDefault();
-
+        event.preventDefault()
+        console.log(barCode, reference, name, costPrice, price, amount, unitId, categoryId)
         try {
-            await api.post("/product", {barCode, reference, name, price, amount, unitId, categoryId}).then(response => {
+            await api.post("/product", 
+                {barCode, reference, name, costPrice, price, amount, unitId, categoryId})
+            .then(response => {
+                console.log(response.data)
+
+                setProducts(response.data)
                 navigate("/produtos");
                 toast.success("Produto cadastrado!")
                 return response;
             })
         } catch (error) {
             toast.error("Houve um erro ao salvar o item")   
-            console.log("Houve um erro ao salvar o item")
+            //console.log("Houve um erro ao salvar o item")
         }   
-    }
+    }    
 
-    
-
-    async function deleteProduct(id: number){
+    async function deleteProduct(id: number | undefined){       
         
-        try {
-            await api.delete(`/product/${id}`).then(response => {
-                toast.success("Produto deletado!")
-                return response;
-            })
-        } catch (error) {
-            toast.error("Houve um erro ao deletar o produto.")
-        }
+            try {
+                await api.delete(`/product/${id}`).then(response => {
+                    toast.success("Produto deletado!")
+                    findAllProducts()
+                    return response;
+                })                
+            } catch (error) {
+                toast.error("Houve um erro ao deletar o produto.")
+            }            
+        
     }
 
     async function findByProduct(id: number){
@@ -76,24 +91,19 @@ export function UseProduct(){
 
     function cancel(event: FormEvent){
         event.preventDefault()
-
-        setBarCode(""),
-        setReference(""),
-        setName(""),
-        setPrice(0),
-        setAmount(0),
-        setUnitId(0),
-        setCategoryId(0),
-
         navigate("/produtos");
-
     }
+
+    useEffect(() => {
+        findAllProducts()
+    }, [product])
     
  
     return {
         barCode,
         reference,
         name,
+        costPrice,
         price,
         amount,
         unitId,
@@ -101,6 +111,7 @@ export function UseProduct(){
         setBarCode,
         setReference,
         setName,
+        setCostPrice,
         setPrice,
         setAmount,
         setUnitId,
@@ -110,7 +121,12 @@ export function UseProduct(){
         deleteProduct,
         findByProduct,
         product,
+        products,
+        setProducts,
         sum,
-        findAllProducts
+        sumCostPrice,
+        findAllProducts,
+        control,
+        setConfirm,
     }
 }
