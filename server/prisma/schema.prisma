@@ -53,7 +53,7 @@ model Partner {
   name String
   cpfOrCnpj String
   typePartnerId Int
-  fone String
+  fone String  
   
   typePartner TypePartner @relation(fields: [typePartnerId], references: [id])
 
@@ -61,6 +61,18 @@ model Partner {
   
   entries Entry[]
   sales Sale[]
+  partnerAddresses PartnerAddress[]
+}
+
+model PartnerAddress {
+  id Int @id @default(autoincrement())
+  partnerId Int
+  addressId Int
+
+  partner Partner @relation(fields: [partnerId], references: [id])
+  address Address @relation(fields: [addressId], references: [id])
+
+  @@map("partners_addresses")
 }
 
 model TypePartner {
@@ -181,4 +193,40 @@ model PaymentSale {
   datePayment String?
 
   @@map("payment_sale")
+}
+
+model State {
+  id Int @id @default(autoincrement())
+  name String
+  uf String
+
+  cities City[]
+  @@map("states")
+}
+
+model City {
+  id Int @id @default(autoincrement())
+  name String
+  stateId Int
+  
+  state State @relation(fields: [stateId], references: [id])
+  addresses Address[]
+
+  @@map("cities")
+}
+
+model Address {
+  id Int @id @default(autoincrement())
+  public_place String
+  complement String
+  number_address Int
+  cep String
+  sector String
+  cityId Int
+
+  city City @relation(fields: [cityId], references: [id])
+
+  @@map("addresses")
+
+  partnerAddresses PartnerAddress[]
 }

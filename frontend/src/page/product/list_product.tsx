@@ -98,7 +98,7 @@ export function ListProduct(){
                                     onConfirm={handleDelete} 
                                 />    
 
-                            <h1>Codigo {product?.id}</h1>
+                            <h1>Codigo <span className="text-zinc-900 text-3xl border border-white/10 p-2 bg-zinc-600 rounded-lg font-bold">{product?.id}</span></h1>
                                                 
                                 <div className="flex flex-wrap -mx-3 mb-6 p-10">
                                     <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
