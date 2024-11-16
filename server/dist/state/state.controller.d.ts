@@ -6,7 +6,11 @@ export declare class StateController {
     createState({ name, uf }: StateType): Promise<StateType | {
         message: string;
     }>;
-    findAll(): Promise<StateType[]>;
+    findAll(): Promise<{
+        id: number;
+        name: string;
+        uf: string;
+    }[]>;
     findById(id: number): Promise<StateType | {
         message: string;
     }>;

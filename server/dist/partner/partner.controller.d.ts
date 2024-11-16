@@ -5,9 +5,14 @@ export declare class PartnerController {
     constructor(partnerService: PartnerService);
     findAll(request: any): Promise<{
         partner: {
+            typePartner: {
+                id: number;
+                name: string;
+            };
             id: number;
             name: string;
             cpfOrCnpj: string;
+            fone: string;
             entries: {
                 id: number;
                 dateEntry: string;
@@ -32,6 +37,7 @@ export declare class PartnerController {
         total: number;
         totalPages: number;
     }>;
+    findAllPartners(): Promise<PartnerType[]>;
     findByPartner(id: number): Promise<PartnerType>;
     createPartner(partner: PartnerType): Promise<PartnerType>;
     editPartner(id: number, partner: PartnerType): Promise<PartnerType>;

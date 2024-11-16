@@ -20,10 +20,14 @@ let CityService = class CityService {
         return await this.prisma.city.create({ data: { name, stateId } });
     }
     async findAll() {
-        return await this.prisma.city.findMany();
+        return await this.prisma.city.findMany({
+            include: {
+                state: true
+            }
+        });
     }
     async findById(id) {
-        return await this.prisma.city.findFirst({ where: { id } });
+        return await this.prisma.city.findFirst({ where: { id }, include: { state: true } });
     }
     async editCity(id, { name, stateId }) {
         return await this.prisma.city.update({ where: { id }, data: { name, stateId } });

@@ -23,7 +23,7 @@ let StateService = class StateService {
             }
         });
     }
-    async findAll() {
+    async findAllState() {
         return await this.prisma.state.findMany();
     }
     async findById(id) {

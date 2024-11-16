@@ -15,7 +15,7 @@ export class StateService {
         })
     }
 
-    async findAll(): Promise<StateType[]>{
+    async findAllState(){
         return await this.prisma.state.findMany();
     }
 

@@ -28,6 +28,9 @@ let PartnerController = class PartnerController {
             console.log("Houve um erro na busca");
         }
     }
+    async findAllPartners() {
+        return await this.partnerService.findAllPartners();
+    }
     async findByPartner(id) {
         return await this.partnerService.findByPartner(Number(id));
     }
@@ -49,6 +52,12 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], PartnerController.prototype, "findAll", null);
+__decorate([
+    (0, common_1.Get)("/all"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], PartnerController.prototype, "findAllPartners", null);
 __decorate([
     (0, common_1.Get)("/:id"),
     __param(0, (0, common_1.Param)("id")),

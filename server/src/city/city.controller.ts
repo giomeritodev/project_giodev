@@ -18,19 +18,13 @@ export class CityController {
 
     @Get()
     async findAll(){
-        const result = await this.cityService.findAll();
-        if(!result || []){
-            return ({message: "Nenhum registro encontrado!"})
-        }
+        const result = await this.cityService.findAll();        
         return result;
     }
 
     @Get("/:id")
     async findBy(@Param("id") id: number){
-        const result = await this.cityService.findById(id);
-        if(!result){
-            return ({message: "Registr não encontrado!"})
-        }
+        const result = await this.cityService.findById(Number(id));        
         return result;
     }
 
@@ -45,10 +39,11 @@ export class CityController {
 
     @Delete("/:id")
     async deleteCity(@Param("id") id: number){
-        const result = await this.cityService.deleteCity(id);
-        if(!result){
-            return ({message: "Registro não encontrado!"})
+        try {
+            await this.cityService.deleteCity(Number(id));        
+            return ({message: "Deletado com sucesso!"});            
+        } catch (error) {
+            return ({message: "Erro ao deletar!"})
         }
-        return result;
     }
 }

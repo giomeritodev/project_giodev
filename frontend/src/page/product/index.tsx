@@ -102,12 +102,12 @@ export function Product(){
                                
                                 <TableHeaderTh>Código</TableHeaderTh>
                                 <TableHeaderTh>Descrição do Item</TableHeaderTh>
-                                <TableHeaderTh>Referência</TableHeaderTh>
+                                {/* <TableHeaderTh>Referência</TableHeaderTh>
                                 <TableHeaderTh>Unidade</TableHeaderTh>
-                                <TableHeaderTh>Categoria</TableHeaderTh>
+                                <TableHeaderTh>Categoria</TableHeaderTh> */}
                                 <TableHeaderTh>Valor Venda</TableHeaderTh>
                                 <TableHeaderTh>Estoque</TableHeaderTh>
-                                <TableHeaderTh>Valor Total</TableHeaderTh>
+                                {/* <TableHeaderTh>Valor Total</TableHeaderTh> */}
                                 <TableHeaderTh>Ações</TableHeaderTh>
                             </tr>
                         </thead>
@@ -118,16 +118,16 @@ export function Product(){
                                         
                                         <TableCellTd>{product.id}</TableCellTd>
                                         <TableCellTd>{product.name}</TableCellTd>
-                                        <TableCellTd>{product.reference}</TableCellTd>                                        
+                                        {/* <TableCellTd>{product.reference}</TableCellTd>                                        
                                         <TableCellTd>{product.unit?.sigla}</TableCellTd>                                        
-                                        <TableCellTd>{product.category?.name}</TableCellTd>                                        
+                                        <TableCellTd>{product.category?.name}</TableCellTd>                                         */}
                                         <TableCellTd>{product.price.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})}</TableCellTd>
                                         <TableCellTd>{product.amount}</TableCellTd>
-                                        <TableCellTd>
+                                        {/* <TableCellTd>
                                             {                                               
                                                (product.price * product.amount).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})
                                             }
-                                        </TableCellTd>
+                                        </TableCellTd> */}
                                         <TableCellTd key={product.id}>
                                                 <Menu as="div" className="relative inline-block text-left">
                                                     <div>

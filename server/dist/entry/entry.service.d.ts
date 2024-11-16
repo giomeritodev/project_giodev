@@ -42,6 +42,7 @@ export declare class EntryService {
             entryId: number;
             productId: number;
         }[];
+        partnerId: number;
         payments: {
             id: number;
             datePayment: string;
@@ -51,7 +52,6 @@ export declare class EntryService {
         }[];
         dateEntry: string;
         numberDocument: number;
-        partnerId: number;
         status: number;
     }>;
     createEntry({ dateEntry, numberDocument, partnerId, status }: {

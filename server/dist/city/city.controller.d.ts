@@ -6,16 +6,12 @@ export declare class CityController {
     createCity({ name, stateId }: CityType): Promise<CityType | {
         message: string;
     }>;
-    findAll(): Promise<CityType[] | {
-        message: string;
-    }>;
-    findBy(id: number): Promise<CityType | {
-        message: string;
-    }>;
+    findAll(): Promise<CityType[]>;
+    findBy(id: number): Promise<CityType>;
     updateCity(id: number, { name, stateId }: CityType): Promise<CityType | {
         message: string;
     }>;
-    deleteCity(id: number): Promise<CityType | {
+    deleteCity(id: number): Promise<{
         message: string;
     }>;
 }

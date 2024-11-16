@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PartnerType } from './PartnerType';
 import { PrismaService } from 'src/prisma/prisma.service';
+
 @Injectable()
 export class PartnerService {
     constructor(
@@ -17,8 +18,28 @@ export class PartnerService {
                 name: true,
                 cpfOrCnpj: true,
                 typePartnerId: true,
-                fone: true
-            }
+                typePartner: true,
+                fone: true,
+                addresses: {
+                    select: {
+                        id: true,
+                        public_place: true,
+                        complement: true,
+                        number_address: true,
+                        cep: true,
+                        city: {
+                            select: {
+                                id: true,
+                                name: true,
+                                state: true,
+                            }
+                        },
+                        cityId: true,
+                        partner: true,
+                        sector: true,                        
+                    }
+                },           
+            },
         })
     }
 
@@ -29,7 +50,8 @@ export class PartnerService {
                 name: true,
                 cpfOrCnpj: true,
                 typePartnerId: true,
-                fone: true
+                typePartner: true,
+                fone: true,
             }
         });
     }
@@ -53,7 +75,8 @@ export class PartnerService {
                     id: true,
                     name: true,
                     cpfOrCnpj: true,
-                    
+                    fone: true,
+                    typePartner: true,                    
                     entries: true,
                     sales: true,                                                                    
                 },
@@ -72,22 +95,29 @@ export class PartnerService {
 
     }
 
-    async createPartner({name, cpfOrCnpj, typePartnerId, fone}: PartnerType): Promise<PartnerType> {
-        return await this.prisma.partner.create({
+    async createPartner(
+        {name, cpfOrCnpj, typePartnerId, fone}: PartnerType, 
+    ): Promise<PartnerType> {        
+        const partner = await this.prisma.partner.create({
             data: {
                 name,
                 cpfOrCnpj,
                 typePartnerId,
-                fone
+                fone,                
             },
             select: {
                 id: true,
                 name: true,
                 cpfOrCnpj: true,
                 typePartnerId: true,
-                fone: true
+                typePartner: true,
+                fone: true,
+                addresses: true,    
             }
-        })
+        });
+
+        return partner;
+
     }
 
     async editPartner(id: number, {name, cpfOrCnpj, typePartnerId, fone}: PartnerType): Promise<PartnerType>{

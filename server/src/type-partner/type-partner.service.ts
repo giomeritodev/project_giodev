@@ -21,4 +21,8 @@ export class TypePartnerService {
             },
         })
     }
+
+    async findAllTypeParner(): Promise<TypePartnerType[]>{
+        return await this.prisma.typePartner.findMany();
+    }
 }

@@ -11,6 +11,8 @@ import { Unit } from "../../page/unit";
 import { NewUnit } from "../../page/unit/new_unit";
 import { Category } from "../../page/category";
 import { NewCategory } from "../../page/category/new_category";
+import { NewPartner } from "../../page/partner/new_partner";
+import { ListPartner } from "../../page/partner/list_partner";
 
 export function Router(){
     return (
@@ -23,6 +25,8 @@ export function Router(){
                     <Route path="/produtos/novo" element={<ProductNew />}/>
                     <Route path="/produtos/:id" element={<ListProduct />} />
                     <Route path="/parceiros" element={<Partner />} />
+                    <Route path="/parceiros/novo" element={<NewPartner />} />
+                    <Route path="/parceiros/:id" element={<ListPartner />} />
                     <Route path="/pedidos" element={<Order />}/>
                     <Route path="/unidades" element={<Unit />}/>
                     <Route path="/unidades/novo" element={<NewUnit />}/>

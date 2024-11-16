@@ -12,11 +12,15 @@ export class CityService {
     }
 
     async findAll(): Promise<CityType[]>{
-        return await this.prisma.city.findMany();
+        return await this.prisma.city.findMany({
+            include: {
+                state: true
+            }
+        });
     }
 
     async findById(id: number): Promise<CityType>{
-        return await this.prisma.city.findFirst({where: {id}})
+        return await this.prisma.city.findFirst({where: {id}, include: {state: true}})
     }
 
     async editCity(id: number, {name, stateId}: CityType): Promise<CityType>{

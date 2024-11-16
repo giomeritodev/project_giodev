@@ -43,6 +43,7 @@ export declare class EntryController {
             entryId: number;
             productId: number;
         }[];
+        partnerId: number;
         payments: {
             id: number;
             datePayment: string;
@@ -52,7 +53,6 @@ export declare class EntryController {
         }[];
         dateEntry: string;
         numberDocument: number;
-        partnerId: number;
         status: number;
     }>;
     findAllEntries(): Promise<EntryType[]>;

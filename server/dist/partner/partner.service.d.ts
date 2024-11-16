@@ -7,9 +7,14 @@ export declare class PartnerService {
     findAllPartners(): Promise<PartnerType[]>;
     findAll(page: number, search?: string): Promise<{
         partner: {
+            typePartner: {
+                id: number;
+                name: string;
+            };
             id: number;
             name: string;
             cpfOrCnpj: string;
+            fone: string;
             entries: {
                 id: number;
                 dateEntry: string;

@@ -4,7 +4,11 @@ export declare class StateService {
     private readonly prisma;
     constructor(prisma: PrismaService);
     createState({ name, uf }: StateType): Promise<StateType>;
-    findAll(): Promise<StateType[]>;
+    findAllState(): Promise<{
+        id: number;
+        name: string;
+        uf: string;
+    }[]>;
     findById(id: number): Promise<StateType>;
     editState(id: number, { name, uf }: StateType): Promise<StateType>;
     deleteState(id: number): Promise<StateType>;

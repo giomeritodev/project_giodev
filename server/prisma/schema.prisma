@@ -61,18 +61,7 @@ model Partner {
   
   entries Entry[]
   sales Sale[]
-  partnerAddresses PartnerAddress[]
-}
-
-model PartnerAddress {
-  id Int @id @default(autoincrement())
-  partnerId Int
-  addressId Int
-
-  partner Partner @relation(fields: [partnerId], references: [id])
-  address Address @relation(fields: [addressId], references: [id])
-
-  @@map("partners_addresses")
+  addresses Address[]
 }
 
 model TypePartner {
@@ -223,10 +212,10 @@ model Address {
   cep String
   sector String
   cityId Int
+  partnerId Int
 
   city City @relation(fields: [cityId], references: [id])
+  partner Partner @relation(fields: [partnerId], references: [id])
 
   @@map("addresses")
-
-  partnerAddresses PartnerAddress[]
 }

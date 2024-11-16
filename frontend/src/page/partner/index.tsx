@@ -39,8 +39,7 @@ export function Partner(){
     } = UsePartner();
 
     async function getData(){        
-        await api.get(`/partner?page=${page}&search=${search}`).then(response => {
-            console.log(response.data)
+        await api.get(`/partner?page=${page}&search=${search}`).then(response => {            
             setPartners(response.data.partner)
             setTotal(response.data.total)
             setTotalPage(response.data.totalPages)
@@ -48,23 +47,23 @@ export function Partner(){
     }
 
     useEffect(() => {
-        getData()
-    }, [page, partners, search])
+        getData();
+    }, [page, search])
 
     return (
         <div className="flex flex-col gap-8">
-            <div className="flex items-center justify-between">
-                <HeaderTable title="Produtos">                
+            <div className="border border-white/10 p-5 rounded flex items-center justify-between">
+                <HeaderTable title="Parceiros">                
                     <Search className="size-4 text-emerald-300"/>
                     <input
                         onChange={onSearchInputChange} 
                         value={search}                        
                         className="bg-transparent outline-none border-0 p-0 text-sm focus:ring-0" 
-                        placeholder="Buscar produto" 
+                        placeholder="Buscar parceiros" 
                     />
                 </HeaderTable>
                 <div>
-                    <Link to={"/produtos/novo"}>
+                    <Link to={"/parceiros/novo"}>
                         <Button>
                                 Novo Cadastro
                                 <Plus size={20} />
@@ -88,17 +87,17 @@ export function Partner(){
                             </tr>
                         </thead>
                         <tbody>
-                            {
-                                partners.map((partner) => (
+                            { 
+                                partners.map(part => (
                                     
-                                        <TableRow key={partner.id}>
+                                        <TableRow key={part.id}>
                                             
-                                            <TableCellTd>{partner.id}</TableCellTd>
-                                            <TableCellTd>{partner.name}</TableCellTd>
-                                            <TableCellTd>{partner.cpfOrCnpj}</TableCellTd>
-                                            <TableCellTd>{}</TableCellTd>
-                                            <TableCellTd>{partner.fone}</TableCellTd>                                            
-                                            <TableCellTd key={partner.id}>
+                                            <TableCellTd>{part.id}</TableCellTd>
+                                            <TableCellTd>{part.name}</TableCellTd>
+                                            <TableCellTd>{part.cpfOrCnpj}</TableCellTd>
+                                            <TableCellTd>{part.typePartner.name}</TableCellTd>
+                                            <TableCellTd>{part.fone}</TableCellTd>                                            
+                                            <TableCellTd key={part.id}>
                                                     <Menu as="div" className="relative inline-block text-left">
                                                         <div>
                                                             <MenuButton>
@@ -121,7 +120,7 @@ export function Partner(){
                                                                     {({ active }) => (
                                                                         <div
                                                                             className={classNames(active && "bg-zinc-700", "focus:bg-zinc-200 cursor-pointer rounded-sm px-4 py-2 block")}
-                                                                            onClick={() => navigate(`/produtos/${partner.id}`)}
+                                                                            onClick={() => navigate(`/parceiros/${part.id}`)}
                                                                         >
                                                                             Listar
                                                                         </div>                                            
@@ -132,7 +131,7 @@ export function Partner(){
                                                                     {({ active }) => (
                                                                         <div
                                                                             className={classNames(active && "bg-zinc-700", "focus:bg-zinc-200 cursor-pointer rounded-sm px-4 py-2 block")}
-                                                                            onClick={() => deletePartner(partner.id)}
+                                                                            onClick={() => deletePartner(part.id)}
                                                                         >
                                                                             Deletar
                                                                         </div>                                            

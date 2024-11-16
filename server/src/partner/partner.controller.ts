@@ -5,7 +5,7 @@ import { PartnerType } from './PartnerType';
 @Controller('partner')
 export class PartnerController {
     constructor(
-        private partnerService: PartnerService
+        private partnerService: PartnerService,       
     ){}
 
     @Get()
@@ -16,6 +16,11 @@ export class PartnerController {
         } catch (error) {
             console.log("Houve um erro na busca")
         }
+    }
+
+    @Get("/all")
+    async findAllPartners(){
+        return await this.partnerService.findAllPartners();
     }
 
     @Get("/:id")
@@ -31,8 +36,9 @@ export class PartnerController {
     @Post()
     async createPartner(@Body() partner: PartnerType){
         return await this.partnerService.createPartner(partner);
-    }
+    }   
 
+   
     @Put("edit/:id")
     async editPartner(
         @Param("id") id: number,

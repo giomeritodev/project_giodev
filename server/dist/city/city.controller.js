@@ -28,16 +28,10 @@ let CityController = class CityController {
     }
     async findAll() {
         const result = await this.cityService.findAll();
-        if (!result || []) {
-            return ({ message: "Nenhum registro encontrado!" });
-        }
         return result;
     }
     async findBy(id) {
-        const result = await this.cityService.findById(id);
-        if (!result) {
-            return ({ message: "Registr não encontrado!" });
-        }
+        const result = await this.cityService.findById(Number(id));
         return result;
     }
     async updateCity(id, { name, stateId }) {
@@ -48,11 +42,13 @@ let CityController = class CityController {
         return result;
     }
     async deleteCity(id) {
-        const result = await this.cityService.deleteCity(id);
-        if (!result) {
-            return ({ message: "Registro não encontrado!" });
+        try {
+            await this.cityService.deleteCity(Number(id));
+            return ({ message: "Deletado com sucesso!" });
         }
-        return result;
+        catch (error) {
+            return ({ message: "Erro ao deletar!" });
+        }
     }
 };
 exports.CityController = CityController;

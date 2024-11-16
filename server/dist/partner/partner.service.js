@@ -26,8 +26,28 @@ let PartnerService = class PartnerService {
                 name: true,
                 cpfOrCnpj: true,
                 typePartnerId: true,
-                fone: true
-            }
+                typePartner: true,
+                fone: true,
+                addresses: {
+                    select: {
+                        id: true,
+                        public_place: true,
+                        complement: true,
+                        number_address: true,
+                        cep: true,
+                        city: {
+                            select: {
+                                id: true,
+                                name: true,
+                                state: true,
+                            }
+                        },
+                        cityId: true,
+                        partner: true,
+                        sector: true,
+                    }
+                },
+            },
         });
     }
     async findAllPartners() {
@@ -37,7 +57,8 @@ let PartnerService = class PartnerService {
                 name: true,
                 cpfOrCnpj: true,
                 typePartnerId: true,
-                fone: true
+                typePartner: true,
+                fone: true,
             }
         });
     }
@@ -58,6 +79,8 @@ let PartnerService = class PartnerService {
                     id: true,
                     name: true,
                     cpfOrCnpj: true,
+                    fone: true,
+                    typePartner: true,
                     entries: true,
                     sales: true,
                 },
@@ -74,21 +97,24 @@ let PartnerService = class PartnerService {
         };
     }
     async createPartner({ name, cpfOrCnpj, typePartnerId, fone }) {
-        return await this.prisma.partner.create({
+        const partner = await this.prisma.partner.create({
             data: {
                 name,
                 cpfOrCnpj,
                 typePartnerId,
-                fone
+                fone,
             },
             select: {
                 id: true,
                 name: true,
                 cpfOrCnpj: true,
                 typePartnerId: true,
-                fone: true
+                typePartner: true,
+                fone: true,
+                addresses: true,
             }
         });
+        return partner;
     }
     async editPartner(id, { name, cpfOrCnpj, typePartnerId, fone }) {
         const part = this.findByPartner(id);

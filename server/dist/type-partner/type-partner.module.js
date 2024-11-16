@@ -10,12 +10,13 @@ exports.TypePartnerModule = void 0;
 const common_1 = require("@nestjs/common");
 const type_partner_service_1 = require("./type-partner.service");
 const type_partner_controller_1 = require("./type-partner.controller");
+const prisma_service_1 = require("../prisma/prisma.service");
 let TypePartnerModule = class TypePartnerModule {
 };
 exports.TypePartnerModule = TypePartnerModule;
 exports.TypePartnerModule = TypePartnerModule = __decorate([
     (0, common_1.Module)({
-        providers: [type_partner_service_1.TypePartnerService],
+        providers: [type_partner_service_1.TypePartnerService, prisma_service_1.PrismaService],
         controllers: [type_partner_controller_1.TypePartnerController]
     })
 ], TypePartnerModule);

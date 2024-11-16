@@ -24,12 +24,14 @@ const entry_module_1 = require("./entry/entry.module");
 const sale_module_1 = require("./sale/sale.module");
 const state_module_1 = require("./state/state.module");
 const city_module_1 = require("./city/city.module");
+const address_module_1 = require("./address/address.module");
+const type_partner_module_1 = require("./type-partner/type-partner.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [category_module_1.CategoryModule, product_module_1.ProductModule, unit_module_1.UnitModule, partner_module_1.PartnerModule, form_of_payment_module_1.FormOfPaymentModule, entry_module_1.EntryModule, sale_module_1.SaleModule, state_module_1.StateModule, city_module_1.CityModule],
+        imports: [category_module_1.CategoryModule, product_module_1.ProductModule, unit_module_1.UnitModule, partner_module_1.PartnerModule, form_of_payment_module_1.FormOfPaymentModule, type_partner_module_1.TypePartnerModule, entry_module_1.EntryModule, sale_module_1.SaleModule, state_module_1.StateModule, city_module_1.CityModule, address_module_1.AddressModule],
         controllers: [app_controller_1.AppController, unit_controller_1.UnitController, partner_controller_1.PartnerController],
         providers: [app_service_1.AppService, prisma_service_1.PrismaService, unit_service_1.UnitService, partner_service_1.PartnerService],
     })

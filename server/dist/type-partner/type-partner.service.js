@@ -28,6 +28,9 @@ let TypePartnerService = class TypePartnerService {
             },
         });
     }
+    async findAllTypeParner() {
+        return await this.prisma.typePartner.findMany();
+    }
 };
 exports.TypePartnerService = TypePartnerService;
 exports.TypePartnerService = TypePartnerService = __decorate([

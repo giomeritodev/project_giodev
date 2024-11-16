@@ -13,12 +13,13 @@ import { PartnerService } from './partner/partner.service';
 import { FormOfPaymentModule } from './form-of-payment/form-of-payment.module';
 import { EntryModule } from './entry/entry.module';
 import { SaleModule } from './sale/sale.module';
-import { TypePartnerModule } from './type-partner/type-partner.module';
 import { StateModule } from './state/state.module';
 import { CityModule } from './city/city.module';
+import { AddressModule } from './address/address.module';
+import { TypePartnerModule } from './type-partner/type-partner.module';
 
 @Module({
-  imports: [CategoryModule, ProductModule, UnitModule, PartnerModule, FormOfPaymentModule, EntryModule, SaleModule, StateModule, CityModule],
+  imports: [CategoryModule, ProductModule, UnitModule, PartnerModule, FormOfPaymentModule, TypePartnerModule, EntryModule, SaleModule, StateModule, CityModule, AddressModule],
   controllers: [AppController, UnitController, PartnerController],
   providers: [AppService, PrismaService, UnitService, PartnerService],
 })

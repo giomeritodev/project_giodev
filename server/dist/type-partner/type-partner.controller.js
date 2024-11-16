@@ -19,8 +19,21 @@ let TypePartnerController = class TypePartnerController {
     constructor(typePartnerService) {
         this.typePartnerService = typePartnerService;
     }
-    async createTypePartner(name) {
-        return await this.typePartnerService.createTypePartner({ name });
+    async createTypePartner({ name }) {
+        try {
+            return await this.typePartnerService.createTypePartner({ name });
+        }
+        catch (error) {
+            return ({ message: "Ops, houve um erro ao cadastrar!" });
+        }
+    }
+    async findAll() {
+        try {
+            return await this.typePartnerService.findAllTypeParner();
+        }
+        catch (error) {
+            return ({ message: "Houve um erro ao consultar todos!" });
+        }
     }
 };
 exports.TypePartnerController = TypePartnerController;
@@ -28,9 +41,15 @@ __decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], TypePartnerController.prototype, "createTypePartner", null);
+__decorate([
+    (0, common_1.Get)(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], TypePartnerController.prototype, "findAll", null);
 exports.TypePartnerController = TypePartnerController = __decorate([
     (0, common_1.Controller)('type-partner'),
     __metadata("design:paramtypes", [type_partner_service_1.TypePartnerService])

@@ -27,7 +27,13 @@ let StateController = class StateController {
         return result;
     }
     async findAll() {
-        return await this.stateService.findAll();
+        try {
+            const result = await this.stateService.findAllState();
+            return result;
+        }
+        catch (error) {
+            throw new error("Error ao buscar todos os estados brasileiros!");
+        }
     }
     async findById(id) {
         const result = await this.stateService.findById(Number(id));

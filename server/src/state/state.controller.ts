@@ -6,7 +6,8 @@ import { StateType } from './StateType';
 export class StateController {
 
     constructor(private readonly stateService: StateService){}
-
+    
+    
     @Post()
     async createState(@Body() {name, uf}: StateType){
         const result = await this.stateService.createState({name, uf});
@@ -15,14 +16,16 @@ export class StateController {
         }
         return result;
     }
-
+    
     @Get()
     async findAll(){
-        return await this.stateService.findAll();
-        // if(!result || []){
-        //     return ({message: "Nenhum item encontrado!"})
-        // }
-        // return result;
+        try {
+            const result = await this.stateService.findAllState();
+            return result;            
+        } catch (error) {
+            throw new error("Error ao buscar todos os estados brasileiros!")
+        }
+        
     }
 
     @Get("/:id")

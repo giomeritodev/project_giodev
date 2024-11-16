@@ -4,4 +4,5 @@ export declare class TypePartnerService {
     private readonly prisma;
     constructor(prisma: PrismaService);
     createTypePartner({ name }: TypePartnerType): Promise<TypePartnerType>;
+    findAllTypeParner(): Promise<TypePartnerType[]>;
 }
