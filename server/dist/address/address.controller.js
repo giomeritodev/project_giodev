@@ -34,6 +34,16 @@ let AddressController = class AddressController {
     async findBy(id) {
         return await this.addressService.findBy(Number(id));
     }
+    async findAllAddressByPartner(partnerId) {
+        try {
+            return await this.addressService.findAllAddressByPartner(partnerId);
+        }
+        catch (error) {
+            return ({
+                message: "Ops, houve um erro ao buscar os dados!"
+            });
+        }
+    }
 };
 exports.AddressController = AddressController;
 __decorate([
@@ -50,6 +60,13 @@ __decorate([
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
 ], AddressController.prototype, "findBy", null);
+__decorate([
+    (0, common_1.Get)("/partner/:partnerId"),
+    __param(0, (0, common_1.Param)("partnerId")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", Promise)
+], AddressController.prototype, "findAllAddressByPartner", null);
 exports.AddressController = AddressController = __decorate([
     (0, common_1.Controller)('address'),
     __metadata("design:paramtypes", [address_service_1.AddressService])

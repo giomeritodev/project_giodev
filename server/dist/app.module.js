@@ -26,14 +26,17 @@ const state_module_1 = require("./state/state.module");
 const city_module_1 = require("./city/city.module");
 const address_module_1 = require("./address/address.module");
 const type_partner_module_1 = require("./type-partner/type-partner.module");
+const contact_controller_1 = require("./contact/contact.controller");
+const contact_module_1 = require("./contact/contact.module");
+const contact_service_1 = require("./contact/contact.service");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [category_module_1.CategoryModule, product_module_1.ProductModule, unit_module_1.UnitModule, partner_module_1.PartnerModule, form_of_payment_module_1.FormOfPaymentModule, type_partner_module_1.TypePartnerModule, entry_module_1.EntryModule, sale_module_1.SaleModule, state_module_1.StateModule, city_module_1.CityModule, address_module_1.AddressModule],
-        controllers: [app_controller_1.AppController, unit_controller_1.UnitController, partner_controller_1.PartnerController],
-        providers: [app_service_1.AppService, prisma_service_1.PrismaService, unit_service_1.UnitService, partner_service_1.PartnerService],
+        imports: [category_module_1.CategoryModule, product_module_1.ProductModule, unit_module_1.UnitModule, partner_module_1.PartnerModule, form_of_payment_module_1.FormOfPaymentModule, type_partner_module_1.TypePartnerModule, entry_module_1.EntryModule, sale_module_1.SaleModule, state_module_1.StateModule, city_module_1.CityModule, address_module_1.AddressModule, contact_module_1.ContactModule],
+        controllers: [app_controller_1.AppController, unit_controller_1.UnitController, partner_controller_1.PartnerController, contact_controller_1.ContactController],
+        providers: [app_service_1.AppService, prisma_service_1.PrismaService, unit_service_1.UnitService, partner_service_1.PartnerService, contact_service_1.ContactService],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map

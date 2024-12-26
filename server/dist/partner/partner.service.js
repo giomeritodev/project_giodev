@@ -27,7 +27,6 @@ let PartnerService = class PartnerService {
                 cpfOrCnpj: true,
                 typePartnerId: true,
                 typePartner: true,
-                fone: true,
                 addresses: {
                     select: {
                         id: true,
@@ -58,7 +57,6 @@ let PartnerService = class PartnerService {
                 cpfOrCnpj: true,
                 typePartnerId: true,
                 typePartner: true,
-                fone: true,
             }
         });
     }
@@ -79,8 +77,8 @@ let PartnerService = class PartnerService {
                     id: true,
                     name: true,
                     cpfOrCnpj: true,
-                    fone: true,
                     typePartner: true,
+                    contacts: true,
                     entries: true,
                     sales: true,
                 },
@@ -96,13 +94,12 @@ let PartnerService = class PartnerService {
             totalPages
         };
     }
-    async createPartner({ name, cpfOrCnpj, typePartnerId, fone }) {
+    async createPartner({ name, cpfOrCnpj, typePartnerId }) {
         const partner = await this.prisma.partner.create({
             data: {
                 name,
                 cpfOrCnpj,
                 typePartnerId,
-                fone,
             },
             select: {
                 id: true,
@@ -110,13 +107,11 @@ let PartnerService = class PartnerService {
                 cpfOrCnpj: true,
                 typePartnerId: true,
                 typePartner: true,
-                fone: true,
-                addresses: true,
             }
         });
         return partner;
     }
-    async editPartner(id, { name, cpfOrCnpj, typePartnerId, fone }) {
+    async editPartner(id, { name, cpfOrCnpj, typePartnerId }) {
         const part = this.findByPartner(id);
         if (!part) {
             console.log("Parceiro não existe");
@@ -130,7 +125,6 @@ let PartnerService = class PartnerService {
                 name,
                 cpfOrCnpj,
                 typePartnerId,
-                fone
             }
         });
     }

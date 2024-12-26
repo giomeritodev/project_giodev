@@ -26,4 +26,15 @@ export class AddressController {
     async findBy(@Param("id") id: number){
         return await this.addressService.findBy(Number(id));
     }
+
+    @Get("/partner/:partnerId")
+    async findAllAddressByPartner(@Param("partnerId") partnerId: number){
+        try {
+            return await this.addressService.findAllAddressByPartner(partnerId);
+        } catch (error) {
+            return ({
+                message: "Ops, houve um erro ao buscar os dados!"
+            })
+        }
+    }
 }

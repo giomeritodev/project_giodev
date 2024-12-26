@@ -17,10 +17,13 @@ import { StateModule } from './state/state.module';
 import { CityModule } from './city/city.module';
 import { AddressModule } from './address/address.module';
 import { TypePartnerModule } from './type-partner/type-partner.module';
+import { ContactController } from './contact/contact.controller';
+import { ContactModule } from './contact/contact.module';
+import { ContactService } from './contact/contact.service';
 
 @Module({
-  imports: [CategoryModule, ProductModule, UnitModule, PartnerModule, FormOfPaymentModule, TypePartnerModule, EntryModule, SaleModule, StateModule, CityModule, AddressModule],
-  controllers: [AppController, UnitController, PartnerController],
-  providers: [AppService, PrismaService, UnitService, PartnerService],
+  imports: [CategoryModule, ProductModule, UnitModule, PartnerModule, FormOfPaymentModule, TypePartnerModule, EntryModule, SaleModule, StateModule, CityModule, AddressModule, ContactModule],
+  controllers: [AppController, UnitController, PartnerController, ContactController],
+  providers: [AppService, PrismaService, UnitService, PartnerService, ContactService],
 })
 export class AppModule {}

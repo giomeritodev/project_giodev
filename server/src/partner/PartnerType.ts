@@ -3,5 +3,4 @@ export interface PartnerType {
     name: string;
     cpfOrCnpj: string;
     typePartnerId: number;
-    fone: string;
 }

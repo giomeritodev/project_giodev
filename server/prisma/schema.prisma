@@ -52,8 +52,7 @@ model Partner {
   id Int @id @default(autoincrement())
   name String
   cpfOrCnpj String
-  typePartnerId Int
-  fone String  
+  typePartnerId Int    
   
   typePartner TypePartner @relation(fields: [typePartnerId], references: [id])
 
@@ -62,6 +61,7 @@ model Partner {
   entries Entry[]
   sales Sale[]
   addresses Address[]
+  contacts Contact[]
 }
 
 model TypePartner {
@@ -218,4 +218,18 @@ model Address {
   partner Partner @relation(fields: [partnerId], references: [id])
 
   @@map("addresses")
+}
+
+model Contact{
+  id Int @id @default(autoincrement())
+
+  fone String
+  email String
+  name String?
+  position String?
+  
+  partnerId Int
+  partner Partner @relation(fields: [partnerId], references: [id])
+
+  @@map("contacts")
 }

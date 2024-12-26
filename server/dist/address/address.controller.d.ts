@@ -9,7 +9,6 @@ export declare class AddressController {
             name: string;
             cpfOrCnpj: string;
             typePartnerId: number;
-            fone: string;
         };
         city: {
             state: {
@@ -34,7 +33,6 @@ export declare class AddressController {
             name: string;
             cpfOrCnpj: string;
             typePartnerId: number;
-            fone: string;
         };
         city: {
             state: {
@@ -50,5 +48,8 @@ export declare class AddressController {
         cep: string;
         sector: string;
         cityId: number;
+    }>;
+    findAllAddressByPartner(partnerId: number): Promise<AddressType[] | {
+        message: string;
     }>;
 }

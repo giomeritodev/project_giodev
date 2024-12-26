@@ -14,7 +14,6 @@ export declare class PartnerService {
             id: number;
             name: string;
             cpfOrCnpj: string;
-            fone: string;
             entries: {
                 id: number;
                 dateEntry: string;
@@ -35,11 +34,19 @@ export declare class PartnerService {
                 updatedAt: Date;
                 statusPayment: number;
             }[];
+            contacts: {
+                id: number;
+                fone: string;
+                email: string;
+                name: string | null;
+                position: string | null;
+                partnerId: number;
+            }[];
         }[];
         total: number;
         totalPages: number;
     }>;
-    createPartner({ name, cpfOrCnpj, typePartnerId, fone }: PartnerType): Promise<PartnerType>;
-    editPartner(id: number, { name, cpfOrCnpj, typePartnerId, fone }: PartnerType): Promise<PartnerType>;
+    createPartner({ name, cpfOrCnpj, typePartnerId }: PartnerType): Promise<PartnerType>;
+    editPartner(id: number, { name, cpfOrCnpj, typePartnerId }: PartnerType): Promise<PartnerType>;
     deletePartner(id: number): Promise<PartnerType>;
 }

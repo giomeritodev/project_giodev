@@ -4,22 +4,25 @@ import { useEffect, useState } from "react";
 import { LabelVisao } from "../../components/ui/label";
 import { InputVisao } from "../../components/ui/input";
 import { Button } from "../../components/ui/button/button";
-import { HiOutlineReply } from "react-icons/hi";
+import { HiOutlinePencil, HiOutlinePlus, HiOutlineReply, HiOutlineTrash } from "react-icons/hi";
+import { Table } from "../../components/table/table";
+import { TableHeaderTh } from "../../components/table/table-header";
+import { TableRow } from "../../components/table/table-row";
+import { TableCellTd } from "../../components/table/table-cell-td";
+import { AddressModal } from "./modal/address.modal";
 
 
 export function ListPartner(){
     const {
         partner,
         findByPartner,
-        address,
+        addresses,
     } = UsePartner();
 
     const query = useParams();
     const [name, setName] = useState(partner?.name)
     const [cpfOrCnpj, setCpfOrCnpj] = useState(partner?.cpfOrCnpj)
-    const [fone, setFone] = useState(partner?.fone)
     const [typePartnerId, setTypePartnerId] = useState(partner?.typeParnerId)
-   
 
     useEffect(() => {
         findByPartner(Number(query.id));
@@ -73,14 +76,7 @@ export function ListPartner(){
                                         />                              
                                     </div>
 
-                                    <div className="w-1/2">
-                                        <LabelVisao>Telefone</LabelVisao>
-                                        <InputVisao
-                                            defaultValue={partner.fone} 
-                                            value={fone}
-                                            onChange={(e) => setFone(e.target.value)}
-                                        />                              
-                                    </div>
+                                    
                                     <div className="w-full">
                                         <LabelVisao>Tipo do parceiro</LabelVisao>
                                         <InputVisao
@@ -89,9 +85,7 @@ export function ListPartner(){
                                             onChange={(e) => setTypePartnerId(Number(e.target.value))}
                                         />                                             
                                     </div>
-                                </div>
-
-                                
+                                </div>                                
                                 
                             </div>
                         ) : (
@@ -103,61 +97,68 @@ export function ListPartner(){
                 </form>
             </div>    
 
-            <div className="border border-white/10 p-5 mt-2">
-                <span>Endereços</span>
+            <div className="border border-white/10 p-5 mt-2 rounded-lg">
+                <div className="flex justify-between p-3">
+                    <div>
+                        <span>Endereços</span>
+                    </div>
+                    <div>
+                        <Button variant="primary">
+                            Novo endereço
+                            <HiOutlinePlus size={20} />
+                        </Button>
+                    </div>
+                </div>
 
-                <div>
-                    {
-                        address.map(add => (
-                            <div className="border border-white/10 p-2">
-                                <div className="flex flex-row gap-4">
-                                   
-                                    <div className="w-1/2">
-                                        <LabelVisao>Rua</LabelVisao>
-                                        <InputVisao                                             
-                                            value={add.public_place}
-                                        />                              
-                                    </div>
-                                    <div className="w-full">
-                                        <LabelVisao>Bairro</LabelVisao>
-                                        <InputVisao
-                                            value={add.sector}
-                                        />                                             
-                                    </div>
-                                </div>
-                                <div className="flex flex-row gap-4">
-                                   
-                                    <div className="w-1/2">
-                                        <LabelVisao>Número</LabelVisao>
-                                        <InputVisao                                             
-                                            value={add.number_address}
-                                        />                              
-                                    </div>
-                                    <div className="w-full">
-                                        <LabelVisao>Complemento</LabelVisao>
-                                        <InputVisao
-                                            value={add.complement}
-                                        />                                             
-                                    </div>
-                                </div>                          
-                                <div className="flex flex-row gap-4">
-                                   
-                                    <div className="w-1/2">
-                                        <LabelVisao>Cep</LabelVisao>
-                                        <InputVisao                                             
-                                            value={add.cep}
-                                        />                              
-                                    </div>
-                                    <div className="w-full">
-                                        <LabelVisao>Cidade / UF</LabelVisao>
-                                        <InputVisao
-                                            value={`${add.city.name} - ${add.city.state.uf}`}
-                                        />                                             
-                                    </div>
-                                </div>      
-                            </div>
-                        ))
-                    }
+                <div>                  
+
+                    <div className="border border-white/10 p-2 rounded-lg">
+                        { addresses?.length === 0 || null ? (<div>Nenhum endereço cadastrado!</div>) : (
+                            <Table>
+                                <thead>
+                                    <tr>
+                                        <TableHeaderTh>#</TableHeaderTh>
+                                        <TableHeaderTh>Rua / Número</TableHeaderTh>
+                                        <TableHeaderTh>Complemento / Bairro</TableHeaderTh>
+                                        <TableHeaderTh>Cep / Cidade / UF</TableHeaderTh>                                        
+                                        <TableHeaderTh>Ações</TableHeaderTh>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {
+                                    addresses?.map((add, index) => (
+                                        <TableRow key={index}>
+                                            <TableCellTd>{index + 1}</TableCellTd>
+                                            <TableCellTd>
+                                                <span className="text-xl">{add.public_place}</span>
+                                                <span className="flex flex-wrap text-sm">{add.number_address}</span>
+                                            </TableCellTd>
+                                            <TableCellTd>
+                                                <span className="text-xl">{add.complement}</span>
+                                                <span className="flex flex-wrap text-sm">{add.sector}</span>
+                                            </TableCellTd>
+                                            <TableCellTd>
+                                                <span className="text-xl">{add.cep}</span>
+                                                <span className="flex flex-wrap text-sm">{add.city.name} - {add.city.state.uf}</span>
+                                            </TableCellTd>
+                                            <TableCellTd className="flex flex-wrap gap-4">
+                                                <div className="cursor-pointer">
+                                                    <HiOutlinePencil size={20} />
+                                                </div>
+                                                <div className="cursor-pointer">
+                                                    <HiOutlineTrash size={20} color="red"/>
+                                                </div>
+                                            </TableCellTd>
+                                        </TableRow>
+                                    ))
+                                }
+                                </tbody>
+                            </Table>      
+                        )}
+                    </div>
+                          
+                        
+
                 </div>    
 
             </div>

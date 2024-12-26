@@ -71,6 +71,34 @@ let AddressService = class AddressService {
             }
         });
     }
+    async findAllAddressByPartner(partnerId) {
+        return await this.prisma.address.findMany({
+            where: {
+                partnerId
+            },
+            select: {
+                id: true,
+                public_place: true,
+                complement: true,
+                number_address: true,
+                cep: true,
+                sector: true,
+                cityId: true,
+                partnerId: true,
+                city: {
+                    select: {
+                        name: true,
+                        state: {
+                            select: {
+                                name: true,
+                                uf: true,
+                            }
+                        },
+                    }
+                },
+            }
+        });
+    }
 };
 exports.AddressService = AddressService;
 exports.AddressService = AddressService = __decorate([

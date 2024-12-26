@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { TypePartner } from "../interface/TypePartner";
 import { CityType } from "../interface/CityType";
 import { PartnerType } from "../interface/Partner";
-import { AddressType } from "../interface/Address";
+import { AddressType } from "../interface/AddressType";
 
 
 export function UsePartner(){
@@ -16,7 +16,7 @@ export function UsePartner(){
     const [cpfOrCnpj, setCpfOrCnpj] = useState("");
     const [typePartnerId, setTypePartnerId] = useState<number>();
     const [fone, setFone] = useState("");
-    const [addressId, setAddressId] = useState<number>();
+    const [addresses, setAddresses] = useState<AddressType[]>();
     const [public_place, setPublicPlace] = useState("");
     const [complement, setComplement] = useState("");
     const [number_address, setNumberAddress] = useState<number>();
@@ -25,9 +25,6 @@ export function UsePartner(){
     const [cityId, setCityId] = useState<number>();
     const [description, setDescription] = useState("");
     const [partner, setPartner] = useState<PartnerType>();
-
-    const [address, setAddress] = useState<AddressType[]>([])
-
     const [typePartners, setTypePartners] = useState<TypePartner[]>([])
     const [cities, setCities] = useState<CityType[]>([])
 
@@ -53,13 +50,25 @@ export function UsePartner(){
             api.post("/address", {public_place, complement, number_address, cep, sector, cityId, partnerId});
             //navigate("/parceiros") 
                        
-            console.log(partnerId, addressId, address)
+            //console.log(partnerId, addressId, address)
 
             
         } catch (error) {
             toast.error("Ops, houve um erro no cadastro!")
         }
     }
+
+    // async function findAllAddressByPartner(partnerId: number){
+    //     try {
+    //         return await api.get(`/address/partner/${partnerId}`).then(response => {
+    //             setAddressess(response.data)
+    //         })
+    //     } catch (error) {
+    //         return ({
+    //             message: "Ops, houve um erro ao buscar os dados!"
+    //         })
+    //     }
+    // }
 
     async function findAllTypePartner(){
         try {
@@ -85,7 +94,7 @@ export function UsePartner(){
         try {
             await api.get(`/partner/${id}`).then(response => {
                 setPartner(response.data);
-                setAddress(response.data.addresses)
+                setAddresses(response.data.addresses)
             })
         } catch (error) {
             toast.error("Houve um erro, parceiro não encontrato.")
@@ -127,6 +136,6 @@ export function UsePartner(){
         cities,
         partner,
         findByPartner,
-        address,
+        addresses,
     }
 }

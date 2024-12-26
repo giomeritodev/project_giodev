@@ -96,7 +96,7 @@ export function Partner(){
                                             <TableCellTd>{part.name}</TableCellTd>
                                             <TableCellTd>{part.cpfOrCnpj}</TableCellTd>
                                             <TableCellTd>{part.typePartner.name}</TableCellTd>
-                                            <TableCellTd>{part.fone}</TableCellTd>                                            
+                                            <TableCellTd>{part.contacts.fone}</TableCellTd>                                            
                                             <TableCellTd key={part.id}>
                                                     <Menu as="div" className="relative inline-block text-left">
                                                         <div>

@@ -9,7 +9,6 @@ export declare class AddressService {
             name: string;
             cpfOrCnpj: string;
             typePartnerId: number;
-            fone: string;
         };
         city: {
             state: {
@@ -32,7 +31,6 @@ export declare class AddressService {
             name: string;
             cpfOrCnpj: string;
             typePartnerId: number;
-            fone: string;
         };
         city: {
             state: {
@@ -49,4 +47,5 @@ export declare class AddressService {
         sector: string;
         cityId: number;
     }>;
+    findAllAddressByPartner(partnerId: number): Promise<AddressType[]>;
 }

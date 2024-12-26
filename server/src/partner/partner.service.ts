@@ -19,7 +19,6 @@ export class PartnerService {
                 cpfOrCnpj: true,
                 typePartnerId: true,
                 typePartner: true,
-                fone: true,
                 addresses: {
                     select: {
                         id: true,
@@ -51,7 +50,6 @@ export class PartnerService {
                 cpfOrCnpj: true,
                 typePartnerId: true,
                 typePartner: true,
-                fone: true,
             }
         });
     }
@@ -75,8 +73,8 @@ export class PartnerService {
                     id: true,
                     name: true,
                     cpfOrCnpj: true,
-                    fone: true,
-                    typePartner: true,                    
+                    typePartner: true,
+                    contacts: true,                    
                     entries: true,
                     sales: true,                                                                    
                 },
@@ -96,23 +94,20 @@ export class PartnerService {
     }
 
     async createPartner(
-        {name, cpfOrCnpj, typePartnerId, fone}: PartnerType, 
+        {name, cpfOrCnpj, typePartnerId}: PartnerType, 
     ): Promise<PartnerType> {        
         const partner = await this.prisma.partner.create({
             data: {
                 name,
                 cpfOrCnpj,
-                typePartnerId,
-                fone,                
+                typePartnerId,         
             },
             select: {
                 id: true,
                 name: true,
                 cpfOrCnpj: true,
                 typePartnerId: true,
-                typePartner: true,
-                fone: true,
-                addresses: true,    
+                typePartner: true,  
             }
         });
 
@@ -120,7 +115,7 @@ export class PartnerService {
 
     }
 
-    async editPartner(id: number, {name, cpfOrCnpj, typePartnerId, fone}: PartnerType): Promise<PartnerType>{
+    async editPartner(id: number, {name, cpfOrCnpj, typePartnerId}: PartnerType): Promise<PartnerType>{
         const part = this.findByPartner(id);
         if(!part){
             console.log("Parceiro não existe");
@@ -134,7 +129,6 @@ export class PartnerService {
                 name,
                 cpfOrCnpj,
                 typePartnerId,
-                fone
             }
         })
     }

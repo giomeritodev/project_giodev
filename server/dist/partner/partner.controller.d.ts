@@ -12,7 +12,6 @@ export declare class PartnerController {
             id: number;
             name: string;
             cpfOrCnpj: string;
-            fone: string;
             entries: {
                 id: number;
                 dateEntry: string;
@@ -32,6 +31,14 @@ export declare class PartnerController {
                 createdAt: Date;
                 updatedAt: Date;
                 statusPayment: number;
+            }[];
+            contacts: {
+                id: number;
+                fone: string;
+                email: string;
+                name: string | null;
+                position: string | null;
+                partnerId: number;
             }[];
         }[];
         total: number;

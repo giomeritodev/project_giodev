@@ -14,14 +14,13 @@ export declare class EntryController {
             name: string;
             cpfOrCnpj: string;
             typePartnerId: number;
-            fone: string;
         };
         id: number;
         itensEntry: {
             product: {
                 id: number;
-                barCode: string;
-                reference: string;
+                barCode: string | null;
+                reference: string | null;
                 name: string;
                 costPrice: number;
                 price: number;
