@@ -31,19 +31,19 @@ model Unit {
 
 model Product {
   id Int @id @default(autoincrement())
-  barCode String? @unique
+  barCode String @unique
   reference String?
   name String
   costPrice Float
   price Float
   amount Int @default(0)
   unitId Int  
-  unit Unit @relation(fields: [unitId], references: [id])
   categoryId Int
-  category Category @relation(fields: [categoryId], references: [id])
  
-  @@map("products")
+  unit Unit @relation(fields: [unitId], references: [id])
+  category Category @relation(fields: [categoryId], references: [id])
 
+  @@map("products")
   itensEntry ItemEntry[]
   itensSale ItemSale[]
 }
