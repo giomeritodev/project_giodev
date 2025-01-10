@@ -228,6 +228,14 @@ export const data = {
         {
           title: "Unidade de medida",
           url: "/unidades",
+        },
+        {
+          title: "Formas de pagamento",
+          url: "/formasDePagamento",
+        },
+        {
+          title: "Tipo de parceiro",
+          url: "/tipoDeParceiro",
         },        
       ],
     },

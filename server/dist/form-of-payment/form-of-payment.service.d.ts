@@ -5,4 +5,5 @@ export declare class FormOfPaymentService {
     constructor(prisma: PrismaService);
     findAllFormsOfPayments(): Promise<FormOfPaymentType[]>;
     createFormOfPayment({ name }: FormOfPaymentType): Promise<FormOfPaymentType>;
+    deleteFormOfPayment(id: number): Promise<FormOfPaymentType>;
 }

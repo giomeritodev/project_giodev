@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { TypePartnerService } from './type-partner.service';
 import { TypePartnerType } from './TypePartnerType';
 
@@ -20,9 +20,18 @@ export class TypePartnerController {
     @Get()
     async findAll(){
         try {
-            return await this.typePartnerService.findAllTypeParner();
+            return await this.typePartnerService.findAllTypePartner();
         } catch (error) {
             return ({message: "Houve um erro ao consultar todos!"})
+        }
+    }
+
+    @Delete("/:id")
+    async deleteTypePartner(@Param("id") id: number){
+        try {
+            return await this.typePartnerService.deleteTypePartner(Number(id));
+        } catch (error) {
+            return ({message: "Houve um erro ao deletar o tipo de pagamento!"})
         }
     }
 }

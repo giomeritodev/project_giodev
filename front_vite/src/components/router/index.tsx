@@ -6,6 +6,8 @@ import { NewProduct } from "../../pages/products/newProduct";
 import { DetailsProduct } from "@/pages/products/detailsProduct";
 import { Categories } from "@/pages/categories";
 import { Unities } from "@/pages/unities";
+import { FormOfPayment } from "@/pages/formOfPayment";
+import { TypePartner } from "@/pages/typePartner";
 
 
 export function Router(){
@@ -19,6 +21,8 @@ export function Router(){
                     <Route path="/produtos/detalhes/:id" element={<DetailsProduct />} />
                     <Route path="/categorias" element={<Categories />} />
                     <Route path="/unidades" element={<Unities />} />
+                    <Route path="/formasDePagamento" element={<FormOfPayment />} />
+                    <Route path="/tipoDeParceiro" element={<TypePartner />} />
                 </Route>
             </Routes>
         </BrowserRouter>

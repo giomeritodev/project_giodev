@@ -20,4 +20,12 @@ export class FormOfPaymentService {
             }
         })
     }
+
+    async deleteFormOfPayment(id: number): Promise<FormOfPaymentType>{
+        return await this.prisma.formOfPayment.delete({
+            where: {
+                id
+            }
+        })
+    }
 }

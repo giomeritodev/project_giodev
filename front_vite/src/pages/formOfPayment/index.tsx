@@ -1,98 +1,92 @@
+import { AlertDialogVisao } from "@/components/modal/alertDialog";
+import { EmptyFile } from "@/components/emptyFile";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { api } from "@/lib/api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Pencil, PlusCircle, Save, Trash, X } from "lucide-react";
 import { useForm } from "react-hook-form";
-import {z} from "zod";
-import { UseUnit } from "./hooks/useUnit";
-import { EmptyFile } from "@/components/emptyFile";
-import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { api } from "@/lib/api";
 import { toast } from "react-toastify";
-import { AlertDialogVisao } from "@/components/modal/alertDialog";
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {z} from "zod";
+import { UseFormOfPayment } from "./hooks/useFormOfPayment";
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader } from "@/components/ui/dialog";
+import { DialogTitle, DialogTrigger } from "@radix-ui/react-dialog";
 
-
-const createUnitySchema = z.object({
-    name: z.string().min(3, "Favor informar um valor valido."),
-    sigla: z.string().min(2, "Minimo 2 caracteres").max(2, "Informe um valor valido."),
+const createFormOfPaymentSchema = z.object({
+    name: z.string().min(3, "Favor informar valor valido.")
 })
 
-type CreateUnitySchema = z.infer<typeof createUnitySchema>
+type CreateFormOfPaymentSchema = z.infer<typeof createFormOfPaymentSchema>
 
-export function Unities(){
+export function FormOfPayment(){
 
-    const {unities, deleteUnit} = UseUnit()
-
-    const { register, handleSubmit, formState: {errors} } = useForm<CreateUnitySchema>({
-        resolver: zodResolver(createUnitySchema),
+    const {register, handleSubmit, formState: {errors}} = useForm<CreateFormOfPaymentSchema>({
+        resolver: zodResolver(createFormOfPaymentSchema),
         defaultValues: {
             name: "",
-            sigla: "",  
         }
     })
 
-    async function handleCreateUnity({name, sigla}: CreateUnitySchema){
+    const {
+        deleteFormOfPayment,
+        formsOfPayment                
+    } = UseFormOfPayment();
+
+    async function handleCreateFormOfPayment({name}: CreateFormOfPaymentSchema){
         try {
-          await api.post("/unit", {name, sigla}).then(response => {
-            toast.success("Item cadastrado com sucesso.")      
-            return response;  
-          })  
+            await api.post("/form-of-payment", {name}).then(response => {
+                toast.success("Item criado com sucesso.")
+                return response;
+            })
         } catch (error) {
-            toast.error("Ops; Houve um erro no cadastro.")
+            toast.error("Ops; Houve um erro ao criar o item.")
         }
     }
 
     return (
         <div>
+
             <Dialog>
                 <DialogTrigger asChild>
                     <div className="flex justify-between">
                         <div>
-                            <h1>Pagina de unidade de medidas</h1>
+                            <h1>Formas de pagamento</h1>
                         </div>
                         <div>
                             <Button>
                                 <PlusCircle />
-                                Nova unidade
+                                Nova forma de pagamento
                             </Button>
-                        </div>                        
-                    </div>
+                        </div>
+                        
+                    </div>                    
                 </DialogTrigger>
+
                 <DialogContent>
                     <DialogHeader>
-                        <DialogTitle>Nova unidade de medida</DialogTitle>
-                        <DialogDescription>Criar um novo cadastro de unidade de medida</DialogDescription>
+                        <DialogTitle>Nova forma de pagamento</DialogTitle>
+                        <DialogDescription>Criar um novo cadastro de forma de pagamento</DialogDescription>
                     </DialogHeader>
 
+
                     <form 
-                        {...createUnitySchema} 
-                        onSubmit={handleSubmit(handleCreateUnity)}
+                        {...createFormOfPaymentSchema} 
+                        onSubmit={handleSubmit(handleCreateFormOfPayment)}
                         className="space-y-6"
                     >
-                        
-                        <div className="grid grid-cols-4 items-center text-right gap-3">
-
-                                <Label htmlFor="name">Unidade</Label>
+                        <div className="grid grid-cols-4 items-center text-left gap-3">
+                            <div className="col-span-4">
+                                <Label htmlFor="name">Descrição da forma de pagamento</Label>
                                 <Input
                                     className="col-span-3"
-                                    id="name" 
+                                    id="name"
                                     {...register("name")}
                                 />
                                 {errors.name && <p className="text-red-600">{errors.name.message}</p>}
-                            
-                            
-                                <Label htmlFor="sigla">Sigla</Label>
-                                <Input 
-                                    className="col-span-3"
-                                    id="sigla"
-                                    {...register("sigla")}
-                                />
-                                {errors.sigla && <p className="text-red-600">{errors.sigla.message}</p>}
-                            
-                        </div>   
-                        
+                            </div>                    
+                        </div>  
                         <DialogFooter className="gap-2">
                             <DialogClose asChild>
                                 <Button type="button" variant="outline">
@@ -104,7 +98,7 @@ export function Unities(){
                                 <Save />
                                 Salvar
                             </Button>
-                        </DialogFooter>
+                        </DialogFooter>    
 
                     </form>
 
@@ -114,34 +108,31 @@ export function Unities(){
             <div className="mt-6">
 
             {
-                    unities.length === 0 ?
+                    formsOfPayment.length === 0 ?
                     (
                         <EmptyFile />
                     )
                     :   
                     (                        
                         <Table>
-                            <TableCaption>Lista de todas as unidades cadastradas.</TableCaption>
+                            <TableCaption>Lista de todas as formas de pagamento.</TableCaption>
                             <TableHeader>
                                 <TableRow>
                                     <TableHead className="w-[100px]">Código</TableHead>
-                                    <TableHead>Descrição da unidade</TableHead>
-                                    <TableHead>Sigla</TableHead>
+                                    <TableHead>Descrição da forma de pagamento</TableHead>
                                     <TableHead className="text-right">Opções</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {unities.map((unit) => (
-                                <TableRow key={unit.id}>
-                                    <TableCell className="font-medium">{unit.id}</TableCell>
-                                    <TableCell>{unit.name}</TableCell>
-                                    <TableCell>{unit.sigla}</TableCell>
-                                    <TableCell className="flex justify-end">
-                                        
+                                {formsOfPayment.map((payment) => (
+                                <TableRow key={payment.id}>
+                                    <TableCell className="font-medium">{payment.id}</TableCell>
+                                    <TableCell>{payment.name}</TableCell>
+                                    <TableCell className="flex justify-end">                                        
                                         <AlertDialogVisao
-                                            id={Number(unit.id)}
-                                            deleteItem={() => deleteUnit(Number(unit.id))}
-                                            item={`${unit.name} - ${unit.sigla}`} 
+                                            id={Number(payment.id)}
+                                            deleteItem={() => deleteFormOfPayment(Number(payment.id))}
+                                            item={`${payment.name}`} 
                                         >
 
                                             <Button size={"sm"} className="bg-zinc-200 hover:bg-zinc-400 mr-2">

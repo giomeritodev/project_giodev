@@ -16,7 +16,14 @@ import {
 
 export const productCreateSchema = z.object({
     id: z.number().optional(),
-    name: z.string().min(3, "Por favor informe um nome valido."),
+    name: z.string()
+    .min(3, "Por favor informe um nome valido.").toLowerCase(),
+    // .transform(name => {
+    //     return name.trim().split(' ').map(word => {
+    //         return word[0].toLocaleLowerCase().concat(word.substring(1))    
+    //     }).join(' ')
+    // }),
+    
     barCode: z.string().max(13, "Favor informar no maximo 13 caracteres."),
     reference: z.string().min(3, "Informe uma referencia valida"),
     amount: z.number().int().nullable(),

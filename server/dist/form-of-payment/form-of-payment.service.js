@@ -26,6 +26,13 @@ let FormOfPaymentService = class FormOfPaymentService {
             }
         });
     }
+    async deleteFormOfPayment(id) {
+        return await this.prisma.formOfPayment.delete({
+            where: {
+                id
+            }
+        });
+    }
 };
 exports.FormOfPaymentService = FormOfPaymentService;
 exports.FormOfPaymentService = FormOfPaymentService = __decorate([

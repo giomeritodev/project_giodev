@@ -5,4 +5,5 @@ export declare class FormOfPaymentController {
     constructor(formOfPaymentService: FormOfPaymentService);
     findAllFormsOfPayments(): Promise<FormOfPaymentType[]>;
     createFormOfPayment(formOfPayment: FormOfPaymentType): Promise<FormOfPaymentType>;
+    deleteFormOfPayment(id: number): Promise<FormOfPaymentType>;
 }

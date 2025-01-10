@@ -9,4 +9,7 @@ export declare class TypePartnerController {
     findAll(): Promise<TypePartnerType[] | {
         message: string;
     }>;
+    deleteTypePartner(id: number): Promise<TypePartnerType | {
+        message: string;
+    }>;
 }

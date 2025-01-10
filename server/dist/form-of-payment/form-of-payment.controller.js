@@ -25,6 +25,9 @@ let FormOfPaymentController = class FormOfPaymentController {
     async createFormOfPayment(formOfPayment) {
         return await this.formOfPaymentService.createFormOfPayment(formOfPayment);
     }
+    async deleteFormOfPayment(id) {
+        return await this.formOfPaymentService.deleteFormOfPayment(Number(id));
+    }
 };
 exports.FormOfPaymentController = FormOfPaymentController;
 __decorate([
@@ -40,6 +43,13 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], FormOfPaymentController.prototype, "createFormOfPayment", null);
+__decorate([
+    (0, common_1.Delete)(":id"),
+    __param(0, (0, common_1.Param)("id")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", Promise)
+], FormOfPaymentController.prototype, "deleteFormOfPayment", null);
 exports.FormOfPaymentController = FormOfPaymentController = __decorate([
     (0, common_1.Controller)('form-of-payment'),
     __metadata("design:paramtypes", [form_of_payment_service_1.FormOfPaymentService])

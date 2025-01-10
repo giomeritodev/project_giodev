@@ -28,8 +28,20 @@ let TypePartnerService = class TypePartnerService {
             },
         });
     }
-    async findAllTypeParner() {
+    async findAllTypePartner() {
         return await this.prisma.typePartner.findMany();
+    }
+    async deleteTypePartner(id) {
+        try {
+            return await this.prisma.typePartner.delete({
+                where: {
+                    id
+                }
+            });
+        }
+        catch (error) {
+            console.log(error, "Houve um erro ao deletar o tipo de pagamento");
+        }
     }
 };
 exports.TypePartnerService = TypePartnerService;

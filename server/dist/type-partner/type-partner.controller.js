@@ -29,10 +29,18 @@ let TypePartnerController = class TypePartnerController {
     }
     async findAll() {
         try {
-            return await this.typePartnerService.findAllTypeParner();
+            return await this.typePartnerService.findAllTypePartner();
         }
         catch (error) {
             return ({ message: "Houve um erro ao consultar todos!" });
+        }
+    }
+    async deleteTypePartner(id) {
+        try {
+            return await this.typePartnerService.deleteTypePartner(Number(id));
+        }
+        catch (error) {
+            return ({ message: "Houve um erro ao deletar o tipo de pagamento!" });
         }
     }
 };
@@ -50,6 +58,13 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], TypePartnerController.prototype, "findAll", null);
+__decorate([
+    (0, common_1.Delete)("/:id"),
+    __param(0, (0, common_1.Param)("id")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", Promise)
+], TypePartnerController.prototype, "deleteTypePartner", null);
 exports.TypePartnerController = TypePartnerController = __decorate([
     (0, common_1.Controller)('type-partner'),
     __metadata("design:paramtypes", [type_partner_service_1.TypePartnerService])

@@ -22,7 +22,19 @@ export class TypePartnerService {
         })
     }
 
-    async findAllTypeParner(): Promise<TypePartnerType[]>{
+    async findAllTypePartner(): Promise<TypePartnerType[]>{
         return await this.prisma.typePartner.findMany();
+    }
+
+    async deleteTypePartner(id: number): Promise<TypePartnerType>{
+        try {
+            return await this.prisma.typePartner.delete({
+                where: {
+                    id
+                }
+            }); 
+        } catch (error) {
+            console.log(error, "Houve um erro ao deletar o tipo de pagamento")
+        }
     }
 }
