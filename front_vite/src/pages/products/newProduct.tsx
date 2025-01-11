@@ -4,6 +4,8 @@ import {useForm} from "react-hook-form";
 import {Label} from "@/components/ui/label";
 import {Input} from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import {api} from "@/lib/api";
+import {toast} from "react-toastify";
 import { 
     Select,
     SelectContent,
@@ -26,7 +28,7 @@ export const productCreateSchema = z.object({
     
     barCode: z.string().max(13, "Favor informar no maximo 13 caracteres."),
     reference: z.string().min(3, "Informe uma referencia valida"),
-    amount: z.number().int().nullable(),
+    amount: z.number(),
     costPrice: z.coerce.number().min(0.01, "Valor é obrigatório"),
     price: z.coerce.number().min(0.01, "Valor é obrigatório"),
     unitId: z.number().min(1, "Informe um valor valido"),
@@ -51,8 +53,26 @@ export function NewProduct(){
         } 
     });
 
-    function handleCreateProduct(data: ProductCreateSchema) {
-        console.log(data);
+    async function handleCreateProduct(
+        {
+            name, 
+            barCode, 
+            reference, 
+            amount, 
+            costPrice,
+            price,
+            unitId,
+            categoryId,
+        }: 
+    ProductCreateSchema) {
+        try{
+            await api.post("/product", {name, barCode, reference, amount, costPrice, price, unitId, categoryId}).then(response => {
+                toast.success("Produto cadastrado com sucesso.")
+                return response;    
+            })
+        } catch(error) {
+
+        }
     }
 
     function clearAllData(){
@@ -60,8 +80,7 @@ export function NewProduct(){
     }
 
     return (
-        <div>
-            
+        <div>            
                 <form {...productCreateSchema} onSubmit={handleSubmit(handleCreateProduct)} className="mx-auto">
                     <div className="flex justify-between mb-4 mt-4">
                         <div>
