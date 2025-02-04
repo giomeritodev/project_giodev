@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PartnerType } from './PartnerType';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { TypePartnerType } from 'src/type-partner/TypePartnerType';
 
 @Injectable()
 export class PartnerService {
@@ -44,6 +45,21 @@ export class PartnerService {
 
     async findAllPartners(): Promise<PartnerType[]>{
         return await this.prisma.partner.findMany({
+            select: {
+                id: true,
+                name: true,
+                cpfOrCnpj: true,
+                typePartnerId: true,
+                typePartner: true,
+            }
+        });
+    }
+
+    async findAllPartnersName(id: number): Promise<PartnerType[]>{
+        return await this.prisma.partner.findMany({
+            where: {
+                typePartnerId: Number(id)
+            },
             select: {
                 id: true,
                 name: true,

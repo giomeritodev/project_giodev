@@ -138,9 +138,10 @@ export function Categories(){
                                                     
                                                 </AlertDialogVisao>
                                                 <ModalEdit
+                                                    url="category/edit"
                                                     id={Number(cat.id)}
                                                     description={`${cat.name}`}
-                                                    saveData={() => editCategory(Number(cat.id), cat.name)}
+                                                    // saveData={() => editCategory(Number(cat.id), cat.name)}
                                                 >
                                                     <Button size={"sm"} className="bg-zinc-200 hover:bg-zinc-400">
                                                         <Pencil size={5} color="blue" />

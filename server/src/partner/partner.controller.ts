@@ -1,6 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, Request } from '@nestjs/common';
 import { PartnerService } from './partner.service';
 import { PartnerType } from './PartnerType';
+import { TypePartnerType } from 'src/type-partner/TypePartnerType';
 
 @Controller('partner')
 export class PartnerController {
@@ -26,6 +27,11 @@ export class PartnerController {
     @Get("/:id")
     async findByPartner(@Param("id") id: number): Promise<PartnerType>{
         return await this.partnerService.findByPartner(Number(id));
+    }
+
+    @Get("/name/:id")
+    async findAllPartnersName(@Param("id") id: number): Promise<PartnerType[]>{
+        return await this.partnerService.findAllPartnersName(Number(id));
     }
 
     // @Get()

@@ -23,7 +23,7 @@ export class ContactService {
         return contact;                
     }
 
-    async findManyContactByPartner({partnerId}: ContactType){
+    async findManyContactByPartner(partnerId: number): Promise<ContactType[]>{
         const findByContact = await this.prisma.contact.findMany({
             where: {partnerId: partnerId},
         })
@@ -55,9 +55,9 @@ export class ContactService {
         return updateContactBy;
     }
 
-    async deleteContactByPartner(id: number, {partnerId}: ContactType){
+    async deleteContactByPartner(id: number){
         const deleteContact = await this.prisma.contact.delete({
-            where: {id, partnerId}
+            where: {id}
         })
         return deleteContact;
     }

@@ -34,8 +34,8 @@ let CityController = class CityController {
         const result = await this.cityService.findById(Number(id));
         return result;
     }
-    async updateCity(id, { name, stateId }) {
-        const result = await this.cityService.editCity(Number(id), { name, stateId });
+    async updateCity(id, cit) {
+        const result = await this.cityService.editCity(Number(id), cit);
         if (!result) {
             return ({ message: "Registro não encontrado!" });
         }
@@ -48,6 +48,14 @@ let CityController = class CityController {
         }
         catch (error) {
             return ({ message: "Erro ao deletar!" });
+        }
+    }
+    async findAllCitiesState(stateId) {
+        try {
+            return await this.cityService.findCityInState(Number(stateId));
+        }
+        catch (error) {
+            return { message: "Houve um erro ao buscar cidades por estado" };
         }
     }
 };
@@ -73,7 +81,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], CityController.prototype, "findBy", null);
 __decorate([
-    (0, common_1.Put)("/:id"),
+    (0, common_1.Put)("/edit/:id"),
     __param(0, (0, common_1.Param)("id")),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -87,6 +95,13 @@ __decorate([
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
 ], CityController.prototype, "deleteCity", null);
+__decorate([
+    (0, common_1.Get)("/cities/state/:id"),
+    __param(0, (0, common_1.Param)("id")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", Promise)
+], CityController.prototype, "findAllCitiesState", null);
 exports.CityController = CityController = __decorate([
     (0, common_1.Controller)('city'),
     __metadata("design:paramtypes", [city_service_1.CityService])

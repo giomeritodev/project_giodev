@@ -1,74 +1,80 @@
 import { Button } from "@/components/ui/button";
-import { Pencil, Save, Undo2 } from "lucide-react";
-import { FormEvent, useEffect, useState } from "react";
+import { Pencil, Save, Undo2, X } from "lucide-react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { UseProduct } from "./hooks/useProduct";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { ProductCreateSchema, productCreateSchema } from "./newProduct";
+import { ProductCreateSchema } from "./newProduct";
+import { UseUnit } from "../unities/hooks/useUnit";
+import { UseCategory } from "../categories/hooks/useCategory";
+import { HookFunctionsUtils } from "@/lib/functionsUtils";
 
 
 export function DetailsProduct(){
+
+    const {buttonStatus, statusButton, statusButtonCancel} = HookFunctionsUtils();
     
     const {product, findByProduct} = UseProduct();
     const query = useParams();
-    const [buttonStatus, setButtonStatus] = useState<boolean>(true)
+    
+    const {unities} = UseUnit();
+    const {categories} = UseCategory();
+   
 
-    const { register, handleSubmit, formState: {errors} } = useForm<ProductCreateSchema>({
-        resolver: zodResolver(productCreateSchema),
-        defaultValues: {
-            id: product?.id,
-            name: product?.name,
-            barCode: product?.barCode,
-            reference: product?.reference,
-            amount: product?.amount,
-            costPrice: product?.costPrice,
-            price: product?.price,
-            unitId: product?.unitId,
-            categoryId: product?.categoryId,
-        } 
-    });
-
-    function statusButton(event: FormEvent){
-        event.preventDefault();
-        setButtonStatus(false);
-    }
+    const [name, setName] = useState(product?.name);
+    const [barCode, setBarCode] = useState(product?.barCode);
+    const [reference, setReference] = useState(product?.reference);
+    const [costPrice, setCostPrice] = useState(product?.costPrice);
+    const [price, setPrice] = useState(product?.price);
+    const [amount, setAmount] = useState(product?.amount);
+    const [unitId, setUnitId] = useState(product?.unitId);
+    const [categoryId, setCategotyId] = useState(product?.categoryId);
 
     useEffect(() => {
         findByProduct(Number(query.id))
     }, [product])
 
-    function handleEditProduct(data: ProductCreateSchema){
-        console.log(data)
+    function handleEditProduct({name, barCode}: ProductCreateSchema){
+        console.log(name, barCode)
     }
 
     return(
         <div>
-            <form {...productCreateSchema} onSubmit={handleSubmit(handleEditProduct)}>
+            <form onSubmit={() => handleEditProduct}>
 
-                <div className="flex justify-between">
-                    <div>
+                <div className="md:flex justify-between">
+                    <div className="mb-2">
                         <h1>Detalhes produto</h1>
                     </div>
                     <div>
-                        <div className="flex items-center justify-between gap-4">
-                            <Button onClick={statusButton}>
-                                <Pencil /> 
-                                Editar
-                            </Button>
-                            <Button disabled={buttonStatus}>
-                               <Save /> 
-                               Salvar
-                            </Button>
-                            <Link to={"/produtos"}>
-                                <Button>
-                                    <Undo2 />
-                                    Voltar
+                        <div className="md:flex sm:flex md:justify-between md:gap-4 sm:gap-4">
+                            <div>
+                                <Button className="w-full mb-2" type="button" onClick={statusButton}>
+                                    <Pencil /> 
+                                    Editar
                                 </Button>
-                            </Link>
+                            </div>
+                            <div>
+                                <Button className="w-full mb-2" type="submit" disabled={buttonStatus}>
+                                    <Save /> 
+                                    Salvar
+                                </Button>
+                            </div>
+                            <div>
+                                <Link to={"/produtos"}>
+                                    <Button className="w-full mb-2" type="button">
+                                        <Undo2 />
+                                        Voltar
+                                    </Button>
+                                </Link>
+                            </div>
+                            <div>
+                                <Button className="w-full mb-2  " disabled={buttonStatus} onClick={statusButtonCancel}>
+                                    <X />                                 
+                                    Cancelar
+                                </Button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -76,102 +82,117 @@ export function DetailsProduct(){
                 <div>
                     <div>
                         <div>
-                            <Label>Código</Label>
+                            <Label htmlFor="id">Código</Label>
                             <Input 
+                                id="id"
                                 disabled
                                 defaultValue={product?.id}
-                                
-                                {...register("id")}
                             />
                         </div>
                         <div>
-                            <Label>Descrição do item</Label>
+                            <Label htmlFor="name">Descrição do item</Label>
                             <Input 
                                 disabled={buttonStatus}
                                 defaultValue={product?.name}
-                                {...register("name")}
+                                //value={name}
+                                onChange={(e) => setName(e.target.value)}
                             />
                         </div>
                     </div>
                     <div>
                         <div>
-                            <Label>Código de barras</Label>
-                            <Input 
+                            <Label htmlFor="barCode">Código de barras</Label>
+                            <Input
+                                id="barCode" 
                                 disabled={buttonStatus}
                                 defaultValue={product?.barCode}
-                                {...register("barCode")}
+                                //value={barCode}
+                                onChange={(e) => setBarCode(e.target.value)}
                             />
                         </div>
                         <div>
-                            <Label>Referência</Label>
+                            <Label htmlFor="reference">Referência</Label>
                             <Input 
+                                id="reference"
                                 disabled={buttonStatus}
                                 defaultValue={product?.reference}
-                                {...register("reference")}
+                                //value={reference}
+                                onChange={(e) => setReference(e.target.value)}
                             />
                         </div>
                     </div>
                     <div>
                         <div>
-                            <Label>Valor de compra</Label>
+                            <Label htmlFor="costPrice">Valor de compra</Label>
                             <Input 
+                                id="costPrice"
                                 disabled={buttonStatus}
                                 defaultValue={product?.costPrice}
-                                {...register("costPrice")}
+                                //value={costPrice}
+                                onChange={(e) => setCostPrice(Number(e.target.value))}
                             />
                         </div>
                         <div>
-                            <Label>Valor de venda</Label>
-                            <Input 
+                            <Label htmlFor="price">Valor de venda</Label>
+                            <Input
+                                id="price" 
                                 disabled={buttonStatus}
                                 defaultValue={product?.price}
-                                {...register("price")}
+                                //value={price}
+                                onChange={(e) => setPrice(Number(e.target.value))}
+                            />
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            <Label htmlFor="amount">Estoque</Label>
+                            <Input
+                                id="amount" 
+                                disabled={buttonStatus}
+                                defaultValue={product?.amount}
+                                //value={amount}
+                                onChange={(e) => setAmount(Number(e.target.value))}
                             />
                         </div>
                     </div>
                     <div className="sm:flex gap-4 justify-normal mb-4">
                         <div className="sm:w-1/2 mb-4">
-                            <Label>Unidade de medida</Label>
-                            <Select
-                                {...register("unitId")}
-                            >
-                                <SelectTrigger className="sm:w-11/12">
-                                    <SelectValue placeholder="Selecione uma unidade de medida" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectGroup>
-                                        <SelectLabel>Unidade de medida</SelectLabel>
-                                        <SelectItem value="id2">Unidade</SelectItem>
-                                        <SelectItem value="id3">Caixa</SelectItem>
-                                        <SelectItem value="id4">Balde</SelectItem>
-                                        <SelectItem value="id5">Bombona</SelectItem>
-                                        <SelectItem value="id6">Litro</SelectItem>
-                                        <SelectItem value="id7">Kilo</SelectItem>
-                                        <SelectItem value="id8">Tambor</SelectItem> 
-                                    </SelectGroup>
-                                </SelectContent>
-                            </Select>
-                            {errors.unitId && <p className="text-red-600">{errors.unitId.message}</p>}
+                            <Label htmlFor="unitId">Unidade de medida</Label>
+                            <select
+                                disabled={buttonStatus}
+                                className="w-full h-10 rounded-lg"
+                                id="unitId"
+                                defaultValue={product?.unitId}
+                                //value={unitId}
+                                onChange={(e) => setUnitId(Number(e.target.value))}
+                            >                                
+                                <option value={product?.unitId}>{product?.unit.sigla}</option>
+                                {
+                                    unities.map(unit => (
+                                        <option value={unit.id}>{unit.sigla}</option>
+                                    ))
+                                }        
+                            </select>
+                            
                         </div>
                         <div className="sm:w-1/2">
-                            <Label>Categoria</Label>
-                            <Select 
-                                {...register("categoryId")}
+                            <Label htmlFor="categoryId">Categoria</Label>
+                            <select
+                                disabled={buttonStatus}
+                                className="w-full h-10 rounded-lg"
+                                id="categoryId"
+                                defaultValue={product?.categoryId}
+                                //value={categoryId}
+                                onChange={(e) => setCategotyId(Number(e.target.value))}
                             >
-                                <SelectTrigger className="sm:w-11/12">
-                                    <SelectValue placeholder="Selecione uma categoria" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectGroup>
-                                        <SelectLabel>Categoria</SelectLabel>
-                                        <SelectItem value="id1">Peças</SelectItem>
-                                        <SelectItem value="id2">Veiculo</SelectItem>
-                                        <SelectItem value="id3">Bebida</SelectItem>
-                                        <SelectItem value="id4">Comida</SelectItem>                                     
-                                    </SelectGroup>
-                                </SelectContent>
-                            </Select>
-                            {errors.categoryId && <p className="text-red-600">{errors.categoryId.message}</p>}
+                                <option value={product?.categoryId}>{product?.category.name}</option>
+                                {
+                                    categories.map(category => (
+                                        <option value={category.id}>{category.name}</option>
+                                    ))
+                                }                             
+                            </select>
+                            
                         </div>
                     </div>
                 </div>

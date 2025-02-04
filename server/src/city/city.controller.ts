@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Request } from '@nestjs/common';
 import { CityService } from './city.service';
 import { CityType } from './CityType';
 
@@ -28,9 +28,9 @@ export class CityController {
         return result;
     }
 
-    @Put("/:id")
-    async updateCity(@Param("id") id: number, @Body() {name, stateId}: CityType){
-        const result = await this.cityService.editCity(Number(id), {name, stateId});
+    @Put("/edit/:id")
+    async updateCity(@Param("id") id: number, @Body() cit: CityType){
+        const result = await this.cityService.editCity(Number(id), cit);
         if(!result){
             return ({message: "Registro não encontrado!"})
         }
@@ -44,6 +44,16 @@ export class CityController {
             return ({message: "Deletado com sucesso!"});            
         } catch (error) {
             return ({message: "Erro ao deletar!"})
+        }
+    }
+
+    @Get("/cities/state/:id")
+    async findAllCitiesState(@Param("id") stateId: number){
+
+        try {
+            return await this.cityService.findCityInState(Number(stateId))
+        } catch (error) {
+            return {message: "Houve um erro ao buscar cidades por estado"}
         }
     }
 }

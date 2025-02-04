@@ -60,6 +60,20 @@ let PartnerService = class PartnerService {
             }
         });
     }
+    async findAllPartnersName(id) {
+        return await this.prisma.partner.findMany({
+            where: {
+                typePartnerId: Number(id)
+            },
+            select: {
+                id: true,
+                name: true,
+                cpfOrCnpj: true,
+                typePartnerId: true,
+                typePartner: true,
+            }
+        });
+    }
     async findAll(page, search) {
         const take = 5;
         const skip = (page - 1) * take;

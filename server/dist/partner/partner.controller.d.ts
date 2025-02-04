@@ -46,6 +46,7 @@ export declare class PartnerController {
     }>;
     findAllPartners(): Promise<PartnerType[]>;
     findByPartner(id: number): Promise<PartnerType>;
+    findAllPartnersName(id: number): Promise<PartnerType[]>;
     createPartner(partner: PartnerType): Promise<PartnerType>;
     editPartner(id: number, partner: PartnerType): Promise<PartnerType>;
     deletePartner(id: number): Promise<PartnerType>;

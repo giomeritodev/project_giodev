@@ -1,5 +1,5 @@
 import { AddressService } from './address.service';
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { AddressType } from './AddressType';
 
 @Controller('address')
@@ -30,11 +30,23 @@ export class AddressController {
     @Get("/partner/:partnerId")
     async findAllAddressByPartner(@Param("partnerId") partnerId: number){
         try {
-            return await this.addressService.findAllAddressByPartner(partnerId);
+            return await this.addressService.findAllAddressByPartner(Number(partnerId));
         } catch (error) {
             return ({
                 message: "Ops, houve um erro ao buscar os dados!"
             })
+        }
+    }
+
+    @Delete("/:id")
+    async deleteAddressInPartner(
+        @Param("id") id: number,        
+    ){
+        try {
+            return await this.addressService.deleteByAddressInPartner(Number(id));
+            
+        } catch (error) {
+            return {message: "Não foi possivel deletar o registro", error}
         }
     }
 }

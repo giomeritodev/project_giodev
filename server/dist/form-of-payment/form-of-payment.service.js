@@ -16,6 +16,13 @@ let FormOfPaymentService = class FormOfPaymentService {
     constructor(prisma) {
         this.prisma = prisma;
     }
+    async findByFormOfPayment(id) {
+        return await this.prisma.formOfPayment.findFirst({
+            where: {
+                id
+            }
+        });
+    }
     async findAllFormsOfPayments() {
         return await this.prisma.formOfPayment.findMany();
     }
@@ -30,6 +37,18 @@ let FormOfPaymentService = class FormOfPaymentService {
         return await this.prisma.formOfPayment.delete({
             where: {
                 id
+            }
+        });
+    }
+    async editFormOfPayment(id, formOf) {
+        const formOfPayment = this.findByFormOfPayment(id);
+        return await this.prisma.formOfPayment.update({
+            where: {
+                id
+            },
+            data: {
+                ...formOfPayment,
+                ...formOf,
             }
         });
     }

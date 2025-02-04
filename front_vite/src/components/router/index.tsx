@@ -8,6 +8,14 @@ import { Categories } from "@/pages/categories";
 import { Unities } from "@/pages/unities";
 import { FormOfPayment } from "@/pages/formOfPayment";
 import { TypePartner } from "@/pages/typePartner";
+import { Partners } from "@/pages/partner";
+import { PartnerType } from "@/pages/partner/partner-type";
+import { NewPartner } from "@/pages/partner/newPartner";
+import { DetailsPartner } from "@/pages/partner/detailsPartner";
+import { Cities } from "@/pages/cities";
+import { States } from "@/pages/states";
+import { Entry } from "@/pages/entry";
+import { DetailsEntries } from "@/pages/entry/detailsEntries";
 
 
 export function Router(){
@@ -23,6 +31,15 @@ export function Router(){
                     <Route path="/unidades" element={<Unities />} />
                     <Route path="/formasDePagamento" element={<FormOfPayment />} />
                     <Route path="/tipoDeParceiro" element={<TypePartner />} />
+                    <Route path="/parceiros" element={<Partners />} />
+                    <Route path="/parceiros/tipo" element={<PartnerType />} />
+                    <Route path="/parceiros/novo" element={<NewPartner />} />
+                    <Route path="/parceiros/detalhes/:id" element={<DetailsPartner />} />
+                    <Route path="/cidades" element={<Cities />} />
+                    <Route path="/estados" element={<States />} />
+                    <Route path="/entradas" element={<Entry />} />
+                    <Route path="/entradas/detalhes/:id" element={<DetailsEntries />} />
+
                 </Route>
             </Routes>
         </BrowserRouter>

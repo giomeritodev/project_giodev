@@ -91,4 +91,12 @@ export class AddressService {
             }
         })
     }
+
+    async deleteByAddressInPartner(id: number){
+        return await this.prisma.address.delete({
+            where: {
+                id
+            }
+        })
+    }
 }

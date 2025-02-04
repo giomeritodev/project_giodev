@@ -13,6 +13,7 @@ import {z} from "zod";
 import { UseFormOfPayment } from "./hooks/useFormOfPayment";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader } from "@/components/ui/dialog";
 import { DialogTitle, DialogTrigger } from "@radix-ui/react-dialog";
+import { ModalEdit } from "@/components/modal/modalEdit";
 
 const createFormOfPaymentSchema = z.object({
     name: z.string().min(3, "Favor informar valor valido.")
@@ -139,9 +140,15 @@ export function FormOfPayment(){
                                                 <Trash size={5} color="red" />
                                             </Button>
                                         </AlertDialogVisao>
-                                        <Button size={"sm"} className="bg-zinc-200 hover:bg-zinc-400">
-                                            <Pencil size={5} color="blue" />
-                                        </Button>
+                                        <ModalEdit
+                                            url="form-of-payment/edit"
+                                            id={Number(payment?.id)}
+                                            description={payment.name}
+                                        >
+                                            <Button size={"sm"} className="bg-zinc-200 hover:bg-zinc-400">
+                                                <Pencil size={5} color="blue" />
+                                            </Button>
+                                        </ModalEdit>
                                     </TableCell>
                                 </TableRow>
                                 ))}

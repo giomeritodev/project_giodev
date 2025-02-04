@@ -29,11 +29,25 @@ let CityService = class CityService {
     async findById(id) {
         return await this.prisma.city.findFirst({ where: { id }, include: { state: true } });
     }
-    async editCity(id, { name, stateId }) {
-        return await this.prisma.city.update({ where: { id }, data: { name, stateId } });
+    async editCity(id, cit) {
+        const city = this.findById(id);
+        return await this.prisma.city.update({ where: { id }, data: { ...city, ...cit } });
     }
     async deleteCity(id) {
         return await this.prisma.city.delete({ where: { id } });
+    }
+    async findCityInState(id) {
+        const [citiesState] = await this.prisma.$transaction([
+            this.prisma.city.findMany({
+                where: {
+                    stateId: id
+                },
+            }),
+            this.prisma.city.count(),
+        ]);
+        return {
+            citiesState,
+        };
     }
 };
 exports.CityService = CityService;

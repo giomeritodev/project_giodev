@@ -28,7 +28,7 @@ let ContactService = class ContactService {
         });
         return contact;
     }
-    async findManyContactByPartner({ partnerId }) {
+    async findManyContactByPartner(partnerId) {
         const findByContact = await this.prisma.contact.findMany({
             where: { partnerId: partnerId },
         });
@@ -57,9 +57,9 @@ let ContactService = class ContactService {
         });
         return updateContactBy;
     }
-    async deleteContactByPartner(id, { partnerId }) {
+    async deleteContactByPartner(id) {
         const deleteContact = await this.prisma.contact.delete({
-            where: { id, partnerId }
+            where: { id }
         });
         return deleteContact;
     }

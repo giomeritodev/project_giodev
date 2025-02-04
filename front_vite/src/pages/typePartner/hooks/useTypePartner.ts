@@ -19,11 +19,25 @@ export function UseTypePartner(){
         }
     }
 
+    async function findByName(name: string){
+        try {
+            await api.get(`/type-partner/${name}`).then(response => {
+                setTypePartner(response.data);
+            })
+        } catch (error) {
+            
+        }
+    }
+
     async function deleteTypePartner(id: number){
         try {
             await api.delete(`/type-partner/${id}`).then(response => {
-                toast.success("Item deletado com sucesso")
-                return response;
+                if(response.data === ""){
+                    toast.error("Tipo de parceiro não pode ser deletado, existe relacionamentos.")
+                } else{
+                    toast.success("Item deletado com sucesso")
+                    return response;
+                }
             })
         } catch (error) {
             toast.error("Ops; Houve um erro ao deletar o item.")
@@ -52,5 +66,7 @@ export function UseTypePartner(){
         typesPartners,
         deleteTypePartner,
         editTypePartner,
+        typePartner,
+        findByName,
     }
 }

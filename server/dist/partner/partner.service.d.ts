@@ -5,6 +5,7 @@ export declare class PartnerService {
     constructor(prisma: PrismaService);
     findByPartner(id: number): Promise<PartnerType>;
     findAllPartners(): Promise<PartnerType[]>;
+    findAllPartnersName(id: number): Promise<PartnerType[]>;
     findAll(page: number, search?: string): Promise<{
         partner: {
             typePartner: {

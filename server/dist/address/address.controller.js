@@ -36,12 +36,20 @@ let AddressController = class AddressController {
     }
     async findAllAddressByPartner(partnerId) {
         try {
-            return await this.addressService.findAllAddressByPartner(partnerId);
+            return await this.addressService.findAllAddressByPartner(Number(partnerId));
         }
         catch (error) {
             return ({
                 message: "Ops, houve um erro ao buscar os dados!"
             });
+        }
+    }
+    async deleteAddressInPartner(id) {
+        try {
+            return await this.addressService.deleteByAddressInPartner(Number(id));
+        }
+        catch (error) {
+            return { message: "Não foi possivel deletar o registro", error };
         }
     }
 };
@@ -67,6 +75,13 @@ __decorate([
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
 ], AddressController.prototype, "findAllAddressByPartner", null);
+__decorate([
+    (0, common_1.Delete)("/:id"),
+    __param(0, (0, common_1.Param)("id")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", Promise)
+], AddressController.prototype, "deleteAddressInPartner", null);
 exports.AddressController = AddressController = __decorate([
     (0, common_1.Controller)('address'),
     __metadata("design:paramtypes", [address_service_1.AddressService])

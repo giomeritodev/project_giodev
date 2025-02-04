@@ -34,6 +34,9 @@ let PartnerController = class PartnerController {
     async findByPartner(id) {
         return await this.partnerService.findByPartner(Number(id));
     }
+    async findAllPartnersName(id) {
+        return await this.partnerService.findAllPartnersName(Number(id));
+    }
     async createPartner(partner) {
         return await this.partnerService.createPartner(partner);
     }
@@ -65,6 +68,13 @@ __decorate([
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
 ], PartnerController.prototype, "findByPartner", null);
+__decorate([
+    (0, common_1.Get)("/name/:id"),
+    __param(0, (0, common_1.Param)("id")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", Promise)
+], PartnerController.prototype, "findAllPartnersName", null);
 __decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),

@@ -42,15 +42,12 @@ let StateController = class StateController {
         }
         return result;
     }
-    async editState(id, { name, uf }) {
-        const result = await this.stateService.findById(Number(id));
+    async editState(id, state) {
+        const result = await this.stateService.editState(Number(id), state);
         if (!result) {
             return ({ message: "Registro não encontrado!" });
         }
-        else {
-            await this.stateService.editState(Number(id), { name, uf });
-            return ({ message: "Registro alterado!" });
-        }
+        return result;
     }
     async deleteState(id) {
         const consult = await this.stateService.findById(Number(id));
@@ -85,7 +82,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], StateController.prototype, "findById", null);
 __decorate([
-    (0, common_1.Put)("/:id"),
+    (0, common_1.Put)("/edit/:id"),
     __param(0, (0, common_1.Param)("id")),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),

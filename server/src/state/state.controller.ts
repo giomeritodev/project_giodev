@@ -37,15 +37,13 @@ export class StateController {
         return result;
     }
 
-    @Put("/:id")
-    async editState(@Param("id") id: number, @Body() {name, uf}: StateType){
-        const result = await this.stateService.findById(Number(id));
+    @Put("/edit/:id")
+    async editState(@Param("id") id: number, @Body() state: StateType){
+        const result = await this.stateService.editState(Number(id), state);
         if(!result){
             return ({message: "Registro não encontrado!"})
-        }else{
-            await this.stateService.editState(Number(id), {name, uf});
-            return ({message: "Registro alterado!"});
         }
+        return result;
     }
 
     @Delete("/:id")

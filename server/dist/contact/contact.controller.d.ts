@@ -19,15 +19,16 @@ export declare class ContactController {
         position: string | null;
         partnerId: number;
     }[]>;
-    findManyContactByPartner(partnerId: ContactType): Promise<{
+    findManyContactByPartner(id: number): Promise<ContactType[]>;
+    updateContact(id: number, contact: ContactType): Promise<{
         id: number;
         fone: string;
         email: string;
         name: string | null;
         position: string | null;
         partnerId: number;
-    }[]>;
-    updateContact(id: number, contact: ContactType): Promise<{
+    }>;
+    deleteContact(id: number): Promise<{
         id: number;
         fone: string;
         email: string;

@@ -31,7 +31,20 @@ export class TypePartnerController {
         try {
             return await this.typePartnerService.deleteTypePartner(Number(id));
         } catch (error) {
-            return ({message: "Houve um erro ao deletar o tipo de pagamento!"})
+            return ({message: "Houve um erro ao deletar o tipo de parceiro!"})
         }
+    }
+
+    @Get("/:name")
+    async findByTypePartnerName(@Param("name") name: string){
+        return await this.typePartnerService.findByName(name);
+    }
+
+    @Put("/edit/:id")
+    async editTypePartner(
+        @Param("id") id: number,
+        @Body() typ: TypePartnerType
+    ): Promise<TypePartnerType>{
+        return await this.typePartnerService.editTypePartner(Number(id), typ);
     }
 }

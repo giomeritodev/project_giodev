@@ -8,10 +8,19 @@ export declare class CityController {
     }>;
     findAll(): Promise<CityType[]>;
     findBy(id: number): Promise<CityType>;
-    updateCity(id: number, { name, stateId }: CityType): Promise<CityType | {
+    updateCity(id: number, cit: CityType): Promise<CityType | {
         message: string;
     }>;
     deleteCity(id: number): Promise<{
+        message: string;
+    }>;
+    findAllCitiesState(stateId: number): Promise<{
+        citiesState: {
+            id: number;
+            name: string;
+            stateId: number;
+        }[];
+    } | {
         message: string;
     }>;
 }

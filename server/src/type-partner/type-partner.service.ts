@@ -37,4 +37,33 @@ export class TypePartnerService {
             console.log(error, "Houve um erro ao deletar o tipo de pagamento")
         }
     }
+
+    async findByTypePartner(id: number): Promise<TypePartnerType>{
+        return await this.prisma.typePartner.findFirst({
+            where: {
+                id
+            }
+        })
+    }
+
+    async findByName(name: string){
+        return await this.prisma.typePartner.findFirst({
+            where: {
+                name: name
+            }
+        })
+    }
+
+    async editTypePartner(id: number, typ: TypePartnerType): Promise<TypePartnerType>{
+        const typePartner = this.findByTypePartner(id);
+        return await this.prisma.typePartner.update({
+            where: {
+                id
+            },
+            data: {
+                ...typePartner,
+                ...typ
+            }
+        })
+    }
 }

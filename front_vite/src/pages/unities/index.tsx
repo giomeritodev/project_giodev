@@ -12,6 +12,7 @@ import { api } from "@/lib/api";
 import { toast } from "react-toastify";
 import { AlertDialogVisao } from "@/components/modal/alertDialog";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { ModalEdit } from "@/components/modal/modalEdit";
 
 
 const createUnitySchema = z.object({
@@ -148,9 +149,16 @@ export function Unities(){
                                                 <Trash size={5} color="red" />
                                             </Button>
                                         </AlertDialogVisao>
-                                        <Button size={"sm"} className="bg-zinc-200 hover:bg-zinc-400">
-                                            <Pencil size={5} color="blue" />
-                                        </Button>
+                                        <ModalEdit
+                                            url="unit"
+                                            id={Number(unit.id)}
+                                            description={unit.name}
+                                            un={unit.sigla}
+                                        >
+                                            <Button size={"sm"} className="bg-zinc-200 hover:bg-zinc-400">
+                                                <Pencil size={5} color="blue" />
+                                            </Button>
+                                        </ModalEdit>
                                     </TableCell>
                                 </TableRow>
                                 ))}

@@ -40,8 +40,14 @@ let TypePartnerController = class TypePartnerController {
             return await this.typePartnerService.deleteTypePartner(Number(id));
         }
         catch (error) {
-            return ({ message: "Houve um erro ao deletar o tipo de pagamento!" });
+            return ({ message: "Houve um erro ao deletar o tipo de parceiro!" });
         }
+    }
+    async findByTypePartnerName(name) {
+        return await this.typePartnerService.findByName(name);
+    }
+    async editTypePartner(id, typ) {
+        return await this.typePartnerService.editTypePartner(Number(id), typ);
     }
 };
 exports.TypePartnerController = TypePartnerController;
@@ -65,6 +71,21 @@ __decorate([
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
 ], TypePartnerController.prototype, "deleteTypePartner", null);
+__decorate([
+    (0, common_1.Get)("/:name"),
+    __param(0, (0, common_1.Param)("name")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], TypePartnerController.prototype, "findByTypePartnerName", null);
+__decorate([
+    (0, common_1.Put)("/edit/:id"),
+    __param(0, (0, common_1.Param)("id")),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, Object]),
+    __metadata("design:returntype", Promise)
+], TypePartnerController.prototype, "editTypePartner", null);
 exports.TypePartnerController = TypePartnerController = __decorate([
     (0, common_1.Controller)('type-partner'),
     __metadata("design:paramtypes", [type_partner_service_1.TypePartnerService])

@@ -1,43 +1,40 @@
-import {z} from "zod";
+import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {useForm} from "react-hook-form";
 import {Label} from "@/components/ui/label";
 import {Input} from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import {api} from "@/lib/api";
-import {toast} from "react-toastify";
-import { 
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
-    SelectValue,
- } from "@/components/ui/select";
+
+import { UseUnit } from "../unities/hooks/useUnit";
+import { UseCategory } from "../categories/hooks/useCategory";
+import { Save, Undo2 } from "lucide-react";
+import { toast } from "react-toastify";
+import { api } from "@/lib/api";
+import { Link } from "react-router-dom";
 
 export const productCreateSchema = z.object({
     id: z.number().optional(),
     name: z.string()
-    .min(3, "Por favor informe um nome valido.").toLowerCase(),
-    // .transform(name => {
-    //     return name.trim().split(' ').map(word => {
-    //         return word[0].toLocaleLowerCase().concat(word.substring(1))    
-    //     }).join(' ')
-    // }),
-    
+    .min(3, "Por favor informe um nome valido.").toUpperCase(),
     barCode: z.string().max(13, "Favor informar no maximo 13 caracteres."),
     reference: z.string().min(3, "Informe uma referencia valida"),
-    amount: z.number(),
     costPrice: z.coerce.number().min(0.01, "Valor é obrigatório"),
     price: z.coerce.number().min(0.01, "Valor é obrigatório"),
-    unitId: z.number().min(1, "Informe um valor valido"),
-    categoryId: z.number().min(1, "Informe um valor valido"),
+    amount: z.coerce.number({message: "Informe um valor valido"}),
+    unitId: z.coerce.number({message: "Informe um valor valido"}),
+    categoryId: z.coerce.number({message: "Informe um valor valido"}),
 });
 
 export type ProductCreateSchema = z.infer<typeof productCreateSchema>
 
 export function NewProduct(){
+
+    const {
+        unities
+    } = UseUnit();
+    const {
+        categories
+    } = UseCategory();
     
     const { register, handleSubmit, formState: {errors} } = useForm<ProductCreateSchema>({
         resolver: zodResolver(productCreateSchema),
@@ -53,34 +50,32 @@ export function NewProduct(){
         } 
     });
 
-    async function handleCreateProduct(
-        {
-            name, 
-            barCode, 
-            reference, 
-            amount, 
-            costPrice,
-            price,
-            unitId,
-            categoryId,
-        }: 
-    ProductCreateSchema) {
-        try{
-            await api.post("/product", {name, barCode, reference, amount, costPrice, price, unitId, categoryId}).then(response => {
-                toast.success("Produto cadastrado com sucesso.")
-                return response;    
-            })
-        } catch(error) {
-
+    async function handleCreateProduct({
+        name,
+        barCode,
+        reference,
+        amount,
+        costPrice,
+        price,
+        unitId,
+        categoryId
+    }: ProductCreateSchema) {
+        try {            
+           await api.post("/product", {name, barCode, reference, amount, costPrice, price, unitId, categoryId}).then(response => {
+                toast.success("Item cadastrado com sucesso.");                 
+           }) 
+        } catch (error) {
+            toast.error("Ops; Houve um erro ao cadastrar o produto.")
         }
     }
 
     function clearAllData(){
-        
+        window.location.reload()
     }
 
     return (
-        <div>            
+        <div>
+            
                 <form {...productCreateSchema} onSubmit={handleSubmit(handleCreateProduct)} className="mx-auto">
                     <div className="flex justify-between mb-4 mt-4">
                         <div>
@@ -90,36 +85,51 @@ export function NewProduct(){
                             <Button 
                                 className="bg-green-500 hover:bg-green-600 hover:text-[1rem] hover:font-semibold sm:w-32 sm:h-10"
                             >
+                                <Save />
                                 Salvar
                             </Button>
                             <Button
                                 onClick={clearAllData} 
                                 className="bg-zinc-500 hover:bg-zinc-600 hover:text-[1rem] hover:font-semibold sm:w-32 sm:h-10"
-                            >
+                            >                                
                                 Limpar
                             </Button>
+                            <Link to={"/produtos"}>
+                                <Button
+                                    className="bg-zinc-500 hover:bg-zinc-600 hover:text-[1rem] hover:font-semibold sm:w-32 sm:h-10"
+                                >      
+                                   <Undo2 />                           
+                                    Voltar
+                                </Button>
+                            </Link>
                         </div>
                     </div>
 
                     <div className="mb-4">
-                        <Label>Descrição do item</Label>
+                        <Label htmlFor="name">Descrição do item</Label>
                         <Input
-                            autoFocus 
+                            autoFocus
+                            id="name"
+                            type="string"
                             {...register("name")}
                         />
                         {errors.name && <p className="text-red-600">{errors.name.message}</p>}
                     </div>
                     <div className="sm:flex gap-4 mb-4">
                         <div className="sm:w-1/2">
-                            <Label>Código de barras</Label>
-                            <Input 
+                            <Label htmlFor="barCode">Código de barras</Label>
+                            <Input
+                                id="barCode"
+                                type="string" 
                                 {...register("barCode")}
                             />                        
                             {errors.barCode && <p className="text-red-600">{errors.barCode.message}</p>}
                         </div>
                         <div className="sm:w-1/2">
-                            <Label>Referência</Label>
-                            <Input                                 
+                            <Label htmlFor="reference">Referência</Label>
+                            <Input          
+                                id="reference"         
+                                type="string"              
                                 {...register("reference")}
                             />
                             {errors.reference && <p className="text-red-600">{errors.reference.message}</p>}
@@ -127,22 +137,26 @@ export function NewProduct(){
                     </div>
                     <div className="sm:flex gap-4 mb-4">
                         <div className="sm:w-1/4">
-                            <Label>Valor de compra</Label>
-                            <Input                                
+                            <Label htmlFor="costPrice">Valor de compra</Label>
+                            <Input                     
+                                id="costPrice"
                                 {...register("costPrice")}
                             />
                             {errors.costPrice && <p className="text-red-600">{errors.costPrice.message}</p>}
                         </div>
                         <div className="sm:w-1/4">
-                            <Label>Valor de venda</Label>
-                            <Input 
+                            <Label htmlFor="price">Valor de venda</Label>
+                            <Input
+                                id="price" 
                                 {...register("price")}
                             />
                             {errors.price && <p className="text-red-600">{errors.price.message}</p>}
                         </div>
                         <div className="sm:w-1/4">
-                            <Label>Estoque</Label>
-                            <Input 
+                            <Label htmlFor="amount">Estoque</Label>
+                            <Input
+                                disabled
+                                id="amount"
                                 {...register("amount")}
                             />
                             {errors.amount && <p className="text-red-600">{errors.amount.message}</p>}
@@ -150,46 +164,43 @@ export function NewProduct(){
                     </div>
                     <div className="sm:flex gap-4 justify-normal mb-4">
                         <div className="sm:w-1/2 mb-4">
-                            <Label>Unidade de medida</Label>
-                            <Select 
-                                {...register("unitId")}
-                            >
-                                <SelectTrigger className="sm:w-11/12">
-                                    <SelectValue placeholder="Selecione uma unidade de medida" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectGroup>
-                                        <SelectLabel>Unidade de medida</SelectLabel>
-                                        <SelectItem value="id2">Unidade</SelectItem>
-                                        <SelectItem value="id3">Caixa</SelectItem>
-                                        <SelectItem value="id4">Balde</SelectItem>
-                                        <SelectItem value="id5">Bombona</SelectItem>
-                                        <SelectItem value="id6">Litro</SelectItem>
-                                        <SelectItem value="id7">Kilo</SelectItem>
-                                        <SelectItem value="id8">Tambor</SelectItem> 
-                                    </SelectGroup>
-                                </SelectContent>
-                            </Select>
+                            <Label htmlFor="unitId">Unidade de medida</Label>
+                            <div>
+                                <select
+                                    className="w-full h-10 rounded-lg"
+                                    id="unitId" 
+                                    {...register("unitId")}
+                                >                                    
+                                    <option>Selecione uma unidade de medida</option>
+                                    {
+                                        unities.map(unit => (
+                                            <option key={unit.id} value={unit.id}>{unit.sigla}</option>
+                                        ))
+                                    }   
+                                </select>
+                            </div>
                             {errors.unitId && <p className="text-red-600">{errors.unitId.message}</p>}
                         </div>
                         <div className="sm:w-1/2">
-                            <Label>Categoria</Label>
-                            <Select 
-                                {...register("categoryId")}
-                            >
-                                <SelectTrigger className="sm:w-11/12">
-                                    <SelectValue placeholder="Selecione uma categoria" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectGroup>
-                                        <SelectLabel>Categoria</SelectLabel>
-                                        <SelectItem value="id1">Peças</SelectItem>
-                                        <SelectItem value="id2">Veiculo</SelectItem>
-                                        <SelectItem value="id3">Bebida</SelectItem>
-                                        <SelectItem value="id4">Comida</SelectItem>                                     
-                                    </SelectGroup>
-                                </SelectContent>
-                            </Select>
+                            <Label htmlFor="cateroryId">Categoria</Label>
+                            <div>
+                                <select
+                                    id="categoryId"
+                                    className="w-full h-10 rounded-lg p-2"
+                                    {...register("categoryId")}
+                                >
+                                    <option>Selecione uma categoria</option>
+                                    {
+                                        categories.map(category => (
+                                            <option 
+                                                
+                                                key={category.id} 
+                                                value={category.id}
+                                            >{category.name}</option>
+                                        ))
+                                    }
+                                </select>
+                            </div>
                             {errors.categoryId && <p className="text-red-600">{errors.categoryId.message}</p>}
                         </div>
                     </div>

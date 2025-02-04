@@ -1,151 +1,15 @@
-import { url } from "inspector";
-import { AudioWaveform, BookOpen, Bot, Command, Frame, GalleryVerticalEnd, Home, HomeIcon, Icon, List, LogOut, Map, Newspaper, Package, PieChart, Plus, Settings2, ShoppingBag, SquareTerminal, Users } from "lucide-react";
-import { title } from "process";
-
-
-export const SIDE_BAR_NAVIGATION = [
-    {
-        link: "#",
-        label: "Início",
-        icon: <Home className="w-5 h-5" />
-    },
-    {
-        link: "#",
-        label: "Pedidos",
-        icon: <ShoppingBag className="w-5 h-5" />
-    },
-    {
-        link: "#",
-        label: "Produtos",
-        icon: <Package className="w-5 h-5" />
-    },
-    {
-        link: "#",
-        label: "Clientes",
-        icon: <Users className="w-5 h-5" />
-    },
-]
-
-export const SIDE_BAR_NAVIGATION_BOTTOM = [
-    {
-        link: "#",
-        label: "Sair",
-        icon: <LogOut className="h-5 w-5 text-red-700 hover:h-6 hover:w-6" />
-    }
-]
-
-
-export const data1 = {
-    versions: ["1.0.0 - Dev", "1.0.1"],
-    navMain: [
-      {
-        title: "Início",
-        url: "/home",
-        items: [],
-      },
-      {
-        title: "Produtos",
-        url: "/produtos",
-        items: [
-          {
-            icon: <List />,
-            title: "Todos",
-            url: "/produtos/lista",
-          },
-          {
-            icon: <Plus />,
-            title: "Novo",
-            url: "/produtos/novo",
-          },
-        ],
-      },
-      {
-        title: "Parceiros",
-        url: "#",
-        items: [
-          {
-            icon: <List />,
-            title: "Todos",
-            url: "#",
-          },
-          {
-            icon: <Plus />,
-            title: "Novo",
-            url: "#",
-            isActive: true,
-          },
-        ],
-      },
-      {
-        title: "Cadastros",
-        url: "#",
-        items: [
-          {
-            icon: <Plus />,
-            title: "Unidade de medida",
-            url: "#",
-          },
-          {
-            icon: <Plus />,
-            title: "Categoria",
-            url: "#",
-          },
-          {
-            icon: <Plus />,
-            title: "Tipo de parceiros",
-            url: "#",
-          },
-          {
-            icon: <Plus />,
-            title: "next.config.js Options",
-            url: "#",
-          },
-          {
-            icon: <Newspaper />,
-            title: "CLI",
-            url: "#",
-          },
-          {
-            icon: <Newspaper />,
-            title: "Edge Runtime",
-            url: "#",
-          },
-        ],
-      },
-      {
-        title: "Vendas",
-        url: "#",
-        items: [
-          {
-            icon: <List />,
-            title: "Todos",
-            url: "#",
-          },
-          {
-            icon: <Plus />,
-            title: "Novo",
-            url: "#",
-          },        
-        ],
-      },
-      {
-        title: "Compras",
-        url: "#",
-        items: [
-          {
-            icon: <List />,
-            title: "Todos",
-            url: "#",
-          },
-          {
-            icon: <Plus />,
-            title: "Novo",
-            url: "#",
-          },
-        ],
-      },
-    ],
-  }
+import { 
+  BookOpen, 
+  FolderDown, 
+  Frame, 
+  GalleryVerticalEnd, 
+  HomeIcon, 
+  Map, 
+  PieChart, 
+  Settings2, 
+  ShoppingBag,
+  Users 
+} from "lucide-react";
 
   // This is sample data.
 export const data = {
@@ -213,7 +77,11 @@ export const data = {
         {
           title: "Novo parceiro",
           url: "/parceiros/novo",
-        },        
+        },
+        {
+          title: "Parceiro por tipo",
+          url: "/parceiros/tipo",
+        },
       ],
     },
     {
@@ -236,6 +104,29 @@ export const data = {
         {
           title: "Tipo de parceiro",
           url: "/tipoDeParceiro",
+        },
+        {
+          title: "Cidades",
+          url: "/cidades",
+        },
+        {
+          title: "Estados",
+          url: "/estados",
+        },        
+      ],
+    },
+    {
+      title: "Entrada",
+      url: "#",
+      icon: FolderDown,
+      items: [
+        {
+          title: "Todos",
+          url: "/entradas",
+        },
+        {
+          title: "Nova entrada",
+          url: "/entradas/novo",
         },        
       ],
     },

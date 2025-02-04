@@ -23,8 +23,9 @@ export class StateService {
         return await this.prisma.state.findFirst({where: {id: id}})
     }
 
-    async editState(id: number, {name, uf}: StateType): Promise<StateType>{
-        return await this.prisma.state.update({where: {id}, data: {name, uf}})
+    async editState(id: number, state: StateType): Promise<StateType>{
+        const st = this.findById(id);
+        return await this.prisma.state.update({where: {id}, data: {...st, ...state}})
     }
 
     async deleteState(id: number): Promise<StateType>{

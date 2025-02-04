@@ -7,5 +7,14 @@ export interface ProductType {
     price: number;
     amount: number;
     unitId: number;
+    unit: {
+        id: number;
+        name: string;
+        sigla: string
+    }
     categoryId: number;
+    category: {
+        id: number;
+        name: string;
+    }
 }

@@ -6,4 +6,10 @@ export declare class TypePartnerService {
     createTypePartner({ name }: TypePartnerType): Promise<TypePartnerType>;
     findAllTypePartner(): Promise<TypePartnerType[]>;
     deleteTypePartner(id: number): Promise<TypePartnerType>;
+    findByTypePartner(id: number): Promise<TypePartnerType>;
+    findByName(name: string): Promise<{
+        id: number;
+        name: string;
+    }>;
+    editTypePartner(id: number, typ: TypePartnerType): Promise<TypePartnerType>;
 }

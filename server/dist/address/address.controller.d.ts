@@ -52,4 +52,17 @@ export declare class AddressController {
     findAllAddressByPartner(partnerId: number): Promise<AddressType[] | {
         message: string;
     }>;
+    deleteAddressInPartner(id: number): Promise<{
+        id: number;
+        public_place: string;
+        complement: string;
+        number_address: number;
+        cep: string;
+        sector: string;
+        cityId: number;
+        partnerId: number;
+    } | {
+        message: string;
+        error: any;
+    }>;
 }

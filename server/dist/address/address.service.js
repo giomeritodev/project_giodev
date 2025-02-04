@@ -99,6 +99,13 @@ let AddressService = class AddressService {
             }
         });
     }
+    async deleteByAddressInPartner(id) {
+        return await this.prisma.address.delete({
+            where: {
+                id
+            }
+        });
+    }
 };
 exports.AddressService = AddressService;
 exports.AddressService = AddressService = __decorate([

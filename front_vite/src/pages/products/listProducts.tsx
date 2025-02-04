@@ -5,42 +5,6 @@ import { List } from "lucide-react";
 import { Link } from "react-router-dom";
 import { UseProduct } from "./hooks/useProduct";
 
-// const products = [
-//     {
-//         id: 1,
-//         name: "Produto teste 1",
-//         barCode: "12346688799",
-//         reference: "1453",
-//         costPrice: 12.53,
-//         price: 19.85,
-//         amount: 5,
-//         unitId: "Unidade",
-//         categoryId: "Peça",
-//     },
-//     {
-//         id: 2,
-//         name: "Produto teste 2",
-//         barCode: "22346688799",
-//         reference: "2453",
-//         costPrice: 22.53,
-//         price: 29.85,
-//         amount: 5,
-//         unitId: "Unidade",
-//         categoryId: "Peça",
-//     },
-//     {
-//         id: 3,
-//         name: "Produto teste 3",
-//         barCode: "32346688799",
-//         reference: "3453",
-//         costPrice: 32.53,
-//         price: 39.85,
-//         amount: 5,
-//         unitId: "Unidade",
-//         categoryId: "Peça",
-//     }
-// ]
-
 export function ListProducts(){
    
     const {products} = UseProduct();

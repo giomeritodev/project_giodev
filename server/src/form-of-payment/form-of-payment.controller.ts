@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { FormOfPaymentService } from './form-of-payment.service';
 import { FormOfPaymentType } from './FormOfPaymentType';
 
@@ -20,5 +20,13 @@ export class FormOfPaymentController {
     @Delete(":id")
     async deleteFormOfPayment(@Param("id") id: number): Promise<FormOfPaymentType>{
         return await this.formOfPaymentService.deleteFormOfPayment(Number(id));
+    }
+
+    @Put('/edit/:id')
+    async editFormOfPayment(
+        @Param("id") id: number,
+        @Body() formOf: FormOfPaymentType
+    ): Promise<FormOfPaymentType>{
+        return await this.formOfPaymentService.editFormOfPayment(Number(id), formOf);
     }
 }

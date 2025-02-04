@@ -12,4 +12,9 @@ export declare class TypePartnerController {
     deleteTypePartner(id: number): Promise<TypePartnerType | {
         message: string;
     }>;
+    findByTypePartnerName(name: string): Promise<{
+        id: number;
+        name: string;
+    }>;
+    editTypePartner(id: number, typ: TypePartnerType): Promise<TypePartnerType>;
 }

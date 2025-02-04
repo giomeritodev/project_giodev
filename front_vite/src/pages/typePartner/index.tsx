@@ -52,12 +52,12 @@ export function TypePartner(){
         <div>
             <Dialog>
                 <DialogTrigger asChild>
-                    <div className="flex justify-between">
+                    <div className="sm:flex justify-between">
                         <div>
                             Tipo de parceiros
                         </div>
                         <div>
-                            <Button>
+                            <Button className="w-full">
                                 <PlusCircle />
                                 Novo tipo de parceiro
                             </Button>
@@ -140,9 +140,9 @@ export function TypePartner(){
                                             
                                         </AlertDialogVisao>
                                         <ModalEdit
+                                            url="type-partner/edit"
                                             id={Number(part.id)}
-                                            description={`${part.name}`}
-                                            saveData={() => editTypePartner(Number(part.id), part.name)}
+                                            description={`${part.name}`}                                            
                                         >
                                             <Button size={"sm"} className="bg-zinc-200 hover:bg-zinc-400">
                                                 <Pencil size={5} color="blue" />

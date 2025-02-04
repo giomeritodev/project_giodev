@@ -6,4 +6,5 @@ export declare class FormOfPaymentController {
     findAllFormsOfPayments(): Promise<FormOfPaymentType[]>;
     createFormOfPayment(formOfPayment: FormOfPaymentType): Promise<FormOfPaymentType>;
     deleteFormOfPayment(id: number): Promise<FormOfPaymentType>;
+    editFormOfPayment(id: number, formOf: FormOfPaymentType): Promise<FormOfPaymentType>;
 }

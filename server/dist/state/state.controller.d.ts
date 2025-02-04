@@ -14,7 +14,7 @@ export declare class StateController {
     findById(id: number): Promise<StateType | {
         message: string;
     }>;
-    editState(id: number, { name, uf }: StateType): Promise<{
+    editState(id: number, state: StateType): Promise<StateType | {
         message: string;
     }>;
     deleteState(id: number): Promise<{

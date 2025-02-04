@@ -25,11 +25,14 @@ let ContactController = class ContactController {
     async findByContact(id) {
         return await this.contactService.findByContact(Number(id));
     }
-    async findManyContactByPartner(partnerId) {
-        return await this.contactService.findManyContactByPartner(partnerId);
+    async findManyContactByPartner(id) {
+        return await this.contactService.findManyContactByPartner(Number(id));
     }
     async updateContact(id, contact) {
         return await this.contactService.updateContactByParner(Number(id), contact);
+    }
+    async deleteContact(id) {
+        return await this.contactService.deleteContactByPartner(Number(id));
     }
 };
 exports.ContactController = ContactController;
@@ -48,20 +51,27 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ContactController.prototype, "findByContact", null);
 __decorate([
-    (0, common_1.Get)(),
-    __param(0, (0, common_1.Body)()),
+    (0, common_1.Get)("/partner/:id"),
+    __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
 ], ContactController.prototype, "findManyContactByPartner", null);
 __decorate([
-    (0, common_1.Put)("id"),
+    (0, common_1.Put)("/edit/:id"),
     __param(0, (0, common_1.Param)("id")),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number, Object]),
     __metadata("design:returntype", Promise)
 ], ContactController.prototype, "updateContact", null);
+__decorate([
+    (0, common_1.Delete)("/delete/:id"),
+    __param(0, (0, common_1.Param)("id")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", Promise)
+], ContactController.prototype, "deleteContact", null);
 exports.ContactController = ContactController = __decorate([
     (0, common_1.Controller)('contact'),
     __metadata("design:paramtypes", [contact_service_1.ContactService])

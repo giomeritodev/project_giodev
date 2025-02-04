@@ -10,6 +10,6 @@ export declare class StateService {
         uf: string;
     }[]>;
     findById(id: number): Promise<StateType>;
-    editState(id: number, { name, uf }: StateType): Promise<StateType>;
+    editState(id: number, state: StateType): Promise<StateType>;
     deleteState(id: number): Promise<StateType>;
 }

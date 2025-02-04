@@ -29,8 +29,9 @@ let StateService = class StateService {
     async findById(id) {
         return await this.prisma.state.findFirst({ where: { id: id } });
     }
-    async editState(id, { name, uf }) {
-        return await this.prisma.state.update({ where: { id }, data: { name, uf } });
+    async editState(id, state) {
+        const st = this.findById(id);
+        return await this.prisma.state.update({ where: { id }, data: { ...st, ...state } });
     }
     async deleteState(id) {
         return await this.prisma.state.delete({ where: { id: id } });

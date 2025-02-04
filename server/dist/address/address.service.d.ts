@@ -48,4 +48,14 @@ export declare class AddressService {
         cityId: number;
     }>;
     findAllAddressByPartner(partnerId: number): Promise<AddressType[]>;
+    deleteByAddressInPartner(id: number): Promise<{
+        id: number;
+        public_place: string;
+        complement: string;
+        number_address: number;
+        cep: string;
+        sector: string;
+        cityId: number;
+        partnerId: number;
+    }>;
 }
