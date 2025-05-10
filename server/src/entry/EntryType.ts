@@ -2,19 +2,20 @@ import { PartnerType } from "src/partner/PartnerType";
 import { ItemEntryType } from "./item-entry/ItemEntryType";
 
 export interface EntryType{
-    id: number;
+    id?: number;
     dateEntry: string;
     numberDocument: number;
     partnerId: number;
-    status: number;    
+    statusPaymentId: number;
+    statusId: number;    
 }
 
 export type EntryTypeProps = {
-    id: number;
+    id?: number;
     dateEntry: string;
     numberDocument: number;
     partnerId: number;
-    status: number;
+    statusPaymentId: number;
     partner: PartnerType;
     itensEntry: ItemEntryType;   
 }

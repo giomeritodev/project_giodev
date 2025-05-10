@@ -15,13 +15,20 @@ export declare class SaleController {
                 id: number;
                 name: string;
             };
+            statusPayment: {
+                id: number;
+                name: string;
+            };
+            status: {
+                id: number;
+                name: string;
+            };
             id: number;
             partnerId: number;
-            status: string;
+            statusPaymentId: number;
             dateSale: string;
             typeSale: string;
             typePayment: number;
-            statusPayment: number;
         }[];
     }>;
     createSale(sale: SaleType): Promise<SaleType>;

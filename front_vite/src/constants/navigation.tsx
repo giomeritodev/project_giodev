@@ -112,7 +112,15 @@ export const data = {
         {
           title: "Estados",
           url: "/estados",
-        },        
+        },   
+        {
+          title: "Status pagamento",
+          url: "/statusDePagamento",
+        },
+        {
+          title: "Status",
+          url: "/status",
+        },            
       ],
     },
     {

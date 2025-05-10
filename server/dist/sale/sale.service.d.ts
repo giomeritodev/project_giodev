@@ -12,15 +12,22 @@ export declare class SaleService {
                 id: number;
                 name: string;
             };
+            statusPayment: {
+                id: number;
+                name: string;
+            };
+            status: {
+                id: number;
+                name: string;
+            };
             id: number;
             partnerId: number;
-            status: string;
+            statusPaymentId: number;
             dateSale: string;
             typeSale: string;
             typePayment: number;
-            statusPayment: number;
         }[];
     }>;
-    createSale({ dateSale, partnerId, typeSale, typePayment, status }: SaleType): Promise<SaleType>;
+    createSale({ dateSale, partnerId, typeSale, typePayment, statusPaymentId, statusId }: SaleType): Promise<SaleType>;
     finaliseSale(id: number, sale: SaleType): Promise<SaleType>;
 }

@@ -8,11 +8,22 @@ export function UsePartner(){
 
     const [partners, setPartners] = useState<PartnerType[]>([]);
     const [partner, setPartner] = useState<PartnerType>();
+    const [partnerName, setPartnerName] = useState<PartnerType[]>([]);
 
     async function findAllPartners(){
         try {
             await api.get("/partner/all").then(response => {
                 setPartners(response.data);
+            })
+        } catch (error) {
+            toast.error(`Ops; Houve um erro ao carregar os dados dos parceiros, provavel erro no banco de dados. ${error}`)
+        }
+    }
+
+    async function FindAllPartnerNames(name: string){
+        try {
+            await api.get(`/partner/all/name/${name}`).then(response => {
+                setPartnerName(response.data);
             })
         } catch (error) {
             toast.error(`Ops; Houve um erro ao carregar os dados dos parceiros, provavel erro no banco de dados. ${error}`)
@@ -39,5 +50,7 @@ export function UsePartner(){
         partners,
         findByPartner,
         partner,
+        FindAllPartnerNames,
+        partnerName,
     }
 }

@@ -16,8 +16,9 @@ export declare class PartnerController {
                 id: number;
                 dateEntry: string;
                 numberDocument: number;
+                statusId: number;
                 partnerId: number;
-                status: number;
+                statusPaymentId: number;
                 createdAt: Date;
                 updatedAt: Date;
             }[];
@@ -26,11 +27,11 @@ export declare class PartnerController {
                 dateSale: string;
                 partnerId: number;
                 typeSale: string;
-                status: string;
+                statusId: number;
                 typePayment: number;
+                statusPaymentId: number;
                 createdAt: Date;
                 updatedAt: Date;
-                statusPayment: number;
             }[];
             contacts: {
                 id: number;
@@ -45,6 +46,7 @@ export declare class PartnerController {
         totalPages: number;
     }>;
     findAllPartners(): Promise<PartnerType[]>;
+    findAllPartnerName(name: string): Promise<PartnerType[]>;
     findByPartner(id: number): Promise<PartnerType>;
     findAllPartnersName(id: number): Promise<PartnerType[]>;
     createPartner(partner: PartnerType): Promise<PartnerType>;

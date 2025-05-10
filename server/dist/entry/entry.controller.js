@@ -25,6 +25,9 @@ let EntryController = class EntryController {
     async findAllPaymentsByEntry(id) {
         return await this.entryService.findAllPaymentsByEntry(Number(id));
     }
+    async deletePayment(id, item) {
+        return await this.entryService.deletePayment(Number(id), Number(item));
+    }
     async findAllItensByEntry(id) {
         return await this.entryService.findAllItensByEntry(Number(id));
     }
@@ -42,6 +45,9 @@ let EntryController = class EntryController {
     }
     async deleteEntry(id) {
         return await this.entryService.deleteEntry(Number(id));
+    }
+    async deleteItemEntry(id, item) {
+        return await this.entryService.deleteItemEntry(Number(id), Number(item));
     }
     async endEntry(id, status) {
         return await this.entryService.endEntry(Number(id), Number(status));
@@ -62,6 +68,14 @@ __decorate([
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
 ], EntryController.prototype, "findAllPaymentsByEntry", null);
+__decorate([
+    (0, common_1.Delete)("/payment/:id/delete/:itemId"),
+    __param(0, (0, common_1.Param)("id")),
+    __param(1, (0, common_1.Param)("itemId")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, Number]),
+    __metadata("design:returntype", Promise)
+], EntryController.prototype, "deletePayment", null);
 __decorate([
     (0, common_1.Get)("/itens/:entryId"),
     __param(0, (0, common_1.Param)("entryId")),
@@ -103,6 +117,14 @@ __decorate([
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
 ], EntryController.prototype, "deleteEntry", null);
+__decorate([
+    (0, common_1.Delete)("/:id/delete/:itemId"),
+    __param(0, (0, common_1.Param)("id")),
+    __param(1, (0, common_1.Param)("itemId")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, Number]),
+    __metadata("design:returntype", Promise)
+], EntryController.prototype, "deleteItemEntry", null);
 __decorate([
     (0, common_1.Patch)(":id"),
     __param(0, (0, common_1.Param)("id")),

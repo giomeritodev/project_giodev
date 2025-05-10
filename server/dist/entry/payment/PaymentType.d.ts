@@ -4,4 +4,5 @@ export interface PaymentType {
     entryId: number;
     formOfPaymentId: number;
     valuePayment: number;
+    statusPaymentId: number;
 }

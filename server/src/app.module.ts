@@ -20,10 +20,14 @@ import { TypePartnerModule } from './type-partner/type-partner.module';
 import { ContactController } from './contact/contact.controller';
 import { ContactModule } from './contact/contact.module';
 import { ContactService } from './contact/contact.service';
+import { StatusPaymentModule } from './status-payment/status-payment.module';
+import { StatusModule } from './status/status.module';
+import { StatusController } from './status/status.controller';
+import { StatusService } from './status/status.service';
 
 @Module({
-  imports: [CategoryModule, ProductModule, UnitModule, PartnerModule, FormOfPaymentModule, TypePartnerModule, EntryModule, SaleModule, StateModule, CityModule, AddressModule, ContactModule],
-  controllers: [AppController, UnitController, PartnerController, ContactController],
-  providers: [AppService, PrismaService, UnitService, PartnerService, ContactService],
+  imports: [CategoryModule, ProductModule, UnitModule, PartnerModule, FormOfPaymentModule, TypePartnerModule, EntryModule, SaleModule, StateModule, CityModule, AddressModule, ContactModule, StatusPaymentModule, StatusModule],
+  controllers: [AppController, UnitController, PartnerController, ContactController, StatusController],
+  providers: [AppService, PrismaService, UnitService, PartnerService, ContactService, StatusService],
 })
 export class AppModule {}

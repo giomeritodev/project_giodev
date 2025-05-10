@@ -17,8 +17,14 @@ export class SaleService {
                 partnerId: true,
                 typeSale: true,
                 typePayment: true,
-                status: true,
-                statusPayment: true,
+                statusId: true,
+                statusPaymentId: true,
+                statusPayment: {
+                    select: {
+                        id: true,
+                        name: true,
+                    }                        
+                },
                 partner: true,                
             }
         })
@@ -47,7 +53,13 @@ export class SaleService {
                     typeSale: true,
                     typePayment: true,
                     status: true,
-                    statusPayment: true,
+                    statusPaymentId: true,
+                    statusPayment: {
+                        select: {
+                            id: true,
+                            name: true,
+                        }                        
+                    },
                     partner: {
                         select: {
                             id: true,
@@ -85,14 +97,15 @@ export class SaleService {
         // return sales;
     }
 
-    async createSale({dateSale, partnerId, typeSale, typePayment, status = "Aberto"}: SaleType): Promise<SaleType>{
+    async createSale({dateSale, partnerId, typeSale, typePayment, statusPaymentId, statusId}: SaleType): Promise<SaleType>{
         return await this.prisma.sale.create({
             data: {
                 dateSale,
                 partnerId,
                 typeSale,
                 typePayment,
-                status,
+                statusId,
+                statusPaymentId,
             }
         })
     }

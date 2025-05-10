@@ -1,23 +1,24 @@
 import { useEffect } from "react";
 import { UsePartner } from "./hooks/usePartner"
-import { Link, useParams } from "react-router-dom";
+import {useParams } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { UseTypePartner } from "../typePartner/hooks/useTypePartner";
 import { Button } from "@/components/ui/button";
-import { Pencil, Plus, Save, Undo2, X } from "lucide-react";
+import {Plus} from "lucide-react";
 import { HookFunctionsUtils } from "@/lib/functionsUtils";
 import { Address } from "../addresses";
 import { NewAddress } from "../addresses/newAddress";
 import { Contact } from "../contacts";
 import { NewContact } from "../contacts/newContact";
 import { UseContact } from "../contacts/hooks/useContact";
+import { HeaderPage } from "@/components/header/header-page";
 
 
 export function DetailsPartner(){
     const { typesPartners } = UseTypePartner();
     const {partner, findByPartner} = UsePartner();
-    const {buttonStatus, statusButton, statusButtonCancel} = HookFunctionsUtils();
+    const {buttonStatus} = HookFunctionsUtils();
     const query = useParams();
     const {
         findAllContactsInPartner
@@ -30,41 +31,11 @@ export function DetailsPartner(){
     
     return (
         <div>
-            <div className="sm:flex sm:justify-between mb-5">
-                <div>
-                    <h1>Pagina de detalhes de parceiro.</h1>
-                </div>
-                <div>
-                    <div className="md:flex sm:flex md:justify-between md:gap-4 sm:gap-4">
-                        <div>
-                            <Button className="w-full mb-2" type="button" onClick={statusButton}>
-                                <Pencil /> 
-                                Editar
-                            </Button>
-                        </div>
-                        <div>
-                            <Button className="w-full mb-2" type="submit" disabled={buttonStatus}>
-                                <Save /> 
-                                Salvar
-                            </Button>
-                        </div>
-                        <div>
-                            <Link to={"/parceiros"}>
-                                <Button className="w-full mb-2" type="button">
-                                    <Undo2 />
-                                    Voltar
-                                </Button>
-                            </Link>
-                        </div>
-                        <div>
-                            <Button className="w-full mb-2  " disabled={buttonStatus} onClick={statusButtonCancel}>
-                                <X />                                 
-                                Cancelar
-                            </Button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <HeaderPage
+                //editInputs={} 
+                title="Pagina de detalhes de parceiro"
+                url="/parceiros"
+            />
 
             <div>
                 <div className="">

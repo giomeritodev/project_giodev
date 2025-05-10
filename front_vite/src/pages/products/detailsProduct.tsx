@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Pencil, Save, Undo2, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { UseProduct } from "./hooks/useProduct";
 import { Label } from "@/components/ui/label";
@@ -9,12 +9,13 @@ import { ProductCreateSchema } from "./newProduct";
 import { UseUnit } from "../unities/hooks/useUnit";
 import { UseCategory } from "../categories/hooks/useCategory";
 import { HookFunctionsUtils } from "@/lib/functionsUtils";
+import { HeaderPage } from "@/components/header/header-page";
 
 
 export function DetailsProduct(){
-
-    const {buttonStatus, statusButton, statusButtonCancel} = HookFunctionsUtils();
     
+    const [buttonStatus, setButtonStatus] = useState<boolean>(true);
+
     const {product, findByProduct} = UseProduct();
     const query = useParams();
     
@@ -31,6 +32,14 @@ export function DetailsProduct(){
     const [unitId, setUnitId] = useState(product?.unitId);
     const [categoryId, setCategotyId] = useState(product?.categoryId);
 
+    const {activeInputsStatus, setActiveInputsStatus, statusButton} = HookFunctionsUtils()
+    
+    function statusActiveInputs(event: FormEvent){
+        setActiveInputsStatus(false);
+        statusButton(event);
+    }
+    
+
     useEffect(() => {
         findByProduct(Number(query.id))
     }, [product])
@@ -43,41 +52,11 @@ export function DetailsProduct(){
         <div>
             <form onSubmit={() => handleEditProduct}>
 
-                <div className="md:flex justify-between">
-                    <div className="mb-2">
-                        <h1>Detalhes produto</h1>
-                    </div>
-                    <div>
-                        <div className="md:flex sm:flex md:justify-between md:gap-4 sm:gap-4">
-                            <div>
-                                <Button className="w-full mb-2" type="button" onClick={statusButton}>
-                                    <Pencil /> 
-                                    Editar
-                                </Button>
-                            </div>
-                            <div>
-                                <Button className="w-full mb-2" type="submit" disabled={buttonStatus}>
-                                    <Save /> 
-                                    Salvar
-                                </Button>
-                            </div>
-                            <div>
-                                <Link to={"/produtos"}>
-                                    <Button className="w-full mb-2" type="button">
-                                        <Undo2 />
-                                        Voltar
-                                    </Button>
-                                </Link>
-                            </div>
-                            <div>
-                                <Button className="w-full mb-2  " disabled={buttonStatus} onClick={statusButtonCancel}>
-                                    <X />                                 
-                                    Cancelar
-                                </Button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <HeaderPage
+                    editInputs={(e) => statusActiveInputs(e)}                    
+                    title="Pagina de detalhes de produtos"
+                    url="/produtos"
+                />
 
                 <div>
                     <div>
@@ -92,9 +71,9 @@ export function DetailsProduct(){
                         <div>
                             <Label htmlFor="name">Descrição do item</Label>
                             <Input 
-                                disabled={buttonStatus}
+                                disabled={activeInputsStatus}
                                 defaultValue={product?.name}
-                                //value={name}
+                                // value={name}
                                 onChange={(e) => setName(e.target.value)}
                             />
                         </div>
@@ -104,7 +83,7 @@ export function DetailsProduct(){
                             <Label htmlFor="barCode">Código de barras</Label>
                             <Input
                                 id="barCode" 
-                                disabled={buttonStatus}
+                                disabled={activeInputsStatus}
                                 defaultValue={product?.barCode}
                                 //value={barCode}
                                 onChange={(e) => setBarCode(e.target.value)}
@@ -114,7 +93,7 @@ export function DetailsProduct(){
                             <Label htmlFor="reference">Referência</Label>
                             <Input 
                                 id="reference"
-                                disabled={buttonStatus}
+                                disabled={activeInputsStatus}
                                 defaultValue={product?.reference}
                                 //value={reference}
                                 onChange={(e) => setReference(e.target.value)}
@@ -126,7 +105,7 @@ export function DetailsProduct(){
                             <Label htmlFor="costPrice">Valor de compra</Label>
                             <Input 
                                 id="costPrice"
-                                disabled={buttonStatus}
+                                disabled={activeInputsStatus}
                                 defaultValue={product?.costPrice}
                                 //value={costPrice}
                                 onChange={(e) => setCostPrice(Number(e.target.value))}
@@ -136,7 +115,7 @@ export function DetailsProduct(){
                             <Label htmlFor="price">Valor de venda</Label>
                             <Input
                                 id="price" 
-                                disabled={buttonStatus}
+                                disabled={activeInputsStatus}
                                 defaultValue={product?.price}
                                 //value={price}
                                 onChange={(e) => setPrice(Number(e.target.value))}
@@ -148,7 +127,7 @@ export function DetailsProduct(){
                             <Label htmlFor="amount">Estoque</Label>
                             <Input
                                 id="amount" 
-                                disabled={buttonStatus}
+                                disabled={activeInputsStatus}
                                 defaultValue={product?.amount}
                                 //value={amount}
                                 onChange={(e) => setAmount(Number(e.target.value))}
@@ -159,7 +138,7 @@ export function DetailsProduct(){
                         <div className="sm:w-1/2 mb-4">
                             <Label htmlFor="unitId">Unidade de medida</Label>
                             <select
-                                disabled={buttonStatus}
+                                disabled={activeInputsStatus}
                                 className="w-full h-10 rounded-lg"
                                 id="unitId"
                                 defaultValue={product?.unitId}

@@ -19,6 +19,11 @@ export class EntryController {
         return await this.entryService.findAllPaymentsByEntry(Number(id));
     }
 
+    @Delete("/payment/:id/delete/:itemId")
+    async deletePayment(@Param("id") id: number, @Param("itemId") item: number){
+        return await this.entryService.deletePayment(Number(id), Number(item));
+    }
+
     @Get("/itens/:entryId")
     async findAllItensByEntry(@Param("entryId") id: number): Promise<ItemEntryType[]>{
         return await this.entryService.findAllItensByEntry(Number(id));
@@ -47,6 +52,11 @@ export class EntryController {
     @Delete(":id")
     async deleteEntry(@Param("id") id: number){
         return await this.entryService.deleteEntry(Number(id));
+    }
+
+    @Delete("/:id/delete/:itemId")
+    async deleteItemEntry(@Param("id") id: number, @Param("itemId") item: number){
+        return await this.entryService.deleteItemEntry(Number(id), Number(item));
     }
 
     @Patch(":id")

@@ -3,6 +3,14 @@ import { FormEvent, useState } from "react"
 
 export function HookFunctionsUtils(){
     const [buttonStatus, setButtonStatus] = useState<boolean>(true)
+    const [activeInputsStatus, setActiveInputsStatus] = useState<boolean>(true)
+        
+    function statusActiveInputs(){
+        setActiveInputsStatus(false);
+    }
+    function statusCancelActive(){
+        setActiveInputsStatus(true);
+    }
 
     function statusButton(event: FormEvent){
         event.preventDefault();
@@ -12,10 +20,15 @@ export function HookFunctionsUtils(){
         event.preventDefault();
         setButtonStatus(true);
     }
-
+    
     return {
+        activeInputsStatus,
+        setActiveInputsStatus,
+        statusActiveInputs,
+        statusCancelActive,
         buttonStatus,
         statusButton,
         statusButtonCancel,
+        setButtonStatus,
     }
 }

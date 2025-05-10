@@ -11,66 +11,66 @@ generator client {
 // }
 datasource db {
   provider = "sqlite"
-  url = env("DATABASE_URL")
+  url      = env("DATABASE_URL")
 }
 
 model Category {
-  id Int @id @default(autoincrement())
+  id   Int    @id @default(autoincrement())
   name String
 
-  @@map("categories")
-
   products Product[]
+
+  @@map("categories")
 }
 
 model Unit {
-  id Int @id @default(autoincrement())
-  name String
+  id    Int    @id @default(autoincrement())
+  name  String
   sigla String
 
-  @@map("units")
-
   products Product[]
+
+  @@map("units")
 }
 
 model Product {
-  id Int @id @default(autoincrement())
-  barCode String @unique
-  reference String?
-  name String
-  costPrice Float
-  price Float
-  amount Int @default(0)
-  unitId Int  
+  id         Int     @id @default(autoincrement())
+  barCode    String  @unique
+  reference  String?
+  name       String
+  costPrice  Float
+  price      Float
+  amount     Int     @default(0)
+  unitId     Int
   categoryId Int
- 
-  unit Unit @relation(fields: [unitId], references: [id])
-  category Category @relation(fields: [categoryId], references: [id])
+
+  unit       Unit        @relation(fields: [unitId], references: [id])
+  category   Category    @relation(fields: [categoryId], references: [id])
+  itensEntry ItemEntry[]
+  itensSale  ItemSale[]
 
   @@map("products")
-  itensEntry ItemEntry[]
-  itensSale ItemSale[]
 }
 
 model Partner {
-  id Int @id @default(autoincrement())
-  name String
-  cpfOrCnpj String
-  typePartnerId Int    
-  
+  id            Int    @id @default(autoincrement())
+  name          String
+  cpfOrCnpj     String
+  typePartnerId Int
+
   typePartner TypePartner @relation(fields: [typePartnerId], references: [id])
 
-  @@map("partners")
-  
-  entries Entry[]
-  sales Sale[]
+  entries   Entry[]
+  sales     Sale[]
   addresses Address[]
-  contacts Contact[]
+  contacts  Contact[]
+
+  @@map("partners")
 }
 
 model TypePartner {
-  id Int @id @default(autoincrement())
-  name String  
+  id   Int    @id @default(autoincrement())
+  name String
 
   partners Partner[]
 
@@ -78,162 +78,191 @@ model TypePartner {
 }
 
 model Entry {
-  id Int @id @default(autoincrement())
-  dateEntry String
+  id             Int    @id @default(autoincrement())
+  dateEntry      String
   numberDocument Int
 
-  partnerId Int  
-  partner Partner @relation(fields: [partnerId], references: [id])
+  statusId Int
+  status   Status @relation(fields: [statusId], references: [id])
 
-  status Int
+  partnerId Int
+  partner   Partner @relation(fields: [partnerId], references: [id])
+
+  statusPaymentId Int
+  statusPayment   StatusPayment @relation(fields: [statusPaymentId], references: [id])
 
   createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) 
-  @@map("entries")
+  updatedAt DateTime @default(now())
 
   itensEntry ItemEntry[]
-  payments Payment[]
+  payments   Payment[]
+
+  @@map("entries")
 }
 
 model ItemEntry {
   id Int @id @default(autoincrement())
 
-  entryId Int
-  entry Entry @relation(fields: [entryId], references: [id])
+  entryId   Int
+  entry     Entry   @relation(fields: [entryId], references: [id])
   productId Int
-  product Product @relation(fields: [productId], references: [id])
+  product   Product @relation(fields: [productId], references: [id])
 
-  amount Int
+  amount        Int
   shoppingValue Int
-  
+
   @@map("itens_entry")
 }
 
 model Payment {
-  id Int @id @default(autoincrement())
-  datePayment String 
+  id          Int    @id @default(autoincrement())
+  datePayment String
 
-  entryId Int
-  entry Entry @relation(fields: [entryId], references: [id])
+  entryId         Int
+  entry           Entry         @relation(fields: [entryId], references: [id])
   formOfPaymentId Int
-  formOfPayment FormOfPayment @relation(fields: [formOfPaymentId], references: [id])
+  formOfPayment   FormOfPayment @relation(fields: [formOfPaymentId], references: [id])
+  statusPaymentId Int
+  statusPayment   StatusPayment @relation(fields: [statusPaymentId], references: [id])
 
   valuePayment Int
-
 }
 
 model FormOfPayment {
-  id Int @id @default(autoincrement())
+  id   Int    @id @default(autoincrement())
   name String
-  
-  @@map("forms_of_payment")
 
-  payments Payment[]
+  payments    Payment[]
   paymentSale PaymentSale[]
+
+  @@map("forms_of_payment")
 }
 
 model Sale {
-  id Int @id @default(autoincrement())
+  id       Int    @id @default(autoincrement())
   dateSale String
 
-  partnerId Int  
-  partner Partner @relation(fields: [partnerId], references: [id])
+  partnerId Int
+  partner   Partner @relation(fields: [partnerId], references: [id])
 
-  typeSale String //Orçamento - Pedido
-  status String //Aberto - Fechado
-  typePayment Int @default(1) //1 - À Vista / 2 - A Prazo / 3 - Duplicata
+  typeSale        String //Orçamento - Pedido
+  statusId        Int
+  status          Status        @relation(fields: [statusId], references: [id])
+  typePayment     Int           @default(1) //1 - À Vista / 2 - A Prazo / 3 - Duplicata
+  statusPaymentId Int
+  statusPayment   StatusPayment @relation(fields: [statusPaymentId], references: [id])
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) 
-
-  statusPayment Int @default(1)//1 - À Vencer / 2 - Inadiplente / 3 - Quitado
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @default(now())
+  itensSale   ItemSale[]
+  paymentSale PaymentSale[]
 
   @@map("sales")
-  itensSale ItemSale[]
-  paymentSale PaymentSale[]
 }
 
 model ItemSale {
   id Int @id @default(autoincrement())
 
-  saleId Int
-  sale Sale @relation(fields: [saleId], references: [id])
+  saleId    Int
+  sale      Sale    @relation(fields: [saleId], references: [id])
   productId Int
-  product Product @relation(fields: [productId], references: [id])
+  product   Product @relation(fields: [productId], references: [id])
 
-  amount Int  
+  amount   Int
   discount Int
-  
-  
+
   @@map("itens_sale")
 }
 
 model PaymentSale {
-  id Int @id @default(autoincrement())
+  id       Int    @id @default(autoincrement())
   dateSale String
-  
 
   saleId Int
-  sale Sale @relation(fields: [saleId], references: [id]) 
+  sale   Sale @relation(fields: [saleId], references: [id])
 
   formOfPaymentId Int
-  formOfPayment FormOfPayment @relation(fields: [formOfPaymentId], references: [id])
+  formOfPayment   FormOfPayment @relation(fields: [formOfPaymentId], references: [id])
 
-  valuePayment Int
-  portion Int @default(1)
-  dueDate String
-  statusPayment Int @default(1)//1 - À Vencer / 2 - Inadiplente / 3 - Quitado
-  datePayment String?
+  valuePayment    Int
+  portion         Int           @default(1)
+  dueDate         String
+  statusPaymentId Int
+  statusPayment   StatusPayment @relation(fields: [statusPaymentId], references: [id])
+  datePayment     String?
 
   @@map("payment_sale")
 }
 
 model State {
-  id Int @id @default(autoincrement())
+  id   Int    @id @default(autoincrement())
   name String
-  uf String
+  uf   String
 
   cities City[]
+
   @@map("states")
 }
 
 model City {
-  id Int @id @default(autoincrement())
-  name String
+  id      Int    @id @default(autoincrement())
+  name    String
   stateId Int
-  
-  state State @relation(fields: [stateId], references: [id])
+
+  state     State     @relation(fields: [stateId], references: [id])
   addresses Address[]
 
   @@map("cities")
 }
 
 model Address {
-  id Int @id @default(autoincrement())
-  public_place String
-  complement String
+  id             Int    @id @default(autoincrement())
+  public_place   String
+  complement     String
   number_address Int
-  cep String
-  sector String
-  cityId Int
-  partnerId Int
+  cep            String
+  sector         String
+  cityId         Int
+  partnerId      Int
 
-  city City @relation(fields: [cityId], references: [id])
+  city    City    @relation(fields: [cityId], references: [id])
   partner Partner @relation(fields: [partnerId], references: [id])
 
   @@map("addresses")
 }
 
-model Contact{
+model Contact {
   id Int @id @default(autoincrement())
 
-  fone String
-  email String
-  name String?
+  fone     String
+  email    String
+  name     String?
   position String?
-  
+
   partnerId Int
-  partner Partner @relation(fields: [partnerId], references: [id])
+  partner   Partner @relation(fields: [partnerId], references: [id])
 
   @@map("contacts")
+}
+
+model StatusPayment {
+  id   Int    @id @default(autoincrement())
+  name String
+
+  payments     Payment[]
+  paymentSales PaymentSale[]
+  sales        Sale[]
+  entries      Entry[]
+
+  @@map("status-payments")
+}
+
+model Status {
+  id   Int    @id @default(autoincrement())
+  name String
+
+  entries Entry[]
+  sales   Sale[]
+
+  @@map("status")
 }

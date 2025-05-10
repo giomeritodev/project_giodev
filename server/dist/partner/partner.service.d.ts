@@ -6,6 +6,7 @@ export declare class PartnerService {
     findByPartner(id: number): Promise<PartnerType>;
     findAllPartners(): Promise<PartnerType[]>;
     findAllPartnersName(id: number): Promise<PartnerType[]>;
+    findAllPartnerName(name: string): Promise<PartnerType[]>;
     findAll(page: number, search?: string): Promise<{
         partner: {
             typePartner: {
@@ -19,8 +20,9 @@ export declare class PartnerService {
                 id: number;
                 dateEntry: string;
                 numberDocument: number;
+                statusId: number;
                 partnerId: number;
-                status: number;
+                statusPaymentId: number;
                 createdAt: Date;
                 updatedAt: Date;
             }[];
@@ -29,11 +31,11 @@ export declare class PartnerService {
                 dateSale: string;
                 partnerId: number;
                 typeSale: string;
-                status: string;
+                statusId: number;
                 typePayment: number;
+                statusPaymentId: number;
                 createdAt: Date;
                 updatedAt: Date;
-                statusPayment: number;
             }[];
             contacts: {
                 id: number;

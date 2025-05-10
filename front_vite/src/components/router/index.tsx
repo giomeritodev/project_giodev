@@ -16,6 +16,8 @@ import { Cities } from "@/pages/cities";
 import { States } from "@/pages/states";
 import { Entry } from "@/pages/entry";
 import { DetailsEntries } from "@/pages/entry/detailsEntries";
+import { StatusPayment } from "@/pages/statusPayment";
+import { Status } from "@/pages/status";
 
 
 export function Router(){
@@ -37,6 +39,8 @@ export function Router(){
                     <Route path="/parceiros/detalhes/:id" element={<DetailsPartner />} />
                     <Route path="/cidades" element={<Cities />} />
                     <Route path="/estados" element={<States />} />
+                    <Route path="/statusDePagamento" element={<StatusPayment />} />
+                    <Route path="/status" element={<Status />} />
                     <Route path="/entradas" element={<Entry />} />
                     <Route path="/entradas/detalhes/:id" element={<DetailsEntries />} />
 

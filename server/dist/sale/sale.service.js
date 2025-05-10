@@ -25,8 +25,14 @@ let SaleService = class SaleService {
                 partnerId: true,
                 typeSale: true,
                 typePayment: true,
-                status: true,
-                statusPayment: true,
+                statusId: true,
+                statusPaymentId: true,
+                statusPayment: {
+                    select: {
+                        id: true,
+                        name: true,
+                    }
+                },
                 partner: true,
             }
         });
@@ -52,7 +58,13 @@ let SaleService = class SaleService {
                     typeSale: true,
                     typePayment: true,
                     status: true,
-                    statusPayment: true,
+                    statusPaymentId: true,
+                    statusPayment: {
+                        select: {
+                            id: true,
+                            name: true,
+                        }
+                    },
                     partner: {
                         select: {
                             id: true,
@@ -68,14 +80,15 @@ let SaleService = class SaleService {
         const totalPages = Math.ceil(total / take);
         return { total, totalPages, sale };
     }
-    async createSale({ dateSale, partnerId, typeSale, typePayment, status = "Aberto" }) {
+    async createSale({ dateSale, partnerId, typeSale, typePayment, statusPaymentId, statusId }) {
         return await this.prisma.sale.create({
             data: {
                 dateSale,
                 partnerId,
                 typeSale,
                 typePayment,
-                status,
+                statusId,
+                statusPaymentId,
             }
         });
     }

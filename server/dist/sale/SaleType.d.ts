@@ -3,7 +3,7 @@ export interface SaleType {
     dateSale: string;
     partnerId: number;
     typeSale: string;
-    status: string;
+    statusId: number;
     typePayment: number;
-    statusPayment: number;
+    statusPaymentId: number;
 }

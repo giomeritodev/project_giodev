@@ -43,6 +43,7 @@ let EntryService = class EntryService {
                 formOfPayment: true,
                 formOfPaymentId: true,
                 valuePayment: true,
+                statusPaymentId: true,
             }
         });
     }
@@ -55,6 +56,7 @@ let EntryService = class EntryService {
                 numberDocument: true,
                 partnerId: true,
                 status: true,
+                statusPaymentId: true,
                 partner: true,
                 itensEntry: {
                     select: {
@@ -70,31 +72,41 @@ let EntryService = class EntryService {
             }
         });
     }
-    async createEntry({ dateEntry, numberDocument, partnerId, status }) {
-        return await this.prisma.entry.create({
+    async createEntry({ dateEntry, numberDocument, partnerId, statusId, statusPaymentId }) {
+        const entry = await this.prisma.entry.create({
             data: {
                 dateEntry,
                 numberDocument,
                 partnerId,
-                status,
+                statusPaymentId,
+                statusId,
             },
             select: {
                 id: true,
                 dateEntry: true,
                 numberDocument: true,
                 partnerId: true,
+                statusId: true,
                 status: true,
+                statusPaymentId: true,
+                statusPayment: {
+                    select: {
+                        id: true,
+                        name: true,
+                    }
+                },
                 partner: true,
             }
         });
+        return entry;
     }
-    async endEntry(id, status) {
+    async endEntry(id, statusId) {
         return await this.prisma.entry.update({
             where: {
                 id: id
             },
             data: {
-                status: 2
+                statusId: statusId
             }
         });
     }
@@ -105,7 +117,15 @@ let EntryService = class EntryService {
                 dateEntry: true,
                 numberDocument: true,
                 partnerId: true,
+                statusId: true,
                 status: true,
+                statusPaymentId: true,
+                statusPayment: {
+                    select: {
+                        id: true,
+                        name: true,
+                    }
+                },
                 partner: true,
                 payments: true,
             }
@@ -135,13 +155,22 @@ let EntryService = class EntryService {
             }
         });
     }
-    async addPayment({ entryId, datePayment, formOfPaymentId, valuePayment }) {
+    async deleteItemEntry(entryId, item) {
+        return await this.prisma.itemEntry.delete({
+            where: {
+                id: item,
+                entryId,
+            }
+        });
+    }
+    async addPayment({ entryId, datePayment, formOfPaymentId, valuePayment, statusPaymentId }) {
         return await this.prisma.payment.create({
             data: {
                 entryId,
                 datePayment,
                 formOfPaymentId,
                 valuePayment,
+                statusPaymentId,
             }
         });
     }
@@ -158,6 +187,15 @@ let EntryService = class EntryService {
                 valuePayment: true,
                 formOfPaymentId: true,
                 formOfPayment: true,
+                statusPaymentId: true,
+            }
+        });
+    }
+    async deletePayment(entryId, item) {
+        return await this.prisma.payment.delete({
+            where: {
+                id: item,
+                entryId,
             }
         });
     }

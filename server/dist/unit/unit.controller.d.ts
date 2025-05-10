@@ -9,7 +9,7 @@ export declare class UnitController {
             name: string;
             products: {
                 id: number;
-                barCode: string | null;
+                barCode: string;
                 reference: string | null;
                 name: string;
                 costPrice: number;

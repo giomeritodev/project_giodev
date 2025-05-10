@@ -70,6 +70,21 @@ export class PartnerService {
         });
     }
 
+    async findAllPartnerName(name: string): Promise<PartnerType[]>{
+        return await this.prisma.partner.findMany({
+            where: {
+                name: name
+            },
+            select: {
+                id: true,
+                name: true,
+                cpfOrCnpj: true,
+                typePartnerId: true,
+                typePartner: true,
+            }
+        });
+    }
+
     async findAll(page: number, search?: string){      
         const take: number = 5;
         const skip = (page - 1) * take;

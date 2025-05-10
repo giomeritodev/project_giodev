@@ -5,6 +5,15 @@ export interface EntryType{
     dateEntry: string;
     numberDocument: number;
     partnerId: number;
-    status: number;
+    statusId: number;
+    status: {
+        id: number;
+        name: string;
+    }
+    statusPaymentId: number;
+    statusPayment: {
+        id: number;
+        name: string;
+    }
     partner: PartnerType;
 }

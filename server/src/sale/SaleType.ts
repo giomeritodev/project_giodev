@@ -7,8 +7,8 @@ export interface SaleType {
   partnerId: number  
   
   typeSale: string //Orçamento - Pedido
-  status: string //Aberto - Fechado
+  statusId: number
   typePayment: number //1 - À Vista / 2 - A Prazo / 3 - Duplicata
-  statusPayment: number //1 - À Vencer / 2 - Inadiplente / 3 - Quitado
+  statusPaymentId: number //1 - À Vencer / 2 - Inadiplente / 3 - Quitado
   
 }

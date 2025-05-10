@@ -24,6 +24,11 @@ export class PartnerController {
         return await this.partnerService.findAllPartners();
     }
 
+    @Get("/all/name/:name")
+    async findAllPartnerName(@Param("name") name: string){
+        return await this.partnerService.findAllPartnerName(name);
+    }
+
     @Get("/:id")
     async findByPartner(@Param("id") id: number): Promise<PartnerType>{
         return await this.partnerService.findByPartner(Number(id));
